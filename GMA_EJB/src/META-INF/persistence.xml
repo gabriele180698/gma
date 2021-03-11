@@ -3,5 +3,10 @@
 	<persistence-unit name="GMA">
 		<class>gma.model.Access</class>
 		<class>gma.model.User</class>
+		<class>gma.model.Answer</class>
+		<class>gma.model.Blacklist</class>
+		<class>gma.model.Product</class>
+		<class>gma.model.Question</class>
+		<class>gma.model.Questionnaire</class>
 	</persistence-unit>
 </persistence>
