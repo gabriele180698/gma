@@ -1,4 +1,4 @@
-package gma.model;
+package gma.entities;
 
 import java.io.Serializable;
 import java.util.List;
@@ -16,9 +16,9 @@ public class Question implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String text;
-	@OneToMany(mappedBy = "question")
+	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
 	private List<Answer> answers;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "questionnaire")
 	private Questionnaire questionnaire;
 
@@ -57,11 +57,11 @@ public class Question implements Serializable {
 	public void removeAnswer(Answer answer) {
 		getAnswers().remove(answer);
 	}
-	
+
 	public void setQuestionnaire(Questionnaire questionnaire) {
 		this.questionnaire = questionnaire;
 	}
-	
+
 	public Questionnaire getQuestionnaire() {
 		return this.questionnaire;
 	}

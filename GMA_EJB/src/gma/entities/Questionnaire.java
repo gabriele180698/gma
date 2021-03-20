@@ -1,4 +1,4 @@
-package gma.model;
+package gma.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -18,13 +18,13 @@ public class Questionnaire implements Serializable {
 	private int id;
 	@Temporal(TemporalType.DATE)
 	private Date date;
-	@OneToMany(mappedBy = "questionnaire")
+	@OneToMany(mappedBy = "questionnaire", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<Question> questions;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "product")
 	private Product product;
-	@ManyToMany(mappedBy = "questionnaires")
-	private List<User> users;
+	@OneToMany(mappedBy = "questionnaire", fetch = FetchType.EAGER)
+	private List<Statistics> statistics;
 
 	public Questionnaire() {
 	}
@@ -70,18 +70,17 @@ public class Questionnaire implements Serializable {
 		getQuestions().remove(question);
 	}
 
-	public List<User> getUsers() {
-		return this.users;
+	public List<Statistics> getStatistics() {
+		return this.statistics;
 	}
 
-	public void addUser(User user) {
-		getUsers().add(user);
-		user.getQuestionnaires().add(this);
+	public void addStatistics(Statistics statistics) {
+		getStatistics().add(statistics);
+		statistics.setQuestionnaire(this);
 	}
 
-	public void removeUser(User user) {
-		user.removeQuestionnaire(this);
-		getUsers().remove(user);
+	public void removeStatistics(Statistics statistics) {
+		getStatistics().remove(statistics);
 	}
 
 }

@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
 	<persistence-unit name="GMA">
-		<class>gma.model.Access</class>
-		<class>gma.model.User</class>
-		<class>gma.model.Answer</class>
-		<class>gma.model.Blacklist</class>
-		<class>gma.model.Product</class>
-		<class>gma.model.Question</class>
-		<class>gma.model.Questionnaire</class>
+		<class>gma.entities.Access</class>
+		<class>gma.entities.User</class>
+		<class>gma.entities.Answer</class>
+		<class>gma.entities.Blacklist</class>
+		<class>gma.entities.Product</class>
+		<class>gma.entities.Question</class>
+		<class>gma.entities.Questionnaire</class>
+		<class>gma.entities.Statistics</class>
 	</persistence-unit>
 </persistence>

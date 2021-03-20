@@ -1,8 +1,7 @@
-package gma.model;
+package gma.entities;
 
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 import javax.persistence.*;
 
@@ -24,22 +23,8 @@ public class User implements Serializable {
 	private List<Access> accesses;
 	@OneToMany(mappedBy = "user")
 	private List<Answer> answers;
-	@ManyToMany
-	@JoinTable(name = "user_questionnaire", joinColumns = { @JoinColumn(name = "idUser") }, inverseJoinColumns = {
-			@JoinColumn(name = "idQuestionnaire") })
-	private List<Questionnaire> questionnaires;
-	
-	
-	 /*@ElementCollection
-	 @CollectionTable(name = "user_questionnaire", joinColumns = @JoinColumn(name = "idUser"))
-	                  @MapKeyJoinColumn(name = "idQuestionnaire")
-	 @Column(name = "score")
-	 @Column(name = "status")
-	 @Column(name = "age")
-	 @Column(name = "sex")
-	 @Column(name = "expertise")
-	 private Map<Questionnaire, Integer> questionnaires;*/
-
+	@OneToMany(mappedBy = "user")
+	private List<Statistics> statistics;
 
 	public User() {
 	}
@@ -88,18 +73,17 @@ public class User implements Serializable {
 		this.type = type;
 	}
 
-	public List<Questionnaire> getQuestionnaires() {
-		return this.questionnaires;
+	public List<Statistics> getStatistics() {
+		return this.statistics;
 	}
 
-	public void addQuestionnaire(Questionnaire questionnaire) {
-		getQuestionnaires().add(questionnaire);
-		questionnaire.getUsers().add(this);
+	public void addStatistics(Statistics statistics) {
+		getStatistics().add(statistics);
+		statistics.setUser(this);
 	}
 
-	public void removeQuestionnaire(Questionnaire questionnaire) {
-		questionnaire.removeUser(this);
-		getQuestionnaires().remove(questionnaire);
+	public void removeStatistics(Statistics statistics) {
+		getStatistics().remove(statistics);
 	}
 
 }

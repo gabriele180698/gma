@@ -1,4 +1,4 @@
-package gma.model;
+package gma.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;

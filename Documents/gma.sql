@@ -113,14 +113,15 @@ CREATE TABLE `user` (
 -- Struttura della tabella `user_questionnaire`
 --
 
-CREATE TABLE `user_questionnaire` (
+CREATE TABLE `statistics` (
+  `id` bigint(20) UNSIGNED NOT NULL,
   `idUser` bigint(20) UNSIGNED NOT NULL,
   `idQuestionnaire` bigint(20) UNSIGNED NOT NULL,
-  `score` int(10) UNSIGNED NOT NULL DEFAULT 0,
-  `status` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
-  `age` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
-  `sex` tinyint(3) UNSIGNED NOT NULL DEFAULT 0,
-  `expertise` tinyint(4) NOT NULL DEFAULT 0
+  `score` int(10) UNSIGNED NULL DEFAULT 0,
+  `status` tinyint(3) UNSIGNED NULL DEFAULT 0,
+  `age` tinyint(3) UNSIGNED NULL DEFAULT 0,
+  `sex` tinyint(3) UNSIGNED NULL DEFAULT 0,
+  `expertise` tinyint(4) UNSIGNED NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -178,8 +179,8 @@ ALTER TABLE `user`
 --
 -- Indici per le tabelle `user_questionnaire`
 --
-ALTER TABLE `user_questionnaire`
-  ADD PRIMARY KEY (`idUser`,`idQuestionnaire`),
+ALTER TABLE `statistics`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `user_questionnaire_idquestionnaire_foreign` (`idQuestionnaire`);
 
 --
@@ -227,6 +228,12 @@ ALTER TABLE `questionnaire`
 --
 ALTER TABLE `user`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  
+--
+-- AUTO_INCREMENT per la tabella `statistics`
+--
+ALTER TABLE `statistics`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Limiti per le tabelle scaricate
@@ -260,7 +267,7 @@ ALTER TABLE `questionnaire`
 --
 -- Limiti per la tabella `user_questionnaire`
 --
-ALTER TABLE `user_questionnaire`
+ALTER TABLE `statistics`
   ADD CONSTRAINT `user_questionnaire_idquestionnaire_foreign` FOREIGN KEY (`idQuestionnaire`) REFERENCES `questionnaire` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `user_questionnaire_iduser_foreign` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 COMMIT;

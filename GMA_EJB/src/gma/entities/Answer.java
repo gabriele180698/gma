@@ -1,4 +1,4 @@
-package gma.model;
+package gma.entities;
 
 import java.io.Serializable;
 import javax.persistence.*;
@@ -17,7 +17,7 @@ public class Answer implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "user")
 	private User user;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "question")
 	private Question question;
 
@@ -43,19 +43,19 @@ public class Answer implements Serializable {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
+
 	public void setQuestion(Question question) {
 		this.question = question;
 	}
-	
+
 	public Question getQuestion() {
 		return this.question;
 	}
-	
-	public User getUser(){
+
+	public User getUser() {
 		return user;
 	}
-	
+
 	public void setUser(User user) {
 		this.user = user;
 	}

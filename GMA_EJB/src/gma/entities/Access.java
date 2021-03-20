@@ -1,4 +1,4 @@
-package gma.model;
+package gma.entities;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -43,11 +43,11 @@ public class Access implements Serializable {
 	public void setTimestamp(Date timestamp) {
 		this.timestamp = timestamp;
 	}
-	
-	public User getUser(){
+
+	public User getUser() {
 		return user;
 	}
-	
+
 	public void setUser(User user) {
 		this.user = user;
 	}
