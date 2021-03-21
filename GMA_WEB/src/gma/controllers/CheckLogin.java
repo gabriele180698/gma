@@ -16,14 +16,14 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import it.polimi.db2.controllers.User;
+import gma.entities.User;
 import gma.services.UserService;
 
 @WebServlet("/CheckLogin")
 public class CheckLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	@EJB(name = "UserService.java")
+	@EJB(name = "gma.services/UserService")
 	private UserService usrService;
 
 	public CheckLogin() {
