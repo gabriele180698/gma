@@ -11,6 +11,13 @@ import javax.persistence.*;
  *
  */
 @Entity
+@Table(name = "questionnaire", schema = "gma")
+@NamedQueries({
+//@NamedQuery(name = "Questionnaire.findById", query = "SELECT q FROM Questionnaire q  WHERE q.id = ?1"),
+//@NamedQuery(name = "Questionnaire.qod", query = "SELECT q FROM Questionnaire q  WHERE q.date = ?1")
+@NamedQuery(name = "Statistics.findQuestionnaireByProduct", query = "SELECT a,qu,u FROM Questionnaire q JOIN q.questions qu JOIN qu.answers a JOIN a.user u "
+		+ "WHERE q.date = ?1 AND u.id IN (SELECT us.id FROM Statistics s JOIN s.questionnaire q JOIN s.user us WHERE s.status = 0)")
+})
 public class Questionnaire implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

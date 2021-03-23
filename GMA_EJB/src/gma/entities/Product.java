@@ -10,6 +10,8 @@ import javax.persistence.*;
  *
  */
 @Entity
+@Table(name = "product", schema = "gma")
+@NamedQuery(name = "Product.pod", query = "SELECT p FROM Product p JOIN p.questionnaires q WHERE q.date = ?1")
 public class Product implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id

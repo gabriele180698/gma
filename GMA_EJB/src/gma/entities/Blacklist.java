@@ -8,6 +8,7 @@ import javax.persistence.*;
  *
  */
 @Entity
+@NamedQuery(name = "Blacklist.search", query = "SELECT b FROM Blacklist b WHERE b.word = ?1")
 public class Blacklist implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
