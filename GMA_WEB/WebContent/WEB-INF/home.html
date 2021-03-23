@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Home</title>
+<link rel="stylesheet" type="text/css" media="all"
+	href="../CSS/style.css" th:href="@{/css/style.css}" />
+</head>
+<body>
+	<section>
+		<div>
+			<div align="right">
+				<a th:href="@{/Questionnaire}">Questionnaire</a> <a
+					th:href="@{/Leaderboard}">Leaderboard</a> <a th:href="@{/Logout}">Logout</a>
+			</div>
+			<h1>Welcome to the Paolo Home Page</h1>
+			<p
+				th:text="${'Nice to see you again ' + session.user.username} + ' !'"></p>
+		</div>
+	</section>
+
+
+	<section>
+		<div th:if="${product == null}">
+			<span th:text="' No product of the day! ' "></span>
+		</div>
+		<div th:if="${product != null}">
+			<span th:text="'Product: ' + ${product.name}"> </span> <img
+				width="100px" alt="thumb"
+				th:src="*{'data:image/png;base64,'+ ph.getThumbData()}">
+		</div>
+	</section>
+
+
+</body>
+</html>
