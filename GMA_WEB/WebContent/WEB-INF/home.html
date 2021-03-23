@@ -14,13 +14,13 @@
 					th:href="@{/Leaderboard}">Leaderboard</a> <a th:href="@{/Logout}">Logout</a>
 			</div>
 			<h1>Welcome to the Paolo Home Page</h1>
-			<p
-				th:text="${'Nice to see you again ' + session.user.username} + ' !'"></p>
+			<p th:if="${session.user.type != 0}" th:text="${'Nice to see you again ' + session.user.username} + ' !'"></p>
+			<p th:if="${session.user.type == 0}" th:text="${'Hi ' + session.user.username} + ' yout account is banned!'"></p>
 		</div>
 	</section>
 
 
-	<section>
+	<section th:if="${session.user.type != 0}">
 		<div th:if="${product == null}">
 			<span th:text="' No product of the day! ' "></span>
 		</div>
