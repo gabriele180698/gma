@@ -17,7 +17,7 @@ public class UserService {
 	public UserService() {
 	}
 
-	public User checkCredentials(String usrn, String pwd) throws CredentialsException, NonUniqueResultException {
+	public User checkCredentials(String usrn, String pwd) throws CredentialsException{
 		List<User> uList = null;
 		try {
 			uList = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).setParameter(2, pwd).getResultList();
@@ -26,9 +26,7 @@ public class UserService {
 		}
 		if (uList.isEmpty())
 			return null;
-		else if (uList.size() == 1)
+		else
 			return uList.get(0);
-		throw new NonUniqueResultException("More than one user registered with same credentials");
-
 	}
 }
