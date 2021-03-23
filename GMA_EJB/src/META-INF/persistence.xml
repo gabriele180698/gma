@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2"
+	xmlns="http://xmlns.jcp.org/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+	<persistence-unit name="GMA" transaction-type="JTA">
+		<jta-data-source>gma</jta-data-source>
+		<class>gma.entities.Access</class>
+		<class>gma.entities.Answer</class>
+		<class>gma.entities.Blacklist</class>
+		<class>gma.entities.Product</class>
+		<class>gma.entities.Question</class>
+		<class>gma.entities.Questionnaire</class>
+		<class>gma.entities.Statistics</class>
+		<class>gma.entities.User</class>
+		<properties>
+			<property name="eclipselink.logging.level" value="FINE" />
+		</properties>
+	</persistence-unit>
+</persistence>
