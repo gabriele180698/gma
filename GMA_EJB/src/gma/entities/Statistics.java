@@ -39,6 +39,13 @@ public class Statistics implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "idUser")
 	private User user;
+	
+	public Statistics() {
+	}
+
+	public Statistics(int id) {
+		this.id = id;
+	}
 
 	public int getId() {
 		return id;
