@@ -1,16 +1,13 @@
 package gma.services;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
-import javax.ws.rs.NotFoundException;
 
 import gma.entities.Product;
-import gma.entities.User;
 import gma.exceptions.*;
 
 @Stateless
