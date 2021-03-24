@@ -5,8 +5,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.NonUniqueResultException;
+
+import gma.entities.Product;
 import gma.entities.User;
 import gma.exceptions.*;
+
+import java.util.Date;
 import java.util.List;
 
 @Stateless
@@ -18,15 +22,12 @@ public class UserService {
 	}
 
 	public User checkCredentials(String usrn, String pwd) throws CredentialsException{
-		List<User> uList = null;
+		User user = null;
 		try {
-			uList = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).setParameter(2, pwd).getResultList();
+			user = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).setParameter(2, pwd).getResultStream().findFirst().orElse(null);
 		} catch (PersistenceException e) {
-			throw new CredentialsException("Could not verify credentals");
+			throw new CredentialsException("Could not verify credentials");
 		}
-		if (uList.isEmpty())
-			return null;
-		else
-			return uList.get(0);
+		return user;
 	}
 }

@@ -18,7 +18,7 @@ public class Access implements Serializable {
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date timestamp;
 	@ManyToOne
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "idUser")
 	private User user;
 
 	public Access() {

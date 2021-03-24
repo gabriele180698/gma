@@ -1,14 +1,17 @@
 package gma.services;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
+import javax.ws.rs.NotFoundException;
 
 import gma.entities.Product;
 import gma.entities.User;
+import gma.exceptions.*;
 
 @Stateless
 public class ProductService {
@@ -18,7 +21,15 @@ public class ProductService {
 	public ProductService() {
 	}
 
-	public Product getProductOfDay(){
-		return null;
+	public Product getProductOfDay() throws ProductException{
+		Product product = null;
+		try {
+			//Get the product of the day
+			product = em.createNamedQuery("Product.findProductByDate", Product.class).setParameter(1, new Date()).getResultStream().findFirst().orElse(null);
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new ProductException("No product of the day found!");
+		}
+		return product;
 	}
 }

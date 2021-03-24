@@ -15,10 +15,10 @@ public class Answer implements Serializable {
 	private int id;
 	private String text;
 	@ManyToOne
-	@JoinColumn(name = "user")
+	@JoinColumn(name = "idUser")
 	private User user;
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "question")
+	@JoinColumn(name = "idQuestion")
 	private Question question;
 
 	public Answer() {

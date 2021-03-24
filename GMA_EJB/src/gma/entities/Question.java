@@ -19,7 +19,7 @@ public class Question implements Serializable {
 	@OneToMany(mappedBy = "question", cascade = CascadeType.REMOVE)
 	private List<Answer> answers;
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "questionnaire")
+	@JoinColumn(name = "idQuestionnaire")
 	private Questionnaire questionnaire;
 
 	public Question() {
