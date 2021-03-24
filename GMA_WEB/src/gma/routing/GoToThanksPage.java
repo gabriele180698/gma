@@ -56,7 +56,7 @@ public class GoToThanksPage extends HttpServlet {
 		
 		try {
 			//Submit the statistics
-			sService.submitStatistics(); //Decidere attributi
+			//sService.submitStatistics(); //Decidere attributi
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to submit data");
 			return;
