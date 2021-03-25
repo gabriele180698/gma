@@ -47,12 +47,12 @@ public class GoToQuestionnairePage extends HttpServlet {
 		// If the user is not logged in (not present in session) redirect to the login
 		String loginpath = getServletContext().getContextPath() + "/index.html";
 		HttpSession session = request.getSession();
-		if (session.isNew() || session.getAttribute("user") == null) {
+		User user = (User) session.getAttribute("user");
+		if (session.isNew() || user == null) {
 			response.sendRedirect(loginpath);
 			return;
 		}
-
-		User user = (User) session.getAttribute("user");
+		
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/questionnaire.html";
 		ServletContext servletContext = getServletContext();

@@ -2,9 +2,40 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Leaderboard</title>
 </head>
 <body>
+
+	<section>
+		<div>
+			<div align="right">
+			<a th:href="@{/Home}">Home</a> 
+			<a th:href="@{/Questionnaire}">Questionnaire</a> 
+			<a th:href="@{/Leaderboard}">Leaderboard</a> 
+			<a th:href="@{/Logout}">Logout</a>
+			</div>
+			<h1>Welcome to the Leaderboard Page!</h1>
+		</div>
+	</section>
+
+	<section>
+		<table>
+			<thead>
+				<tr>
+				    <th>Position</th>
+					<th>Username</th>
+					<th>Points</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="r : ${rowsLeaderboard}">
+					<td th:text="${r.position}"></td>
+					<td th:text="${r.username}"></td>
+					<td th:text="${r.points}"></td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
 
 </body>
 </html>

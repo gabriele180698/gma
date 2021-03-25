@@ -1,7 +1,5 @@
 package gma.services;
 
-import java.util.Date;
-
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -11,21 +9,20 @@ import gma.entities.Product;
 import gma.exceptions.*;
 
 @Stateless
-public class ProductService {
+public class LeaderboardService {
 	@PersistenceContext(unitName = "GMA")
 	private EntityManager em;
 
-	public ProductService() {
+	public LeaderboardService() {
 	}
 
-	public Product getProductOfDay() throws ProductException {
+	public Product getLeaderboard() throws LeaderboardException {
 		Product product = null;
 		try {
-			product = em.createNamedQuery("Product.findProductByDate", Product.class).setParameter(1, new Date())
-					.getResultStream().findFirst().orElse(null);
+
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new ProductException("No product of the day found!");
+			throw new LeaderboardException("It is not possible to retrive the leaderboard!");
 		}
 		return product;
 	}

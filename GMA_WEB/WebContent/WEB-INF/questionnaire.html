@@ -2,9 +2,44 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Questionnaire</title>
 </head>
 <body>
+
+	<section>
+		<div>
+			<div align="right">
+				<a th:href="@{/Home}">Home</a> 
+				<a th:href="@{/Questionnaire}">Questionnaire</a>
+				<a th:href="@{/Leaderboard}">Leaderboard</a> 
+				<a th:href="@{/Logout}">Logout</a>
+			</div>
+			<h1>Welcome to the Questionnaire Page!</h1>
+			<p th:if="${session.user.type == 0}"
+				th:text="${'Hi ' + session.user.username} + ' your account is banned, you can not fill a questionnaire!'"></p>
+		</div>
+	</section>
+
+	<section>
+		<div th:if="${session.user.type != 0}">
+			<form action="#" th:action="@{/toBeDefine}" method="POST">
+				<fieldset>
+					<p>
+						Do you know the product? <input type="text" name="q1" required />
+					</p>
+					<p>
+						Have you purchased the product before? <input type="text"
+							name="q2" required />
+					</p>
+
+					<p>
+						Would you recommend the product to a friend? <input type="text"
+							name="q3" required />
+					</p>
+				</fieldset>
+			</form>
+		</div>
+	</section>
 
 </body>
 </html>

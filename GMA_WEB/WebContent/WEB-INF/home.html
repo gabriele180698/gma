@@ -10,12 +10,14 @@
 	<section>
 		<div>
 			<div align="right">
-				<a th:href="@{/Questionnaire}">Questionnaire</a> <a
-					th:href="@{/Leaderboard}">Leaderboard</a> <a th:href="@{/Logout}">Logout</a>
+			    <a th:href="@{/Home}">Home</a> 
+				<a th:href="@{/Questionnaire}">Questionnaire</a> 
+				<a th:href="@{/Leaderboard}">Leaderboard</a> 
+				<a th:href="@{/Logout}">Logout</a>
 			</div>
 			<h1>Welcome to the Paolo Home Page</h1>
 			<p th:if="${session.user.type != 0}" th:text="${'Nice to see you again ' + session.user.username} + ' !'"></p>
-			<p th:if="${session.user.type == 0}" th:text="${'Hi ' + session.user.username} + ' yout account is banned!'"></p>
+			<p th:if="${session.user.type == 0}" th:text="${'Hi ' + session.user.username} + ' your account is banned!'"></p>
 		</div>
 	</section>
 
