@@ -16,8 +16,13 @@ public class StatisticsService {
 	public StatisticsService() {
 	}
 
-	public void submitStatistics(int score, int age, int expertise,Questionnaire questionnaire,int sex,User user,int status){
-		Statistics stat = new Statistics();
+	public void submitStatistics(int score, int age, int expertise,int idQuestionnaire,int sex,User user,int status){
+		Questionnaire questionnaire;
+		Statistics stat;
+		
+		stat = new Statistics();
+		questionnaire = em.createNamedQuery("Questionnaire.findQuestionnairebyId", Questionnaire.class).
+				setParameter(1, idQuestionnaire).getSingleResult();
 		stat.setScore(score);
 		stat.setAge(age);
 		stat.setExpertise(expertise);

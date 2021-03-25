@@ -21,7 +21,6 @@ public class ProductService {
 	public Product getProductOfDay() throws ProductException{
 		Product product = null;
 		try {
-			//Get the product of the day
 			product = em.createNamedQuery("Product.findProductByDate", Product.class).setParameter(1, new Date()).getResultStream().findFirst().orElse(null);
 		} catch (PersistenceException e) {
 			e.printStackTrace();

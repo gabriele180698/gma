@@ -1,9 +1,7 @@
 package gma.routing;
 
 import java.io.IOException;
-import java.util.List;
 
-import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,22 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import gma.services.*;
-import gma.entities.*;
 
-//DA FINIRE - POI FACCIO IO 
+//DA FINIRE - NON MODIFICATE SENZA AVVISARE PLEASE - DA DECIDERE ALCUNE COSE INSIEME
 
 @WebServlet("/Thanks") 
 public class GoToThanksPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	@EJB(name = "gma.services/StatisticsService")
-	private StatisticsService sService;
+
 
 	public GoToThanksPage() {
 		super();
@@ -51,16 +47,6 @@ public class GoToThanksPage extends HttpServlet {
 			response.sendRedirect(loginpath);
 			return;
 		}
-
-		User user = (User) session.getAttribute("user");
-		
-		try {
-			//Submit the statistics
-			//sService.submitStatistics(); //Decidere attributi
-		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to submit data");
-			return;
-		}
 		
 		// Redirect to the Home page and add missions to the parameters
 		String path = "/WEB-INF/thanks.html";
@@ -78,3 +64,6 @@ public class GoToThanksPage extends HttpServlet {
 	}
 
 }
+
+
+
