@@ -22,6 +22,7 @@
 
 	<section>
 		<div th:if="${session.user.type != 0}">
+		<p>Marketing section (All fields are required)</p>
 			<form action="#" th:action="@{/toBeDefine}" method="POST">
 				<fieldset>
 					<p>
