@@ -56,6 +56,7 @@ public class CheckLogin extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
 			return;
 		}
+
 		User user;
 		try {
 			// query db to authenticate for user
@@ -66,7 +67,8 @@ public class CheckLogin extends HttpServlet {
 			return;
 		}
 
-		// If the user exists, add info to the session and go to home page, otherwise if is the admin go to administration panel
+		// If the user exists, add info to the session and go to home page, otherwise if
+		// is the admin go to administration panel
 		// show login page with error message
 
 		String path;
@@ -76,14 +78,23 @@ public class CheckLogin extends HttpServlet {
 			ctx.setVariable("errorMsg", "Incorrect username or password");
 			path = "/index.html";
 			templateEngine.process(path, ctx, response.getWriter());
-		} else if(user.getType() == 2) {
+		} else if (user.getType() == 2) {
 			request.getSession().setAttribute("user", user);
 			path = getServletContext().getContextPath() + "/Admin";
 			response.sendRedirect(path);
 		} else {
-			request.getSession().setAttribute("user", user);
-			path = getServletContext().getContextPath() + "/Home";
-			response.sendRedirect(path);
+			// Log in the db the current access
+			try {
+				// Insert the access
+				usrService.logAccess(user);
+				request.getSession().setAttribute("user", user);
+				path = getServletContext().getContextPath() + "/Home";
+				response.sendRedirect(path);
+			} catch (Exception e) {
+				e.printStackTrace();
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access not insert correctly!");
+				return;
+			}
 		}
 
 	}
