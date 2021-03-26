@@ -17,6 +17,7 @@ import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import gma.entities.User;
+import gma.objects.Paths;
 import gma.services.UserService;
 
 @WebServlet("/CheckLogin")
@@ -73,23 +74,19 @@ public class CheckLogin extends HttpServlet {
 
 		String path;
 		if (user == null) {
-			ServletContext servletContext = getServletContext();
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
+			final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 			ctx.setVariable("errorMsg", "Incorrect username or password");
-			path = "/index.html";
-			templateEngine.process(path, ctx, response.getWriter());
+			templateEngine.process(Paths.INDEX_PAGE.getPath(), ctx, response.getWriter());
 		} else if (user.getType() == 2) {
 			request.getSession().setAttribute("user", user);
-			path = getServletContext().getContextPath() + "/Admin";
-			response.sendRedirect(path);
+			response.sendRedirect(getServletContext().getContextPath() + Paths.ADMIN_HOME.getPath());
 		} else {
 			// Log in the db the current access
 			try {
 				// Insert the access
 				usrService.logAccess(user);
 				request.getSession().setAttribute("user", user);
-				path = getServletContext().getContextPath() + "/Home";
-				response.sendRedirect(path);
+				response.sendRedirect(getServletContext().getContextPath() + Paths.USER_HOME.getPath());
 			} catch (Exception e) {
 				e.printStackTrace();
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Access not insert correctly!");

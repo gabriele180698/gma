@@ -20,9 +20,8 @@ public class StatisticsService {
 			int status) {
 		Questionnaire questionnaire;
 		Statistics stat;
-
 		stat = new Statistics();
-		questionnaire = em.createNamedQuery("Questionnaire.findQuestionnairebyId", Questionnaire.class)
+		questionnaire = em.createNamedQuery("Questionnaire.findQuestionnaireById", Questionnaire.class)
 				.setParameter(1, idQuestionnaire).getSingleResult();
 		stat.setScore(score);
 		stat.setAge(age);

@@ -17,12 +17,13 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 
 import gma.entities.User;
+import gma.objects.Paths;
 import gma.services.StatisticsService;
 
 
 //DA FINIRE - NON MODIFICATE SENZA AVVISARE PLEASE - DA DECIDERE ALCUNE COSE INSIEME
 
-@WebServlet("/Submit")
+@WebServlet("/App/Submit")
 public class SubmitQuestionnaire extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
@@ -45,7 +46,6 @@ public class SubmitQuestionnaire extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String loginpath;
-		HttpSession session;
 		String path;
 		int score;
 		int age; 
@@ -68,18 +68,12 @@ public class SubmitQuestionnaire extends HttpServlet {
 			return;
 		}
 		
-		loginpath = getServletContext().getContextPath() + "/index.html";
-		session = request.getSession();
-		if (session.isNew() || session.getAttribute("user") == null) {
-			response.sendRedirect(loginpath);
-			return;
-		}
+		HttpSession session = request.getSession();
 		user = (User) session.getAttribute("user");
 		try {
 			//Submit the statistics
 			sService.submitStatistics(score, age, expertise, questionnaire, sex, user, status);
-			path = getServletContext().getContextPath() + "/Thanks";
-			response.sendRedirect(path);
+			response.sendRedirect(getServletContext().getContextPath() + Paths.THANKS_PAGE.getPath());
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to submit data");
 			return;

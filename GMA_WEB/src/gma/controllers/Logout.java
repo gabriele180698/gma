@@ -9,7 +9,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-@WebServlet("/Logout")
+import gma.objects.Paths;
+
+@WebServlet("/App/Logout")
 public class Logout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -24,8 +26,7 @@ public class Logout extends HttpServlet {
 		if (session != null) {
 			session.invalidate();
 		}
-		String path = getServletContext().getContextPath() + "/index.html";
-		response.sendRedirect(path);
+		response.sendRedirect(getServletContext().getContextPath() + Paths.INDEX_PAGE.getPath());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

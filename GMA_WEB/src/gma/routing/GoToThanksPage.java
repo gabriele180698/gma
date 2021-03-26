@@ -10,20 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import gma.entities.User;
+import gma.objects.Paths;
 
 //DA FINIRE - NON MODIFICATE SENZA AVVISARE PLEASE - DA DECIDERE ALCUNE COSE INSIEME
 
-@WebServlet("/Thanks") 
+@WebServlet("/App/Thanks")
 public class GoToThanksPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-
 
 	public GoToThanksPage() {
 		super();
@@ -40,19 +40,13 @@ public class GoToThanksPage extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// If the user is not logged in (not present in session) redirect to the login
-		String loginpath = getServletContext().getContextPath() + "/index.html";
+		// Get the user
 		HttpSession session = request.getSession();
-		if (session.isNew() || session.getAttribute("user") == null) {
-			response.sendRedirect(loginpath);
-			return;
-		}
-		
+		User user = (User) session.getAttribute("user");
+
 		// Redirect to the Home page and add missions to the parameters
-		String path = "/WEB-INF/thanks.html";
-		ServletContext servletContext = getServletContext();
-		final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-		templateEngine.process(path, ctx, response.getWriter());
+		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
+		templateEngine.process(Paths.THANKS_PAGE.getPath(), ctx, response.getWriter());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -64,6 +58,3 @@ public class GoToThanksPage extends HttpServlet {
 	}
 
 }
-
-
-
