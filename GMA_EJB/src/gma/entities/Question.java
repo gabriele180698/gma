@@ -9,6 +9,10 @@ import javax.persistence.*;
  * Entity implementation class for Entity: Question
  *
  */
+@NamedQueries({
+//@NamedQuery(name = "Questionnaire.findQuestionByQuestionnaire", 
+	//query = "SELECT qu.text FROM Question qu JOIN qu.questionnaire q  WHERE q.id = ?1"),
+})
 @Entity
 public class Question implements Serializable {
 	private static final long serialVersionUID = 1L;
