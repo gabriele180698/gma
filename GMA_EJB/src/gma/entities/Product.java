@@ -21,6 +21,8 @@ public class Product implements Serializable {
 	private String img;
 	@OneToMany(mappedBy = "product")
 	private List<Questionnaire> questionnaires;
+	@OneToMany(mappedBy = "product")
+	private List<Review> reviews;
 
 	public Product() {
 	}
@@ -64,6 +66,19 @@ public class Product implements Serializable {
 
 	public void removeMission(Questionnaire questionnaire) {
 		getQuestionnaires().remove(questionnaire);
+	}
+	
+	public List<Review> getReviews() {
+		return this.reviews;
+	}
+
+	public void addReview(Review review) {
+		getReviews().add(review);
+		review.setProduct(this);
+	}
+
+	public void removeReview(Review review) {
+		getReviews().remove(review);
 	}
 
 }

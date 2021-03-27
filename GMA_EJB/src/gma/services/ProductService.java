@@ -1,6 +1,7 @@
 package gma.services;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -8,6 +9,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
 import gma.entities.Product;
+import gma.entities.Review;
 import gma.exceptions.*;
 
 @Stateless
@@ -25,8 +27,20 @@ public class ProductService {
 					.getResultStream().findFirst().orElse(null);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new ProductException("No product of the day found!");
+			throw new ProductException("Can not get the product of the day!");
 		}
 		return product;
+	}
+
+	public List<Review> getAllReviews(int idProduct) throws ProductException {
+		List<Review> reviews = null;
+		try {
+			reviews = em.createNamedQuery("Review.findReviewsByProduct", Review.class).setParameter(1, idProduct)
+					.getResultList();
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new ProductException("Can not get review!");
+		}
+		return reviews;
 	}
 }

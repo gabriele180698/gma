@@ -22,9 +22,9 @@
 	</section>
 
 
-	<section th:if="${session.user.type != 0}">
+	<section>
 		<div th:if="${product == null}">
-			<span th:text="' No product of the day! ' "></span>
+			<span>No product of the day!</span>
 		</div>
 		<div th:if="${product != null}">
 			<span th:text="'Product: ' + ${product.name}"> </span> <img
@@ -32,7 +32,20 @@
 				th:src="*{'data:image/png;base64,'+ ph.getThumbData()}">
 		</div>
 	</section>
-
+	
+	
+	<section>
+		<div th:if="${reviews == null}">
+			<span>No reviews of the product!</span>
+		</div>
+		<div th:if="${reviews != null}">
+			<div th:each="r : ${reviews}">
+				<span>Reviews of the product</span>
+				<p th:text="'Username: ' + ${(r.user.username}"></p>
+				<p th:text="'${r.text}"> </p>
+			</div>	
+		</div>
+	</section>
 
 </body>
 </html>

@@ -11,6 +11,7 @@
 		<class>gma.entities.Product</class>
 		<class>gma.entities.Question</class>
 		<class>gma.entities.Questionnaire</class>
+		<class>gma.entities.Review</class>
 		<class>gma.entities.Statistics</class>
 		<class>gma.entities.User</class>
 		<properties>

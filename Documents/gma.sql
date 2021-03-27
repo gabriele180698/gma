@@ -124,6 +124,20 @@ CREATE TABLE `statistics` (
   `expertise` tinyint(4) UNSIGNED NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
+-- --------------------------------------------------------
+
+--
+-- Struttura della tabella `review`
+--
+
+CREATE TABLE `review` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `idUser` bigint(20) UNSIGNED NOT NULL,
+  `idProduct` bigint(20) UNSIGNED NOT NULL,
+  `text` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 --
 -- Indici per le tabelle scaricate
 --
@@ -182,6 +196,13 @@ ALTER TABLE `user`
 ALTER TABLE `statistics`
   ADD PRIMARY KEY (`id`),
   ADD KEY `user_questionnaire_idquestionnaire_foreign` (`idQuestionnaire`);
+  
+ --
+-- Indici per le tabelle `review`
+--
+ALTER TABLE `review`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `review_user_foreign` (`idUser`); 
 
 --
 -- AUTO_INCREMENT per le tabelle scaricate
@@ -234,6 +255,12 @@ ALTER TABLE `user`
 --
 ALTER TABLE `statistics`
   MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  
+--
+-- AUTO_INCREMENT per la tabella `review`
+--
+ALTER TABLE `review`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;  
 
 --
 -- Limiti per le tabelle scaricate
@@ -270,6 +297,13 @@ ALTER TABLE `questionnaire`
 ALTER TABLE `statistics`
   ADD CONSTRAINT `user_questionnaire_idquestionnaire_foreign` FOREIGN KEY (`idQuestionnaire`) REFERENCES `questionnaire` (`id`) ON DELETE CASCADE,
   ADD CONSTRAINT `user_questionnaire_iduser_foreign` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON DELETE CASCADE;
+
+--
+-- Limiti per la tabella `review`
+--
+ALTER TABLE `review`
+  ADD CONSTRAINT `review_idproduct_foreign` FOREIGN KEY (`idProduct`) REFERENCES `product` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `review_iduser_foreign` FOREIGN KEY (`idUser`) REFERENCES `user` (`id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

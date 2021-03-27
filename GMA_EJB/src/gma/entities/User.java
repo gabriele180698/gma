@@ -35,6 +35,8 @@ public class User implements Serializable {
 	private List<Answer> answers;
 	@OneToMany(mappedBy = "user")
 	private List<Statistics> statistics;
+	@OneToMany(mappedBy = "user")
+	private List<Review> reviews;
 
 	public User() {
 	}
@@ -94,6 +96,19 @@ public class User implements Serializable {
 
 	public void removeStatistics(Statistics statistics) {
 		getStatistics().remove(statistics);
+	}
+	
+	public List<Review> getReviews() {
+		return this.reviews;
+	}
+
+	public void addReview(Review review) {
+		getReviews().add(review);
+		review.setUser(this);
+	}
+
+	public void removeReview(Review review) {
+		getReviews().remove(review);
 	}
 
 }
