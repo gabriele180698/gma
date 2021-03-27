@@ -12,7 +12,7 @@
 			    <a th:href="@{/App/Home}">Home</a> 
 				<a th:href="@{/App/Questionnaire}">Questionnaire</a> 
 				<a th:href="@{/App/Leaderboard}">Leaderboard</a> 
-				<a th:href="@{/App/Logout}">Logout</a>/a>
+				<a th:href="@{/App/Logout}">Logout</a>
 			</div>
 			<h1>Welcome to the Questionnaire Page!</h1>
 			<p th:if="${session.user.type == 0}"
@@ -22,7 +22,7 @@
 
 	<section>
 		<div th:if="${session.user.type != 0}">
-		<p>Marketing section (All fields are required)</p>
+		<p>Marketing section (all fields are required)</p>
 			<form action="#" th:action="@{/toBeDefine}" method="POST">
 				<fieldset>
 					<p>
@@ -38,6 +38,35 @@
 							name="q3" required />
 					</p>
 				</fieldset>
+			</form>
+		</div>
+	</section>
+	
+	<section>
+		<div th:if="${session.user.type != 0}">
+		<p>Statistical data section (all fields are optional)</p>
+			<form action="#" th:action="@{/App/SendQuestionnaire}" method="POST">
+				<fieldset>
+					<p>
+						How old are you? <input type="number" min="1" max="120" name="age"/>
+					</p>
+					<p>Sex <select name="sex">
+						    <option value="0">--Please choose an option--</option>
+						    <option value="1">Female</option>
+						    <option value="2">Male</option>
+						    <option value="3">Other</option>
+						  </select>
+				    </p>
+					<p> Expertise level <select name="expertise">
+						    <option value="0">--Please choose an option--</option>
+						    <option value="1">Low</option>
+						    <option value="2">Medium</option>
+						    <option value="3">High</option>
+						  </select>
+				    </p>
+				</fieldset>
+				<input type="submit" name="SendQuestionnaire" value="Cancel">
+				<input type="submit" name="SendQuestionnaire" value="Submit">
 			</form>
 		</div>
 	</section>
