@@ -21,22 +21,13 @@
 	</section>
 
 	<section>
-		<div th:if="${session.user.type != 0}">
+		<div th:if="${session.user.type != 0} and ${not #lists.isEmpty(questions)}">
 		<p>Marketing section (all fields are required)</p>
 			<form action="#" th:action="@{/toBeDefine}" method="POST">
 				<fieldset>
-					<p>
-						Do you know the product? <input type="text" name="q1" required />
-					</p>
-					<p>
-						Have you purchased the product before? <input type="text"
-							name="q2" required />
-					</p>
-
-					<p>
-						Would you recommend the product to a friend? <input type="text"
-							name="q3" required />
-					</p>
+					<div th:each="qu : ${questions}">
+					<p th:value="${qu.id}"  th:text="${qu.text}"> </p>
+					<p> <input type="text" th:name="${qu.id}" required /> </p>
 				</fieldset>
 			</form>
 		</div>
