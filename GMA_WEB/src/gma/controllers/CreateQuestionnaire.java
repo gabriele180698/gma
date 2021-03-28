@@ -3,6 +3,10 @@ package gma.controllers;
 import java.io.IOException;
 
 import javax.ejb.EJB;
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
@@ -18,19 +23,24 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import gma.entities.User;
 import gma.objects.Paths;
-import gma.services.StatisticsService;
+import gma.services.QuestionnaireService;
 
 
 @WebServlet("/App/CreateQuestionnaire")
 
-	public class CreateQuestionnaire {
+	public class CreateQuestionnaire extends HttpServlet{
 		private static final long serialVersionUID = 1L;
 		private TemplateEngine templateEngine;
-		@EJB(name = "gma.services/StatisticsService")
-		private StatisticsService sService;
+		@EJB(name = "gma.services/QuestionnaireService")
+		private QuestionnaireService qService;
 
-		public SendQuestionnaire() {
+		public CreateQuestionnaire() {
 			super();
+		}
+		public boolean isToday(Date date) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+			Date now = new Date(System.currentTimeMillis());
+			return sdf.format(now) == sdf.format(date);
 		}
 
 		public void init() throws ServletException {
@@ -44,49 +54,40 @@ import gma.services.StatisticsService;
 
 		protected void doPost(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
-			String action = request.getParameter("SendQuestionnaire");
+			String action = request.getParameter("CreateQuestionnaire");
 			
-			// Retrieve the type of user request (i.e. submitting or cancellation)
-			if ("Submit".equals(action)) {
-			    SubmitQuestionnaire(request, response);
-			} else if ("Cancel".equals(action)) {
-			    CancelQuestionnaire(request,response);
+			// If the admin is not logged in (not present in session) redirect to the login
+			HttpSession session = request.getSession();
+			if (session.isNew() || session.getAttribute("user") != "2") {
+				String loginpath = getServletContext().getContextPath() + "/index.html";
+				response.sendRedirect(loginpath);
+				return;
 			}
 
 		}
 		
 		protected void SubmitQuestionnaire(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
-			int age; 
-			int expertise; 
-			int questionnaire;
-			int sex;
-			User user;
-			
+			Date date;
+			Date now = new Date(System.currentTimeMillis());
+			String img;
 			// Get data entered by the user
 			try {
-				expertise = Integer.parseInt(request.getParameter("expertise"));
-				sex = Integer.parseInt(request.getParameter("sex"));
-				//questionnaire = Integer.parseInt(request.getParameter("questionnaire"));
-				questionnaire = 2;
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				date = (Date) sdf.parse(request.getParameter("date"));
+				img = StringEscapeUtils.escapeJava(request.getParameter("img"));
+				// Check data
+				if (img == null || img.isEmpty() || date == null) {
+					throw new Exception("Missing or empty credential value");
+				}
+				if (now.after(date)|| isToday(date)) {
+					throw new Exception("No valid date");
+				}
 
 			} catch (Exception e) {
 				e.printStackTrace();
 				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
 				return;
-			}
-			
-			//If the user has not inserted the information about her/his age, set the default value
-			if(request.getParameter("age") == null || request.getParameter("age").isEmpty()) {
-				age = 0; //default value
-			} else {
-				try {
-					age = Integer.parseInt(request.getParameter("age"));
-					}catch (Exception e) {
-						e.printStackTrace();
-						response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
-						return;
-					}
 			}
 			
 			HttpSession session = request.getSession();
