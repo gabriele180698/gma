@@ -16,17 +16,11 @@ public class StatisticsService {
 	public StatisticsService() {
 	}
 
-	public void submitStatistics(int age, int expertise, int idQuestionnaire, int sex, User user) {
-		Questionnaire questionnaire;
-		Statistics stat;
-		int score;
-		
-		stat = new Statistics();
-		questionnaire = em.createNamedQuery("Questionnaire.findQuestionnaireById", Questionnaire.class)
-				.setParameter(1, 2).getSingleResult();
-		score = 0;
-		
+	public void submitStatistics(int age, int expertise, Questionnaire questionnaire, int sex, User user) {
+		Statistics stat = new Statistics();
+		int score = 0;
 
+		//If age is not given, the points are not assigned
 		if(age!=0) {
 			score += 2;
 		}
@@ -54,18 +48,11 @@ public class StatisticsService {
 	}
 	
 	
-	public void cancelStatistics(int idQuestionnaire, User user) {
-		Questionnaire questionnaire;
-		Statistics stat;
-		int score;
-		
-		stat = new Statistics();
-		questionnaire = em.createNamedQuery("Questionnaire.findQuestionnaireById", Questionnaire.class)
-				.setParameter(1, 2).getSingleResult();
+	public void cancelStatistics(Questionnaire questionnaire, User user) {
+		Statistics stat = new Statistics();
 		
 		// Status = 0 = cancelled; 1 = submitted
 		stat.setStatus(0);
-
 		stat.setQuestionnaire(questionnaire);
 		stat.setUser(user);
 		em.persist(stat);

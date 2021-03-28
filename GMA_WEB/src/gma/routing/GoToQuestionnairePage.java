@@ -1,7 +1,7 @@
 package gma.routing;
 
 import java.io.IOException;
-import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -18,19 +18,22 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
-import gma.services.*;
-import gma.entities.*;
+import gma.entities.Question;
+import gma.entities.Questionnaire;
+import gma.entities.User;
 import gma.objects.Paths;
+import gma.services.QuestionService;
+import gma.services.QuestionnaireService;
 
 @WebServlet("/App/Questionnaire")
 public class GoToQuestionnairePage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	/*@EJB(name = "it.polimi.db2.mission.services/MissionService")
-	private MissionService mService;*/
 	@EJB(name = "gma.services/QuestionnaireService")
 	private QuestionnaireService qService;
-
+	@EJB(name = "gma.services/QuestionService.java")
+	private QuestionService quService;
+	
 	public GoToQuestionnairePage() {
 		super();
 	}
@@ -46,18 +49,32 @@ public class GoToQuestionnairePage extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//Get the user
+		Date date;
+		Questionnaire questionnaire;
+		List<Question> questions;
+		List<Integer> questionsId;
 		HttpSession session = request.getSession();
+		
+		//Get the user
 		User user = (User) session.getAttribute("user");
 		
-		// Redirect to the Home page and add missions to the parameters
+		// Get the current date
+	    date = new Date(System.currentTimeMillis());
+		
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		
 		// Access to the list of questions related to the Product Of The Day
 	    try {
-	    	List<Question> questions =  qService.getQuestionsByQuestionnaire(2);
+	    	System.out.println(quService);
+	    	questionnaire = qService.getQuestionnaireByDate(date);
+	    	questions =  qService.getQuestionsByQuestionnaire(questionnaire);
+	  
+	    	questionsId = quService.getQuestionsId(questions);
+	    	request.getSession().setAttribute("questionnaire", questionnaire);
+	    	request.getSession().setAttribute("questionsId", questionsId);
 	    	ctx.setVariable("questions", questions);
 		} catch (Exception e) {
+			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
 					"Ops! Something went wrong during the access to the questions");
 			return;

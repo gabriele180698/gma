@@ -10,8 +10,7 @@ import javax.persistence.*;
  *
  */
 @NamedQueries({
-//@NamedQuery(name = "Questionnaire.findQuestionByQuestionnaire", 
-	//query = "SELECT qu.text FROM Question qu JOIN qu.questionnaire q  WHERE q.id = ?1"),
+@NamedQuery(name = "Question.findQuestionById", query = "SELECT qu FROM Question qu  WHERE qu.id = ?1"),
 })
 @Entity
 public class Question implements Serializable {

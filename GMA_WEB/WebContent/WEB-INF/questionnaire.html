@@ -3,6 +3,7 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Questionnaire</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
 
@@ -19,25 +20,23 @@
 				th:text="${'Hi ' + session.user.username} + ' your account is banned, you can not fill a questionnaire!'"></p>
 		</div>
 	</section>
-
+	
 	<section>
-		<div th:if="${session.user.type != 0} and ${not #lists.isEmpty(questions)}">
-		<p>Marketing section (all fields are required)</p>
-			<form action="#" th:action="@{/toBeDefine}" method="POST">
-				<fieldset>
-					<div th:each="qu : ${questions}">
-					<p th:value="${qu.id}"  th:text="${qu.text}"> </p>
-					<p> <input type="text" th:name="${qu.id}" required /> </p>
-				</fieldset>
-			</form>
+		<div th:if="${session.user.type != 0} and ${#lists.isEmpty(questions)}">
+			<p>This is embarassing. There appears to be no questions associated with this questionnaire</p>
 		</div>
 	</section>
 	
 	<section>
-		<div th:if="${session.user.type != 0}">
-		<p>Statistical data section (all fields are optional)</p>
+		<div th:if="${session.user.type != 0} and ${not #lists.isEmpty(questions)}">
 			<form action="#" th:action="@{/App/SendQuestionnaire}" method="POST">
-				<fieldset>
+				<fieldset id="mandatory">
+					<p>Marketing section (all fields are required)</p>
+					<div th:each="qu : ${questions}">
+					<p th:value="${qu.id}"  th:text="${qu.text}"> </p>
+					<p> <input type="text" th:name="${qu.id}" required /> </p>
+				</fieldset>
+				<fieldset id="optional" hidden>
 					<p>
 						How old are you? <input type="number" min="1" max="120" name="age"/>
 					</p>
@@ -56,11 +55,49 @@
 						  </select>
 				    </p>
 				</fieldset>
-				<input type="submit" name="SendQuestionnaire" value="Cancel">
-				<input type="submit" name="SendQuestionnaire" value="Submit">
+				<input type="submit" name="SendQuestionnaire" id="SendQuestionnaire" value="Cancel" hidden>
+				<input type="submit" name="SendQuestionnaire" id="CancelQuestionnaire" value="Submit" hidden>
 			</form>
 		</div>
+		<button id="next">Next</button>
+		<button id="previous" hidden>Previous</button>
 	</section>
 
+	<script>
+	$(document).ready(function(){
+		  // When click on next button, the page is updated
+		  $("#next").on("click", function(){
+			// hide the mandatory questions and show the optional ones
+		    $('#mandatory').fadeOut(1000).promise().done(function(){
+		    	$('#optional').fadeIn(1000); 
+		    });
+		    // hide the next button and show the SendQuesttionaire, CancelQuestionnaire and previous button
+		    $('#next').fadeOut(1000).promise().done(function(){
+		    	$('#SendQuestionnaire').fadeIn(1000);
+		    	$('#CancelQuestionnaire').fadeIn(1000);
+		    });
+		    $('#CancelQuestionnaire').fadeIn(1000).promise().done(function(){
+		    	$('#previous').fadeIn(1000);
+		    });
+		  return false;  
+		});
+	});
+	$(document).ready(function(){
+		  // When click on previous button, the page is updated
+		  $("#previous").on("click", function(){
+			// hide the optional questions and show the mandatory ones
+		    $('#optional').fadeOut(1000).promise().done(function(){
+		    	$('#mandatory').fadeIn(1000);
+		    });
+		 // hide the SendQuesttionaire, CancelQuestionnaire and previous buttons and show the next button
+		    $('#CancelQuestionnaire').fadeOut(1000);
+		    $('#SendQuestionnaire').fadeOut(1000);
+		    $('#previous').fadeOut(1000).promise().done(function(){
+		    	$('#next').fadeIn(1000);
+		    });
+		  return false;  
+		});
+	});
+	</script>
 </body>
 </html>

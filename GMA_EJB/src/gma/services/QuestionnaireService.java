@@ -20,18 +20,31 @@ public class QuestionnaireService {
 	public QuestionnaireService() {
 	}
 
-	public List<Question> getQuestionsByQuestionnaire(int id) throws ProductException {
+	//retrieves all questions associated to the given questionnaire
+	public List<Question> getQuestionsByQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
 		List<Question> questions;
-		Questionnaire questionnaire;
 		
 		try {
-			questionnaire = em.createNamedQuery("Questionnaire.findQuestionnaireById", Questionnaire.class)
-					.setParameter(1, id).getResultStream().findFirst().orElse(null);
 			questions = questionnaire.getQuestions();
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new ProductException("No product of the day found!");
+			throw new QuestionnaireException("No questions!");
 		}
 		return questions;
+	}
+
+	
+	//search for a questionnaire with the given date
+	public Questionnaire getQuestionnaireByDate(Date date) throws QuestionnaireException {
+		Questionnaire questionnaire;
+		try {
+			//use of the named query of the entity Questionnaire
+			questionnaire = em.createNamedQuery("Questionnaire.findQuestionnaireByDate", Questionnaire.class)
+					.setParameter(1, date).getResultStream().findFirst().orElse(null);
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new QuestionnaireException("No questionnaire of the day found!");
+		}
+		return questionnaire;
 	}
 }

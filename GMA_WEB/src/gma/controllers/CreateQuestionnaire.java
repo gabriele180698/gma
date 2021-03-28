@@ -69,6 +69,7 @@ import gma.services.QuestionnaireService;
 		protected void SubmitQuestionnaire(HttpServletRequest request, HttpServletResponse response)
 				throws ServletException, IOException {
 			Date date;
+			User user;
 			Date now = new Date(System.currentTimeMillis());
 			String img;
 			// Get data entered by the user
@@ -94,7 +95,7 @@ import gma.services.QuestionnaireService;
 			user = (User) session.getAttribute("user");
 			try {
 				//Call the service to submit the statistics
-				sService.submitStatistics(age, expertise, questionnaire, sex, user);
+				//sService.submitStatistics(age, expertise, questionnaire, sex, user);
 				response.sendRedirect(getServletContext().getContextPath() + Paths.THANKS_PAGE.getPath());
 			} catch (Exception e) {
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
@@ -123,7 +124,7 @@ import gma.services.QuestionnaireService;
 			user = (User) session.getAttribute("user");
 			try {
 				//Call the service to submit the statistics
-				sService.cancelStatistics(questionnaire, user);
+				//sService.cancelStatistics(questionnaire, user);
 				response.sendRedirect(getServletContext().getContextPath() + Paths.USER_HOME_PAGE.getPath());
 			} catch (Exception e) {
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
