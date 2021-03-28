@@ -12,9 +12,8 @@ import javax.persistence.*;
 @Entity
 @Table(name = "user", schema = "gma")
 @NamedQueries({
-@NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2"),
-@NamedQuery(name = "User.findByQuestionnaire", query = "SELECT u FROM User u JOIN u.statistics s "
-		+ "WHERE s.questionnaire = ?1")
+		@NamedQuery(name = "User.checkCredentials", query = "SELECT r FROM User r  WHERE r.username = ?1 and r.password = ?2"),
+		@NamedQuery(name = "User.findByQuestionnaire", query = "SELECT u FROM User u JOIN u.statistics s " + "WHERE s.questionnaire = ?1")
 //@NamedQuery(name = "User.findByQuestionnaireSub", query = "SELECT u FROM User u JOIN u.statistics s "
 //		+ "WHERE s.questionnaire = ?1 and s.status = 0"),
 //@NamedQuery(name = "User.findByQuestionnaireCanc", query = "SELECT u FROM User u JOIN u.statistics s "
@@ -97,7 +96,7 @@ public class User implements Serializable {
 	public void removeStatistics(Statistics statistics) {
 		getStatistics().remove(statistics);
 	}
-	
+
 	public List<Review> getReviews() {
 		return this.reviews;
 	}
