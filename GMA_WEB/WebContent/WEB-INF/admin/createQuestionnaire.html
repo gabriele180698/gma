@@ -1,22 +1,87 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Create Questionnaire</title>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../CSS/style.css" th:href="@{/css/style.css}" />
+<title>Questionnaire</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
-	<section>
+ 	<section>
 		<div>
-			<div align="right">
-			    <a th:href="@{/Admin/Home}">Home</a> 
-				<a th:href="@{/Admin/CreateQuestionnaire}">Create Questionnaire</a> 
-				<a th:href="@{/Admin/Leaderboard}">Leaderboard</a> 
-				<a th:href="@{/App/Logout}">Logout</a>
-			</div>
-			<h1>Welcome admin!</h1>
+			<h1>Create your Questionnaire!</h1>
 		</div>
 	</section>
+	<section>
+		<div>
+			<form action="#" th:action="@{/App/CreateQuestionnaire}" method="POST">
+				<fieldset id="mandatory">
+					<p>Marketing section (all fields are required)</p>
+					<div th:each="qu : ${questions}">
+					<p th:value="${qu.id}"  th:text="${qu.text}"> </p>
+					<p> <input type="text" th:name="${qu.id}" required /> </p>
+				</fieldset>
+				<fieldset id="optional" hidden>
+					<p>
+						How old are you? <input type="number" min="1" max="120" name="age"/>
+					</p>
+					<p>Sex <select name="sex">
+						    <option value="0">--Please choose an option--</option>
+						    <option value="1">Female</option>
+						    <option value="2">Male</option>
+						    <option value="3">Other</option>
+						  </select>
+				    </p>
+					<p> Expertise level <select name="expertise">
+						    <option value="0">--Please choose an option--</option>
+						    <option value="1">Low</option>
+						    <option value="2">Medium</option>
+						    <option value="3">High</option>
+						  </select>
+				    </p>
+				</fieldset>
+				<input type="submit" name="SendQuestionnaire" id="SendQuestionnaire" value="Cancel" hidden>
+				<input type="submit" name="SendQuestionnaire" id="CancelQuestionnaire" value="Submit" hidden>
+			</form>
+		</div>
+		<button id="next">Next</button>
+		<button id="previous" hidden>Previous</button>
+	</section>
+
+	<script>
+	$(document).ready(function(){
+		  // When click on next button, the page is updated
+		  $("#next").on("click", function(){
+			// hide the mandatory questions and show the optional ones
+		    $('#mandatory').fadeOut(1000).promise().done(function(){
+		    	$('#optional').fadeIn(1000); 
+		    });
+		    // hide the next button and show the SendQuesttionaire, CancelQuestionnaire and previous button
+		    $('#next').fadeOut(1000).promise().done(function(){
+		    	$('#SendQuestionnaire').fadeIn(1000);
+		    	$('#CancelQuestionnaire').fadeIn(1000);
+		    });
+		    $('#CancelQuestionnaire').fadeIn(1000).promise().done(function(){
+		    	$('#previous').fadeIn(1000);
+		    });
+		  return false;  
+		});
+	});
+	$(document).ready(function(){
+		  // When click on previous button, the page is updated
+		  $("#previous").on("click", function(){
+			// hide the optional questions and show the mandatory ones
+		    $('#optional').fadeOut(1000).promise().done(function(){
+		    	$('#mandatory').fadeIn(1000);
+		    });
+		 // hide the SendQuesttionaire, CancelQuestionnaire and previous buttons and show the next button
+		    $('#CancelQuestionnaire').fadeOut(1000);
+		    $('#SendQuestionnaire').fadeOut(1000);
+		    $('#previous').fadeOut(1000).promise().done(function(){
+		    	$('#next').fadeIn(1000);
+		    });
+		  return false;  
+		});
+	});
+	</script>
 </body>
 </html>
