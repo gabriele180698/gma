@@ -18,10 +18,12 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import gma.entities.Questionnaire;
+import gma.entities.Statistics;
 import gma.entities.User;
 import gma.objects.Paths;
 import gma.services.StatisticsService;
@@ -76,6 +78,7 @@ public class SendQuestionnaire extends HttpServlet {
 		Date date;
 		Integer idQuestion;
 		Questionnaire questionnaire;
+		Statistics statistics;
 		User user;
 		List<Integer> questionsIdList;
 		String answer;
@@ -107,7 +110,20 @@ public class SendQuestionnaire extends HttpServlet {
 			return;
 		}
 		
-		
+	    //Check if the user has already submitted a questionnaire for the given product
+	    try {
+	    	statistics = sService.existingStatistics(user.getId(), questionnaire.getId());
+	    	if(statistics != null) {
+	    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+						"Ops! There appears that you have already submitted a questionnaire for this product");
+	    		return;
+	    	}
+		} catch (Exception e) {
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+					"Ops! Something went wrong during the check of the old statistics");
+			return;
+		}
+	    
 	    //Get the mandatory answers
 		try {
 			for (int i = 0; i < questionsIdList.size(); i++) {
@@ -117,7 +133,6 @@ public class SendQuestionnaire extends HttpServlet {
 				//Put all pairs (idQuestion,Answer) in an map table
 				map.put(idQuestion, answer);
 			}
-			aService.submitAnswers(map, user); //Submit the answers
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
@@ -147,11 +162,15 @@ public class SendQuestionnaire extends HttpServlet {
 				}
 		}
 		
-		//Call the service to submit the statistics
+		//Call the service to submit the statistics and the answers
 		try {
-			sService.submitStatistics(age, expertise, questionnaire, sex, user);
+			aService.submitAnswers(map, user); //Submit the answers
+			sService.submitStatistics(age, expertise, questionnaire, sex, user, questionsIdList.size()); //Submit the statistics
 			response.sendRedirect(getServletContext().getContextPath() + Paths.THANKS_PAGE.getPath());
+			
 		} catch (Exception e) {
+			aService.deleteAnswers(questionsIdList, user.getId());
+			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
 					"Ops! Something went wrong during the submission of the personal data phase");
 			return;
@@ -188,12 +207,13 @@ public class SendQuestionnaire extends HttpServlet {
 		try {
 			//Call the service to submit the statistics
 			sService.cancelStatistics(questionnaire, user);
-			response.sendRedirect(getServletContext().getContextPath() + Paths.USER_HOME_PAGE.getPath());
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
 					"Ops! Something went wrong during the cancellation phase");
 			return;
 		}
+		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
+		templateEngine.process(Paths.THANKS_PAGE.getPath(), ctx, response.getWriter());
 	}
 
 	

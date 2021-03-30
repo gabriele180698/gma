@@ -31,10 +31,10 @@
 		<div th:if="${session.user.type != 0} and ${not #lists.isEmpty(questions)}">
 			<form action="#" th:action="@{/App/SendQuestionnaire}" method="POST">
 				<fieldset id="mandatory">
-					<p>Marketing section (all fields are required)</p>
+					<p id="#description">Marketing section (all fields are required)</p>
 					<div th:each="qu : ${questions}">
 					<p th:value="${qu.id}"  th:text="${qu.text}"> </p>
-					<p> <input type="text" th:name="${qu.id}" required /> </p>
+					<p id="mand"> <input type="text" th:name="${qu.id}"/> </p>
 				</fieldset>
 				<fieldset id="optional" hidden>
 					<p>
@@ -55,8 +55,8 @@
 						  </select>
 				    </p>
 				</fieldset>
-				<input type="submit" name="SendQuestionnaire" id="SendQuestionnaire" value="Cancel" hidden>
-				<input type="submit" name="SendQuestionnaire" id="CancelQuestionnaire" value="Submit" hidden>
+				<input type="submit" name="SendQuestionnaire" id="SendQuestionnaire" value="Submit" hidden>
+				<input type="submit" name="SendQuestionnaire" id="CancelQuestionnaire" value="Cancel" hidden>
 			</form>
 		</div>
 		<button id="next">Next</button>
@@ -67,16 +67,25 @@
 	$(document).ready(function(){
 		  // When click on next button, the page is updated
 		  $("#next").on("click", function(){
+			  //Check if soe fields are empty
+			  var formInvalid = false;
+			  $('#mand').children(':text').each(function() {
+			    if ($(this).val() === '') {
+			      formInvalid = true;
+			    }
+			  });
+			  if (formInvalid){
+			    alert('One or Two fields are empty. Please fill up all fields');
+			    return;
+			  }
 			// hide the mandatory questions and show the optional ones
 		    $('#mandatory').fadeOut(1000).promise().done(function(){
 		    	$('#optional').fadeIn(1000); 
 		    });
 		    // hide the next button and show the SendQuesttionaire, CancelQuestionnaire and previous button
 		    $('#next').fadeOut(1000).promise().done(function(){
-		    	$('#SendQuestionnaire').fadeIn(1000);
 		    	$('#CancelQuestionnaire').fadeIn(1000);
-		    });
-		    $('#CancelQuestionnaire').fadeIn(1000).promise().done(function(){
+		    	$('#SendQuestionnaire').fadeIn(1000);
 		    	$('#previous').fadeIn(1000);
 		    });
 		  return false;  
