@@ -13,12 +13,18 @@
 	</section>
 	<section>
 		<div>
-			<form action="#" th:action="@{/App/CreateQuestionnaire}" method="POST">
+			<form action="#" th:action="@{/App/InsertQuestionnaire}" method="POST">
 				<fieldset id="mandatory">
-					<p>Marketing section (all fields are required)</p>
-					<div th:each="qu : ${questions}">
-					<p th:value="${qu.id}"  th:text="${qu.text}"> </p>
-					<p> <input type="text" th:name="${qu.id}" required /> </p>
+					<p>
+						Image Name: <input type="text" id="Name" name="pictureName">
+					</p>
+					<p>
+						Full image: <input type="file" id="photoFile" name="picture">
+					</p>
+					
+					<p>
+						Inser Data(Questionnaires will be accepted only for today at a time after now)<input type="datetime-local" id="questionnareTime" name="time">
+					</p>
 				</fieldset>
 				<fieldset id="optional" hidden>
 					<p>
