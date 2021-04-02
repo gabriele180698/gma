@@ -2,14 +2,22 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<title>Thanks!</title>
 <link rel="stylesheet" type="text/css" media="all"
 	href="../CSS/style.css" th:href="@{/css/style.css}" />
 </head>
 <body>
 	<section>
 		<div align="right">
-			<a>Thanks for collaboration!</a>
+		    <a th:href="@{/App/Home}">Home</a> 
+			<a th:href="@{/App/Questionnaire}">Questionnaire</a> 
+			<a th:href="@{/App/Leaderboard}">Leaderboard</a> 
+			<a th:href="@{/App/Logout}">Logout</a>
+		</div>
+	</section>
+	<section>
+		<div align="center">
+			<a>Thanks for the collaboration!</a>
 		</div>
 	</section>
 </body>

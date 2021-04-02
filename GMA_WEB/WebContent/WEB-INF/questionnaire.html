@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>Questionnaire</title>
@@ -27,8 +27,8 @@
 		</div>
 	</section>
 	
-	<section>
-		<div th:if="${session.user.type != 0} and ${not #lists.isEmpty(questions)}">
+	<section th:if="${session.user.type != 0} and ${not #lists.isEmpty(questions)}">
+		<div>
 			<form action="#" th:action="@{/App/SendQuestionnaire}" method="POST">
 				<fieldset id="mandatory">
 					<p id="#description">Marketing section (all fields are required)</p>

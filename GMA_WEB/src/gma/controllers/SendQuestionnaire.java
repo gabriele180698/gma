@@ -206,7 +206,8 @@ public class SendQuestionnaire extends HttpServlet {
 		try {
 			aService.submitAnswers(map, user); //Submit the answers
 			sService.submitStatistics(age, expertise, questionnaire, sex, user, questionsIdList.size()); //Submit the statistics
-			response.sendRedirect(getServletContext().getContextPath() + Paths.THANKS_PAGE.getPath());
+			final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
+			templateEngine.process(Paths.THANKS_PAGE.getPath(), ctx, response.getWriter());
 			
 		} catch (Exception e) {
 			aService.deleteAnswers(questionsIdList, user.getId());
@@ -232,7 +233,7 @@ public class SendQuestionnaire extends HttpServlet {
 		// (not mandatory, it is a coherence check)
 	    date = new Date(System.currentTimeMillis());
 	    try {
-	    	if(questionnaire!=qService.getQuestionnaireByDate(date)) {
+	    	if(questionnaire.getId()!=qService.getQuestionnaireByDate(date).getId()) {
 	    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
 						"Ops! There appears that the questionnaire is not the right one");
 	    		return;
@@ -254,7 +255,7 @@ public class SendQuestionnaire extends HttpServlet {
 			return;
 		}
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-		templateEngine.process(Paths.THANKS_PAGE.getPath(), ctx, response.getWriter());
+		templateEngine.process(Paths.USER_HOME_PAGE.getPath(), ctx, response.getWriter());
 	}
 
 	
