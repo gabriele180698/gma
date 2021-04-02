@@ -41,4 +41,13 @@ public class UserService {
 			throw new AccessException("Access not insert correctly!");
 		}
 	}
+	
+	public void banUser(User user) throws AccessException {
+		try {
+			user.setType(0);
+			em.merge(user);
+		} catch (PersistenceException e) {
+			throw new AccessException("Error during the ban phase!");
+		}
+	}
 }

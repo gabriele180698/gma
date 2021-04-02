@@ -22,12 +22,15 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import gma.entities.Blacklist;
 import gma.entities.Questionnaire;
 import gma.entities.Statistics;
 import gma.entities.User;
 import gma.objects.Paths;
 import gma.services.StatisticsService;
+import gma.services.UserService;
 import gma.services.AnswerService;
+import gma.services.BlacklistService;
 import gma.services.QuestionService;
 import gma.services.QuestionnaireService;
 
@@ -42,6 +45,10 @@ public class SendQuestionnaire extends HttpServlet {
 	private AnswerService aService;
 	@EJB(name = "gma.services/QuestionService")
 	private QuestionnaireService qService;
+	@EJB(name = "gma.services/BlacklistService")
+	private BlacklistService bService;
+	@EJB(name = "gma.services/UserService")
+	private UserService uService;
 
 	public SendQuestionnaire() {
 		super();
@@ -81,8 +88,11 @@ public class SendQuestionnaire extends HttpServlet {
 		Statistics statistics;
 		User user;
 		List<Integer> questionsIdList;
+		Blacklist offensive;
 		String answer;
+		String answersConcatenation;
 		Map<Integer, String> map = new HashMap<Integer, String>();
+		StringBuilder sb = new StringBuilder();
 		
 		HttpSession session = request.getSession();
 		
@@ -132,12 +142,15 @@ public class SendQuestionnaire extends HttpServlet {
 				answer = StringEscapeUtils.escapeJava(request.getParameter(idQuestion.toString()));
 				//Put all pairs (idQuestion,Answer) in an map table
 				map.put(idQuestion, answer);
+				sb.append(answer);
+				sb.append(" ");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
 			return;
 		}
+		answersConcatenation = sb.toString();
 		
 		// Get personal data entered by the user
 		try {
@@ -162,6 +175,33 @@ public class SendQuestionnaire extends HttpServlet {
 				}
 		}
 		
+		//Call the service to check the presence of offensive words
+		try {
+			offensive = bService.searchOffensiveWord(answersConcatenation); //Check the answers
+		} catch (Exception e) {
+			aService.deleteAnswers(questionsIdList, user.getId());
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+					"Ops! Something went wrong during the checking of the presence of offensive words");
+			return;
+		}
+		if(offensive!=null) {
+			try {
+				//Ban the user
+				uService.banUser(user);
+			} catch (Exception e) {
+				e.printStackTrace();
+				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+						"Ops! Something went wrong during the ban operation");
+				return;
+			}
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+					"Ops! CALL DECARO PORCO DIO. Mo' Proprrrrjjjj. Ah, right: now you are banned, bitch");
+			return;
+		}
+		System.out.print(offensive);
+		System.out.print(answersConcatenation);
+
 		//Call the service to submit the statistics and the answers
 		try {
 			aService.submitAnswers(map, user); //Submit the answers
@@ -195,6 +235,7 @@ public class SendQuestionnaire extends HttpServlet {
 	    	if(questionnaire!=qService.getQuestionnaireByDate(date)) {
 	    		response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
 						"Ops! There appears that the questionnaire is not the right one");
+	    		return;
 	    	}
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
