@@ -51,7 +51,7 @@ import gma.objects.Paths;
 
 			// Redirect to the Home page and add missions to the parameters
 			final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-			templateEngine.process(Paths.CREATE_QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());
+			templateEngine.process(Paths.ADMIN_CREATE_QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());
 		}
 
 		protected void doPost(HttpServletRequest request, HttpServletResponse response)

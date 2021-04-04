@@ -21,46 +21,47 @@ public class AnswerService {
 
 	public AnswerService() {
 	}
-	
-	//store in the database all the answers given in input
+
+	// store in the database all the answers given in input
 	public void submitAnswers(Map<Integer, String> map, User user) throws AnswerException {
 		Question question;
 		List<Answer> answers = new ArrayList<Answer>();
-		
+
 		try {
-			//loop in the map table in input and containing the pairs (idQuestion,answer)		
+			// loop in the map table in input and containing the pairs (idQuestion,answer)
 			for (Map.Entry<Integer, String> entry : map.entrySet()) {
 				Answer answer = new Answer();
-				//get the question associated to the Id
-				question = em.createNamedQuery("Question.findQuestionById", Question.class).setParameter(1, entry.getKey())
-						.getResultStream().findFirst().orElse(null);
+				// get the question associated to the Id
+				question = em.createNamedQuery("Question.findQuestionById", Question.class)
+						.setParameter(1, entry.getKey()).getResultStream().findFirst().orElse(null);
 				answer.setQuestion(question);
 				answer.setUser(user);
 				answer.setText(entry.getValue());
 				answers.add(answer);
-		    }
+			}
 			for (int i = 0; i < answers.size(); i++) {
-				em.persist(answers.get(i)); // very, very, very ugly but nothing works without change the policy for transactions
+				em.persist(answers.get(i)); // very, very, very ugly but nothing works without change the policy for
+											// transactions
 			}
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw new AnswerException("Something went wrong during the submission of the mandatory answers");
 		}
 	}
-	
-	//store in the database all the answers given in input
-		public void deleteAnswers(List<Integer> idQuestion, int idUser) {
-			Answer answer;
-			//loop to delete all answers
-			for (int i = 0; i < idQuestion.size(); i++) {
-				answer = em.createNamedQuery("Answer.findAnswerByIdAndUser", Answer.class)
-						.setParameter(1, idQuestion.get(i)).setParameter(2, idUser).getResultStream().findFirst().orElse(null);
-				if(answer!=null) {
-					em.remove(answer);
-				}
-			}
-			em.flush();
-			em.clear();
-		}
-}
 
+	// store in the database all the answers given in input
+	public void deleteAnswers(List<Integer> idQuestion, int idUser) {
+		Answer answer;
+		// loop to delete all answers
+		for (int i = 0; i < idQuestion.size(); i++) {
+			answer = em.createNamedQuery("Answer.findAnswerByIdAndUser", Answer.class)
+					.setParameter(1, idQuestion.get(i)).setParameter(2, idUser).getResultStream().findFirst()
+					.orElse(null);
+			if (answer != null) {
+				em.remove(answer);
+			}
+		}
+		em.flush();
+		em.clear();
+	}
+}

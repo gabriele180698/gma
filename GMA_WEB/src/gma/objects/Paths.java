@@ -1,10 +1,15 @@
 package gma.objects;
 
 public enum Paths {
-	INDEX_PAGE("/index.html"), USER_HOME_PAGE("/WEB-INF/home.html"), ADMIN_HOME_PAGE("/WEB-INF/admin/adminPanel.html"), QUESTIONNAIRE_PAGE("/WEB-INF/questionnaire.html"),
-	LEADERBOARD_PAGE("/WEB-INF/leaderboard.html"), THANKS_PAGE("/WEB-INF/thanks.html"), ADMIN_HOME("/Admin/Home"), USER_HOME("/App/Home"), CREATE_QUESTIONNAIRE_PAGE("/WEB-INF/admin/createQuestionnaire.html");
+	INDEX_PAGE("/index.html"), USER_HOME_PAGE("/WEB-INF/home.html"), ADMIN_HOME_PAGE("/WEB-INF/admin/adminPanel.html"),
+	QUESTIONNAIRE_PAGE("/WEB-INF/questionnaire.html"), LEADERBOARD_PAGE("/WEB-INF/leaderboard.html"),
+	THANKS_PAGE("/WEB-INF/thanks.html"), ADMIN_HOME("/Admin/Home"), USER_HOME("/App/Home"),
+	ADMIN_CREATE_QUESTIONNAIRE_PAGE("/WEB-INF/admin/createQuestionnaire.html"),
+	ADMIN_DELETE_QUESTIONNAIRE("/Admin/DeleteQuestionnaire"),
+	ADMIN_DELETE_QUESTIONNAIRE_PAGE("/WEB-INF/admin/deleteQuestionnaire.html");
+
 	private final String path;
-	
+
 	Paths(String path) {
 		this.path = path;
 	}

@@ -54,14 +54,6 @@ public class SendQuestionnaire extends HttpServlet {
 		super();
 	}
 
-	public void init() throws ServletException {
-		ServletContext servletContext = getServletContext();
-		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
-		templateResolver.setTemplateMode(TemplateMode.HTML);
-		this.templateEngine = new TemplateEngine();
-		this.templateEngine.setTemplateResolver(templateResolver);
-		templateResolver.setSuffix(".html");
-	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -256,9 +248,5 @@ public class SendQuestionnaire extends HttpServlet {
 		}
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		templateEngine.process(Paths.USER_HOME_PAGE.getPath(), ctx, response.getWriter());
-	}
-
-	
-	public void destroy() {
 	}
 }

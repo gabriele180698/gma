@@ -95,7 +95,4 @@ public class CheckLogin extends HttpServlet {
 		}
 
 	}
-
-	public void destroy() {
-	}
 }

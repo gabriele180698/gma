@@ -41,7 +41,7 @@
 		<div th:if="${reviews != null}">
 			<div th:each="r : ${reviews}">
 				<span>Reviews of the product</span>
-				<p th:text="'Username: ' + ${(r.user.username}"></p>
+				<p th:text="'Username: ' + ${r.user.username}"></p>
 				<p th:text="'${r.text}"> </p>
 			</div>	
 		</div>
