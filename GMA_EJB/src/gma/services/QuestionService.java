@@ -36,4 +36,9 @@ public class QuestionService {
 		}
 		return questionsId;
 	}
+	public void createQuestion(String text, Questionnaire questionnaire) {
+		Question q = new Question();
+		q.setText(text);
+		q.setQuestionnaire(questionnaire);
+	}
 }

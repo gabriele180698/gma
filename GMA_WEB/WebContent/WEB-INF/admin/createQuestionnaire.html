@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
 <title>Questionnaire</title>
@@ -25,25 +25,18 @@
 					<p>
 						Inser Data(Questionnaires will be accepted only for today at a time after now)<input type="datetime-local" id="questionnareTime" name="time">
 					</p>
-				</fieldset>
-				<fieldset id="optional" hidden>
-					<p>
-						How old are you? <input type="number" min="1" max="120" name="age"/>
-					</p>
-					<p>Sex <select name="sex">
-						    <option value="0">--Please choose an option--</option>
-						    <option value="1">Female</option>
-						    <option value="2">Male</option>
-						    <option value="3">Other</option>
-						  </select>
-				    </p>
-					<p> Expertise level <select name="expertise">
-						    <option value="0">--Please choose an option--</option>
-						    <option value="1">Low</option>
-						    <option value="2">Medium</option>
-						    <option value="3">High</option>
-						  </select>
-				    </p>
+					<script>
+						var couter = 0;
+						var isFinished = false;
+						var partialName = "Q";
+						var name;
+						do{
+							name = partialName + counter;
+							
+						}while(isFinished)
+						
+					</script>
+					<input type="hidden" id="couter" name="counter" value="3487">
 				</fieldset>
 				<input type="submit" name="SendQuestionnaire" id="SendQuestionnaire" value="Cancel" hidden>
 				<input type="submit" name="SendQuestionnaire" id="CancelQuestionnaire" value="Submit" hidden>
