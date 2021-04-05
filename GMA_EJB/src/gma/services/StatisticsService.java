@@ -21,46 +21,45 @@ public class StatisticsService {
 	public StatisticsService() {
 	}
 
-	public void submitStatistics(int age, int expertise, Questionnaire questionnaire, int sex, User user, 
-			int score) throws StatisticsException {
+	public void submitStatistics(int age, int expertise, Questionnaire questionnaire, int sex, User user, int score)
+			throws StatisticsException {
 		Statistics stat = new Statistics();
 
 		try {
-		//If age is not given, the points are not assigned
-		if(age!=0) {
-			score += 2;
-		}
-		stat.setAge(age);
+			// If age is not given, the points are not assigned
+			if (age != 0) {
+				score += 2;
+			}
+			stat.setAge(age);
 
-		// Expertise level: 0 = no info; 1 = low; 2 = medium; 3 = high;
-		if(expertise!=0) {
-			score += 2;
-			stat.setExpertise(expertise);
-		}
-		
-		// Status = 0 = cancelled; 1 = submitted
-		stat.setStatus(1);
-		
-		// Sex: 0 = no info; 1 = female; 2 = male; 3 = other;
-		if(sex!=0) {
-			score += 2;
-			stat.setSex(sex);
-		}
-		
-		stat.setScore(score);
-		stat.setQuestionnaire(questionnaire);
-		stat.setUser(user);
-		em.persist(stat);
+			// Expertise level: 0 = no info; 1 = low; 2 = medium; 3 = high;
+			if (expertise != 0) {
+				score += 2;
+				stat.setExpertise(expertise);
+			}
+
+			// Status = 0 = cancelled; 1 = submitted
+			stat.setStatus(1);
+
+			// Sex: 0 = no info; 1 = female; 2 = male; 3 = other;
+			if (sex != 0) {
+				score += 2;
+				stat.setSex(sex);
+			}
+
+			stat.setScore(score);
+			stat.setQuestionnaire(questionnaire);
+			stat.setUser(user);
+			em.persist(stat);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw new StatisticsException("Something went wrong during the cancellation of the statistics");
 		}
 	}
-	
-	
+
 	public void cancelStatistics(Questionnaire questionnaire, User user) throws StatisticsException {
 		Statistics stat = new Statistics();
-		
+
 		try {
 			// Status = 0 = cancelled; 1 = submitted
 			stat.setStatus(0);
@@ -72,18 +71,20 @@ public class StatisticsService {
 			throw new StatisticsException("Something went wrong during the cancellation of the statistics");
 		}
 	}
-	
-	public Statistics existingStatistics(int idUser, int idQuestionnaire) throws StatisticsException{
+
+	public Statistics existingStatistics(int idUser, int idQuestionnaire) throws StatisticsException {
 		Statistics statistics;
-		
+
 		try {
-		//Check if a submitted statistic exists
-		statistics = em.createNamedQuery("Statistics.findExistingStatistics", Statistics.class)
-				.setParameter(1, idUser).setParameter(2, idQuestionnaire).getResultStream().findFirst().orElse(null);
-		}  catch (PersistenceException e) {
+			// Check if a submitted statistic exists
+			statistics = em.createNamedQuery("Statistics.findExistingStatistics", Statistics.class)
+					.setParameter(1, idUser).setParameter(2, idQuestionnaire).getResultStream().findFirst()
+					.orElse(null);
+		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw new StatisticsException("Something went wrong during the cancellation of the statistics");
 		}
 		return statistics;
 	}
+
 }

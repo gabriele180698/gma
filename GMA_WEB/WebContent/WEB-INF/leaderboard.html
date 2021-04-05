@@ -19,6 +19,7 @@
 	</section>
 
 	<section>
+	<p>Leaderboard of the day!<p>
 		<table>
 			<thead>
 				<tr>
@@ -28,10 +29,10 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:each="r : ${rowsLeaderboard}">
-					<td th:text="${r.position}"></td>
-					<td th:text="${r.username}"></td>
-					<td th:text="${r.points}"></td>
+				<tr th:each="s : ${#lists.sort(statistics, points)} ${}">
+					<td th:text="${s.index + 1}"></td>
+					<td th:text="${s.user.username}"></td>
+					<td th:text="${s.points}"></td>
 				</tr>
 			</tbody>
 		</table>

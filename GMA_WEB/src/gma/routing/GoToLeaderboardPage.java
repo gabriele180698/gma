@@ -1,6 +1,7 @@
 package gma.routing;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -19,16 +20,17 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import gma.services.*;
 import gma.entities.*;
+import gma.exceptions.QuestionnaireException;
 import gma.objects.Paths;
 
 @WebServlet("/App/Leaderboard")
 public class GoToLeaderboardPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	/*@EJB(name = "it.polimi.db2.mission.services/MissionService")
-	private MissionService mService;
-	@EJB(name = "it.polimi.db2.mission.services/ProjectService")
-	private ProjectService pService;*/
+	@EJB(name = "gma.services/StatisticsService")
+	private StatisticsService sService;
+	@EJB(name = "gma.services/QuestionnaireService.java")
+	private QuestionnaireService qService;
 
 	public GoToLeaderboardPage() {
 		super();
@@ -45,11 +47,23 @@ public class GoToLeaderboardPage extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//Get the user
-		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
+		Questionnaire questionnaire;
+
+		// Get the current date
+		Date date = new Date(System.currentTimeMillis());
+
+		try {
+			questionnaire = qService.getQuestionnaireByDate(date);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+					"Ops! Something went wrong during the access to the questionnaire");
+			return;
+		}
+
 		// Redirect to the Home page and add missions to the parameters
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
+		ctx.setVariable("statistics", questionnaire.getStatistics());
 		templateEngine.process(Paths.LEADERBOARD_PAGE.getPath(), ctx, response.getWriter());
 	}
 
