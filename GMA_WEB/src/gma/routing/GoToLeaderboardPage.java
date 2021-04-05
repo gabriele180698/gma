@@ -1,6 +1,8 @@
 package gma.routing;
 
 import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
@@ -22,6 +24,7 @@ import gma.services.*;
 import gma.entities.*;
 import gma.exceptions.QuestionnaireException;
 import gma.objects.Paths;
+import gma.objects.ScoreComparator;
 
 @WebServlet("/App/Leaderboard")
 public class GoToLeaderboardPage extends HttpServlet {
@@ -60,10 +63,13 @@ public class GoToLeaderboardPage extends HttpServlet {
 					"Ops! Something went wrong during the access to the questionnaire");
 			return;
 		}
-
+		
+		List<Statistics> statistics = questionnaire.getStatistics();
+		Collections.sort(statistics, new ScoreComparator().reversed());
+		
 		// Redirect to the Home page and add missions to the parameters
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-		ctx.setVariable("statistics", questionnaire.getStatistics());
+		ctx.setVariable("statistics", statistics);
 		templateEngine.process(Paths.LEADERBOARD_PAGE.getPath(), ctx, response.getWriter());
 	}
 

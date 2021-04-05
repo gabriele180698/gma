@@ -39,6 +39,7 @@ import gma.services.QuestionnaireService;
 
 public class InsertQuestionnaire extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private TemplateEngine templateEngine;
 	@EJB(name = "gma.services/QuestionnaireService")
 	private QuestionnaireService qService;
 	@EJB(name = "gma.services/ProductService")
@@ -48,6 +49,16 @@ public class InsertQuestionnaire extends HttpServlet {
 		super();
 	}
 
+	
+	public void init() throws ServletException {
+		ServletContext servletContext = getServletContext();
+		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
+		templateResolver.setTemplateMode(TemplateMode.HTML);
+		this.templateEngine = new TemplateEngine();
+		this.templateEngine.setTemplateResolver(templateResolver);
+		templateResolver.setSuffix(".html");
+	}
+	
 	private boolean isToday(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date(System.currentTimeMillis());

@@ -25,7 +25,7 @@ import gma.objects.Paths;
 public class GoToHome extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	@EJB(name = "gma.services/ProductService")
+	@EJB(name = "gma.services/ProductService.java")
 	private ProductService pService;
 
 	public GoToHome() {
