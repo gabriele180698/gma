@@ -13,7 +13,7 @@
 	</section>
 	<section>
 		<div>
-			<form action="#" th:action="@{/App/InsertQuestionnaire}" method="POST">
+			<form action="#" th:action="@{/Admin/InsertQuestionnaire}" method="POST">
 				<fieldset id="mandatory">
 					<p>
 						Image Name: <input type="text" id="Name" name="pictureName">
@@ -25,22 +25,20 @@
 					<p>
 						Inser Data(Questionnaires will be accepted only for today at a time after now)<input type="datetime-local" id="questionnareTime" name="time">
 					</p>
-					<p>
-						Insert New Question <input type="text" id="question">
-					</p>
+					
 					<p>
 					 	List of created questions <ul id="questionList"></ul>
-				    </p> 
-					<button id="add">Add</button>
-					<button id="newQuestion">Create new question</button>
+				    </p>
+				    <p>
+						Insert New Question <input type="text" id="question">
+					</p>
+					<button type="button" id="add">Add</button>
 					<script>
 						var counter = 0;
-						var isFinished = false;
 						var partialName = "Q";
 						var name;
 						var add = document.getElementById('add');
 						var newQuestion = document.getElementById('newQuestion');
-						do{
 							name = partialName + counter;
 							document.getElementById("question").name = name;
 							add.onclick = function(){
@@ -49,61 +47,17 @@
 								node.appendChild(textnode);
 								document.getElementById("questionList").appendChild(node);
 								counter ++;
+								document.getElementById("counter").value = counter;
 								name = partialName + counter;
 								document.getElementById("question").name = name;
 								document.getElementById("question").value = "";
-							}
-						
-							
-							
-						}while(isFinished)
-						
+							}	
 					</script>
-					<input type="hidden" id="couter" name="counter" value="3487">
+					<input type="hidden" id="counter" name="counter">
 				</fieldset>
-				<input type="submit" name="SendQuestionnaire" id="SendQuestionnaire" value="Cancel" hidden>
-				<input type="submit" name="SendQuestionnaire" id="CancelQuestionnaire" value="Submit" hidden>
+				<input type="submit" name="SendQuestionnaire" id="SendQuestionnaire" value="Submit">
 			</form>
 		</div>
-		<button id="next">Next</button>
-		<button id="previous" hidden>Previous</button>
 	</section>
-
-	<script>
-	$(document).ready(function(){
-		  // When click on next button, the page is updated
-		  $("#next").on("click", function(){
-			// hide the mandatory questions and show the optional ones
-		    $('#mandatory').fadeOut(1000).promise().done(function(){
-		    	$('#optional').fadeIn(1000); 
-		    });
-		    // hide the next button and show the SendQuesttionaire, CancelQuestionnaire and previous button
-		    $('#next').fadeOut(1000).promise().done(function(){
-		    	$('#SendQuestionnaire').fadeIn(1000);
-		    	$('#CancelQuestionnaire').fadeIn(1000);
-		    });
-		    $('#CancelQuestionnaire').fadeIn(1000).promise().done(function(){
-		    	$('#previous').fadeIn(1000);
-		    });
-		  return false;  
-		});
-	});
-	$(document).ready(function(){
-		  // When click on previous button, the page is updated
-		  $("#previous").on("click", function(){
-			// hide the optional questions and show the mandatory ones
-		    $('#optional').fadeOut(1000).promise().done(function(){
-		    	$('#mandatory').fadeIn(1000);
-		    });
-		 // hide the SendQuesttionaire, CancelQuestionnaire and previous buttons and show the next button
-		    $('#CancelQuestionnaire').fadeOut(1000);
-		    $('#SendQuestionnaire').fadeOut(1000);
-		    $('#previous').fadeOut(1000).promise().done(function(){
-		    	$('#next').fadeIn(1000);
-		    });
-		  return false;  
-		});
-	});
-	</script>
 </body>
 </html>
