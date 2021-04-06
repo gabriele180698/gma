@@ -19,19 +19,42 @@
 						Image Name: <input type="text" id="Name" name="pictureName">
 					</p>
 					<p>
-						Full image: <input type="file" id="photoFile" name="picture">
+						Full Image: <input type="file" id="photoFile" name="picture">
 					</p>
 					
 					<p>
 						Inser Data(Questionnaires will be accepted only for today at a time after now)<input type="datetime-local" id="questionnareTime" name="time">
 					</p>
+					<p>
+						Insert New Question <input type="text" id="question">
+					</p>
+					<p>
+					 	List of created questions <ul id="questionList"></ul>
+				    </p> 
+					<button id="add">Add</button>
+					<button id="newQuestion">Create new question</button>
 					<script>
-						var couter = 0;
+						var counter = 0;
 						var isFinished = false;
 						var partialName = "Q";
 						var name;
+						var add = document.getElementById('add');
+						var newQuestion = document.getElementById('newQuestion');
 						do{
 							name = partialName + counter;
+							document.getElementById("question").name = name;
+							add.onclick = function(){
+								var node = document.createElement("LI");                 
+								var textnode = document.createTextNode(document.getElementById("question").value);         
+								node.appendChild(textnode);
+								document.getElementById("questionList").appendChild(node);
+								counter ++;
+								name = partialName + counter;
+								document.getElementById("question").name = name;
+								document.getElementById("question").value = "";
+							}
+						
+							
 							
 						}while(isFinished)
 						
