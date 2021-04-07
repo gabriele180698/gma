@@ -26,28 +26,118 @@
 						Insert Data(Questionnaires will be accepted only for today at a time after now)<input type="datetime-local" id="questionnareTime" name="time">
 					</p>
 				    <p id="questions">
-				    	Questions List <br>
+				    	Questions List <br> Question No:
 					</p>
 					<button type="button" id="add">New Question</button>
 					<script>
 						var counter = 0;
-						var partialName = "Q";
-						var name;
 						var add = document.getElementById('add');
 						var newQuestion = document.getElementById('newQuestion');
 						add.onclick = function(){
 							document.getElementById("counter").value = counter;
-							name = partialName + counter;
 							var q = document.createElement("INPUT"); 
 							var p = document.createElement("P");
-							p.innerText = "Question" + counter + "  ";
+							var b = document.createElement("BUTTON");
+							p.innerText = counter + "       ";
+							p.setAttribute("name", counter);
 							q.setAttribute("type", "text");
-							q.setAttribute("name", name);
+							q.setAttribute("name", counter);
 							q.setAttribute("id", "question");
+							b.setAttribute("type", "button");
+							b.setAttribute("id", counter);
+							b.setAttribute("name", "deleteButton[]");
+							b.innerText = "Delete";
 							p.appendChild(q);
+							p.appendChild(b);
 							document.getElementById("questions").appendChild(p);
 							counter ++;
-						}	
+						}
+						var deleteButton = document.getElementByName("deleteButton[]");
+						deleteButton.onclick = function(){
+							var search = deleteButton.getElement("id");
+							document.getElementByName(search).remove();
+							for (i = search; i < counter; i++){
+								document.getElementById(i).id = i-1;
+								document.getElementByName(i).name = i-1;
+							}
+							
+						}
+					</script>
+					<input type="hidden" id="counter" name="counter">
+				</fieldset>
+				<input type="submit" name="SendQuestionnaire" id="SendQuestionnaire" value="Submit">
+			</form>
+		</div>
+	</section>
+</body>
+<body>
+ 	<section>
+		<div>
+			<h1>Create your Questionnaire!</h1>
+		</div>
+	</section>
+	<section>
+		<div>
+			<form action="#" th:action="@{/Admin/InsertQuestionnaire}" method="POST">
+				<fieldset id="mandatory">
+					<p>
+						Image Name: <input type="text" id="Name" name="pictureName">
+					</p>
+					<p>
+						Full Image: <input type="file" id="photoFile" name="picture">
+					</p>
+					
+					<p>
+						Insert Data(Questionnaires will be accepted only for today at a time after now)<input type="datetime-local" id="questionnareTime" name="time">
+					</p>
+				    <p id="questions">
+				    	Questions List <br> Question No:
+					</p>
+					<button type="button" id="add">New Question</button>
+					<script>
+						var counter = 0;
+						var totalcounter = 0;
+						var add = document.getElementById('add');
+						var newQuestion = document.getElementById('newQuestion');
+						add.onclick = function(){
+							document.getElementById("counter").value = totalcounter;
+							var q = document.createElement("INPUT"); 
+							var p = document.createElement("P");
+							var b = document.createElement("BUTTON");
+							p.innerText = "Question " + counter;
+							p.setAttribute("id", "p" + counter);
+							p.setAttribute("name", counter);
+							q.setAttribute("type", "text");
+							q.setAttribute("name", counter);
+							q.setAttribute("id", "q"+ counter);
+							b.setAttribute("type", "button");
+							b.setAttribute("id", counter);
+							b.setAttribute("name", counter);
+							b.innerText = "Delete";
+							p.appendChild(q);
+							p.appendChild(b);
+							document.getElementById("questions").appendChild(p);
+							counter ++;
+							totalcounter ++;
+							b.onclick = function(){buttonFunctionDelete(this)};
+						}
+						function buttonFunctionDelete(button){
+							var buttonId = parseInt(button.id);
+							var buttonName = parseInt(button.name);
+							document.getElementById("p" + button.id).remove();
+							var i;
+							for (k = buttonName, j = buttonId+1; j < counter; j++){
+								if(document.getElementById(j) != null){
+									document.getElementById(j).setAttribute("name", k);
+									alert("q" + j);
+									document.getElementById("q" + j).setAttribute("name", k);
+									document.getElementById("p" + j).innerText =  "Question " + k;
+									document.getElementById("p" + j).setAttribute("name", k);
+									k ++;
+									}
+								}
+							totalcounter --;
+							}
 					</script>
 					<input type="hidden" id="counter" name="counter">
 				</fieldset>
