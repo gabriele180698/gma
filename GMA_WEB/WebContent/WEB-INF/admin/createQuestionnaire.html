@@ -23,35 +23,31 @@
 					</p>
 					
 					<p>
-						Inser Data(Questionnaires will be accepted only for today at a time after now)<input type="datetime-local" id="questionnareTime" name="time">
+						Insert Data(Questionnaires will be accepted only for today at a time after now)<input type="datetime-local" id="questionnareTime" name="time">
 					</p>
-					
-					<p>
-					 	List of created questions <ul id="questionList"></ul>
-				    </p>
-				    <p>
-						Insert New Question <input type="text" id="question">
+				    <p id="questions">
+				    	Questions List <br>
 					</p>
-					<button type="button" id="add">Add</button>
+					<button type="button" id="add">New Question</button>
 					<script>
 						var counter = 0;
 						var partialName = "Q";
 						var name;
 						var add = document.getElementById('add');
 						var newQuestion = document.getElementById('newQuestion');
+						add.onclick = function(){
+							document.getElementById("counter").value = counter;
 							name = partialName + counter;
-							document.getElementById("question").name = name;
-							add.onclick = function(){
-								var node = document.createElement("LI");                 
-								var textnode = document.createTextNode(document.getElementById("question").value);         
-								node.appendChild(textnode);
-								document.getElementById("questionList").appendChild(node);
-								counter ++;
-								document.getElementById("counter").value = counter;
-								name = partialName + counter;
-								document.getElementById("question").name = name;
-								document.getElementById("question").value = "";
-							}	
+							var q = document.createElement("INPUT"); 
+							var p = document.createElement("P");
+							p.innerText = "Question" + counter + "  ";
+							q.setAttribute("type", "text");
+							q.setAttribute("name", name);
+							q.setAttribute("id", "question");
+							p.appendChild(q);
+							document.getElementById("questions").appendChild(p);
+							counter ++;
+						}	
 					</script>
 					<input type="hidden" id="counter" name="counter">
 				</fieldset>
