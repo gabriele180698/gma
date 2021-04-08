@@ -90,10 +90,27 @@
 		counter--;
 		}
 	function fileValidation(){
+		var validFileExtensions = ["jpg", "jpeg", "bmp", "gif", "png"];
 		var fileName = document.getElementById("photoFile").value;
-		alert(document.getElementById("photoFile").value);
-		alert(document.getElementById("photoFile").val());
-		alert(document.getElementById("photoFile").text);
+		var Extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase();
+		alert(Extension);
+		var isImg = false;
+		var lenghtArray = parseInt(validFileExtensions.lenght);
+		alert(lenghtArray.toString());
+		for(i=0; i <= lenghtArray; i++){
+			alert("wewe"+ validFileExtensions[i].toLowerCase());
+			if (validFileExtensions[i].toLowerCase() == Extension) {
+				 // Valid file type
+				 alert("up");
+				isImg =true;
+	            break;
+	        }
+		}
+		if(!isImg){
+			//No Valid file type
+			alert("No File Valid Extension! \nThe extension must be:\n"  + validFileExtensions.toString());
+			document.getElementById("photoFile").value = "";
+		}
 	} 
 </script>
 </html>
