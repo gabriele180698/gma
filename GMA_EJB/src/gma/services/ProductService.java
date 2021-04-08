@@ -43,9 +43,10 @@ public class ProductService {
 		}
 		return reviews;
 	}
-	public void createProduct(String pictureName, String img) {
+	public Product createProduct(String pictureName, String img) {
 		Product p = new Product();
 		p.setName(pictureName);
 		p.setImg(img);
+		return p;
 	}
 }

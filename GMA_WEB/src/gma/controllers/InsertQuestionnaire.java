@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import gma.entities.Product;
 import gma.entities.Questionnaire;
 import gma.entities.Statistics;
 import gma.entities.User;
@@ -44,6 +45,8 @@ public class InsertQuestionnaire extends HttpServlet {
 	private QuestionnaireService qService;
 	@EJB(name = "gma.services/ProductService")
 	private ProductService pService;
+	@EJB(name = "gma.services/QuestionService")
+	private QuestionService queService;
 
 	public InsertQuestionnaire() {
 		super();
@@ -71,10 +74,7 @@ public class InsertQuestionnaire extends HttpServlet {
 		// Retrieve the type of user request (i.e. submitting or cancellation)
 		if ("Submit".equals(action)) {
 		    SubmitQuestionnaire(request, response);
-		} else if ("Cancel".equals(action)) {
-		    CancelQuestionnaire(request,response);
 		}
-
 	}
 	
 
@@ -85,6 +85,9 @@ public class InsertQuestionnaire extends HttpServlet {
 		User user;
 		String img;
 		String pictureName;
+		Integer counterQuestions;
+		Product product = new Product();
+		Questionnaire questionnaire = new Questionnaire();
 		// Get data entered by the user
 		// Get and Check Image Data
 		try {
@@ -95,7 +98,8 @@ public class InsertQuestionnaire extends HttpServlet {
 			if (img == null || img.isEmpty() || pictureName == null || pictureName.isEmpty()) {
 				throw new Exception("Missing or empty credential value for the Image Data ");
 			}
-			pService.createProduct(pictureName, img);
+			//Creation Product	
+			product = pService.createProduct(pictureName, img);
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
@@ -119,6 +123,27 @@ public class InsertQuestionnaire extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
 			return;
 		}
+		//Creation Questionnaire
+		try {
+			questionnaire = qService.createQuestionnaire(date, product);
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
+			return;
+		}
+		// Get Questions and Creation
+		try {
+			counterQuestions = Integer.parseInt(request.getParameter("counter"));
+			Integer i;
+			for(i=0; i < counterQuestions; i++) {
+				queService.createQuestion(StringEscapeUtils.escapeJava(request.getParameter("q" + i)), questionnaire);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
+			return;
+		}
 		//CODICE CHE NON HO SCRITTO
 
 		HttpSession session = request.getSession();
@@ -134,32 +159,4 @@ public class InsertQuestionnaire extends HttpServlet {
 		}
 	}
 
-	protected void CancelQuestionnaire(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		int questionnaire;
-		User user;
-
-		// Get information about the questionnaire
-		try {
-			// questionnaire = Integer.parseInt(request.getParameter("questionnaire"));
-			questionnaire = 2;
-
-		} catch (Exception e) {
-			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some questionnaire data was lost");
-			return;
-		}
-
-		HttpSession session = request.getSession();
-		user = (User) session.getAttribute("user");
-		try {
-			// Call the service to submit the statistics
-			// sService.cancelStatistics(questionnaire, user);
-			response.sendRedirect(getServletContext().getContextPath() + Paths.USER_HOME_PAGE.getPath());
-		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Ops! Something went wrong during the cancellation phase");
-			return;
-		}
-	}
 }
