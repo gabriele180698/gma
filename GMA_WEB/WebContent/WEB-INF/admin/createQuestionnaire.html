@@ -3,47 +3,47 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Creation Questionnaire Page</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <body>
 	<section>
 		<div>
 			<div align="right">
-			    <a th:href="@{/Admin/Home}">Home</a> 
-				<a th:href="@{/Admin/CreateQuestionnaire}">Create Questionnaire</a> 
-				<a th:href="@{/Admin/DeleteQuestionnaire}">Delete Questionnaire</a> 
-				<a th:href="@{/App/Logout}">Logout</a>
+				<a th:href="@{/Admin/Home}">Home</a> <a
+					th:href="@{/Admin/CreateQuestionnaire}">Create Questionnaire</a> <a
+					th:href="@{/Admin/DeleteQuestionnaire}">Delete Questionnaire</a> <a
+					th:href="@{/App/Logout}">Logout</a>
 			</div>
-			<h1>Welcome admin!</h1>
+			<h1>Create your Questionnaire!</h1>
 		</div>
 	</section>
 </body>
 <body>
- 	<section>
-		<div>
-			<h1>Create your Questionnaire!</h1>
-		</div>
-	</section>
 	<section>
 		<div>
-			<form action="#" th:action="@{/Admin/InsertQuestionnaire}" method="POST">
+			<form action="#" th:action="@{/Admin/InsertQuestionnaire}"
+				method="POST">
 				<fieldset id="mandatory">
 					<p>
-						Image Name: <input type="text" id="Name" name="pictureName" required>
+						Image Name: <input type="text" id="Name" name="pictureName"
+							required>
 					</p>
 					<p>
-						Full Image: <input type="file" id="photoFile" name="picture" onchange="return fileValidation()" required>
+						Full Image: <input type="file" id="photoFile" name="picture"
+							onchange="return fileValidation()" required>
 					</p>
-					
+
 					<p>
-						Insert Data(Questionnaires will be accepted only for today at a time after now)<input type="datetime-local" id="questionnareTime" name="time" required>
+						Insert Data(Questionnaires will be accepted only for today at a
+						time after now)<input type="datetime-local" id="questionnareTime"
+							name="time" required>
 					</p>
-				    <p id="questions">
-				    	Questions List
-					</p>
+					<p id="questions">Questions List</p>
 					<button type="button" id="add">New Question</button>
 					<input type="hidden" id="counter" name="counter">
 				</fieldset>
-				<input type="submit" name="SendQuestionnaire" id="SendQuestionnaire" value="Submit">
+				<input type="submit" name="SendQuestionnaire" id="SendQuestionnaire"
+					value="Submit">
 			</form>
 		</div>
 	</section>
@@ -52,9 +52,9 @@
 	var counter = 0;
 	var add = document.getElementById('add');
 	var newQuestion = document.getElementById('newQuestion');
-	add.onclick = function(){
+	add.onclick = function() {
 		document.getElementById("counter").value = counter;
-		var q = document.createElement("INPUT"); 
+		var q = document.createElement("INPUT");
 		var p = document.createElement("P");
 		var s = document.createElement("SPAN");
 		var b = document.createElement("BUTTON");
@@ -64,7 +64,7 @@
 		p.setAttribute("id", "p" + counter);
 		q.setAttribute("type", "text");
 		q.setAttribute("name", counter);
-		q.setAttribute("id", "q"+ counter);
+		q.setAttribute("id", "q" + counter);
 		b.setAttribute("type", "button");
 		b.setAttribute("id", counter);
 		b.innerText = "Delete";
@@ -72,30 +72,34 @@
 		p.appendChild(q);
 		p.appendChild(b);
 		document.getElementById("questions").appendChild(p);
-		counter ++;
-		b.onclick = function(){buttonFunctionDelete(this)};
+		counter++;
+		b.onclick = function() {
+			buttonFunctionDelete(this)
+		};
 	}
-	function buttonFunctionDelete(button){
+	function buttonFunctionDelete(button) {
 		var buttonId = parseInt(button.id);
 		var buttonName = parseInt(button.name);
 		document.getElementById("p" + button.id).remove();
-		for (i = buttonId, j = buttonId+1; j < counter; j++, i++){
-				document.getElementById(j).setAttribute("id", i);
-				document.getElementById("q" + j).setAttribute("name", i);
-				document.getElementById("q" + j).setAttribute("id", "q" + i);
-				document.getElementById("s" + j).innerText = "Question " + i;
-				document.getElementById("s" + j).setAttribute("id", "s" + i);
-				document.getElementById("p" + j).setAttribute("id", "p" + i);
-			}
-		counter--;
+		for (i = buttonId, j = buttonId + 1; j < counter; j++, i++) {
+			document.getElementById(j).setAttribute("id", i);
+			document.getElementById("q" + j).setAttribute("name", i);
+			document.getElementById("q" + j).setAttribute("id", "q" + i);
+			document.getElementById("s" + j).innerText = "Question " + i;
+			document.getElementById("s" + j).setAttribute("id", "s" + i);
+			document.getElementById("p" + j).setAttribute("id", "p" + i);
 		}
-	function fileValidation(){
+		counter--;
+	}
+	function fileValidation() {
 		var fileName = document.getElementById("photoFile").value;
-		var Extension = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase();
-		if(!(Extension == "jpeg"|| Extension == 'jpg'|| Extension == 'bmp'|| Extension == 'gif'|| Extension == 'png'|| Extension == 'svg')){
+		var Extension = fileName.substring(fileName.lastIndexOf(".") + 1,
+				fileName.length).toLowerCase();
+		if (!(Extension == "jpeg" || Extension == 'jpg' || Extension == 'bmp'
+				|| Extension == 'gif' || Extension == 'png' || Extension == 'svg')) {
 			alert("No File Valid Extension! \nThe extension must be:\n.jpg, .jpeg, .bmp, .gif, .png, .svg");
 			document.getElementById("photoFile").value = "";
 		}
-	} 
+	}
 </script>
 </html>

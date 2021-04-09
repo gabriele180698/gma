@@ -25,10 +25,6 @@ import gma.objects.Paths;
 	public class GoToCreateQuestionnairePage extends HttpServlet {
 		private static final long serialVersionUID = 1L;
 		private TemplateEngine templateEngine;
-		/*@EJB(name = "it.polimi.db2.mission.services/MissionService")
-		private MissionService mService;
-		@EJB(name = "it.polimi.db2.mission.services/ProjectService")
-		private ProjectService pService;*/
 
 		public GoToCreateQuestionnairePage() {
 			super();
