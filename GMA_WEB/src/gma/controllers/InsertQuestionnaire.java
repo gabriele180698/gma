@@ -29,12 +29,12 @@ import java.util.Map;
 
 import gma.entities.Product;
 import gma.entities.Questionnaire;
-import gma.entities.Statistics;
 import gma.entities.User;
 import gma.objects.Paths;
 import gma.services.QuestionService;
 import gma.services.ProductService;
 import gma.services.QuestionnaireService;
+
 
 @WebServlet("/Admin/InsertQuestionnaire")
 
@@ -67,6 +67,24 @@ public class InsertQuestionnaire extends HttpServlet {
 		Date now = new Date(System.currentTimeMillis());
 		return sdf.format(now).equals(sdf.format(date));
 	}
+	public static byte[] readImage(InputStream imageInputStream) throws IOException {
+
+		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+		byte[] buffer = new byte[4096];// image can be maximum of 4MB
+		int bytesRead = -1;
+
+		try {
+			while ((bytesRead = imageInputStream.read(buffer)) != -1) {
+				outputStream.write(buffer, 0, bytesRead);
+			}
+
+			byte[] imageBytes = outputStream.toByteArray();
+			return imageBytes;
+		} catch (IOException e) {
+			throw e;
+		}
+
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -83,7 +101,6 @@ public class InsertQuestionnaire extends HttpServlet {
 		Date date;
 		Date now = new Date(System.currentTimeMillis());
 		User user;
-		String img;
 		String pictureName;
 		Integer counterQuestions;
 		Product product = new Product();
@@ -92,14 +109,16 @@ public class InsertQuestionnaire extends HttpServlet {
 		// Get and Check Image Data
 		try {
 			//***verificare che sia giusto***
-			img = StringEscapeUtils.escapeJava(request.getParameter("picture"));
+			Part imgFile = request.getPart("picture");
+			InputStream imgContent = imgFile.getInputStream();
+			byte[] imgByteArray = readImage(imgContent);
 			pictureName = request.getParameter("pictureName");
 			// Check data
-			if (img == null || img.isEmpty() || pictureName == null || pictureName.isEmpty()) {
-				throw new Exception("Missing or empty credential value for the Image Data ");
+			if (imgByteArray.length == 0|| pictureName.isEmpty()) {
+				throw new Exception("Invalid photo parameters");
 			}
 			//Creation Product	
-			product = pService.createProduct(pictureName, img);
+			product = pService.createProduct(pictureName, imgByteArray);
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");

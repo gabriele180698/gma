@@ -35,8 +35,8 @@
 
 					<p>
 						Insert Data(Questionnaires will be accepted only for today at a
-						time after now)<input type="datetime-local" id="questionnareTime"
-							name="time" required>
+						time after now)<input type="date" id="questionnaredate"
+							name="date" min="return dateValidation()" required>
 					</p>
 					<p id="questions">Questions List</p>
 					<button type="button" id="add">New Question</button>
@@ -100,6 +100,19 @@
 			alert("No File Valid Extension! \nThe extension must be:\n.jpg, .jpeg, .bmp, .gif, .png, .svg");
 			document.getElementById("photoFile").value = "";
 		}
+	}
+	function dateValidation(){
+		var d = new Date(date),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2) 
+        month = '0' + month;
+    if (day.length < 2) 
+        day = '0' + day;
+
+    return [year, month, day].join('-');
 	}
 </script>
 </html>

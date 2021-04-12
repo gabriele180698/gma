@@ -43,7 +43,7 @@ public class ProductService {
 		}
 		return reviews;
 	}
-	public Product createProduct(String pictureName, String img) {
+	public Product createProduct(String pictureName, byte[] imgByteArray) {
 		Product p = new Product();
 		p.setName(pictureName);
 		p.setImg(img);

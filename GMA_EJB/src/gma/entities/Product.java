@@ -18,7 +18,9 @@ public class Product implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String name;
-	private String img;
+	@Basic(fetch = FetchType.LAZY)
+	@Lob
+	private byte[] img;
 	@OneToMany(mappedBy = "product")
 	private List<Questionnaire> questionnaires;
 	@OneToMany(mappedBy = "product")
@@ -47,11 +49,11 @@ public class Product implements Serializable {
 		this.name = name;
 	}
 
-	public String getImg() {
+	public byte[] getImg() {
 		return img;
 	}
 
-	public void setImg(String img) {
+	public void setImg(byte[] img) {
 		this.img = img;
 	}
 
