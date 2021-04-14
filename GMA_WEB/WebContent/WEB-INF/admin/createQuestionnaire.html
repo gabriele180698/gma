@@ -42,8 +42,9 @@
 					<button type="button" id="add">New Question</button>
 					<input type="hidden" id="counter" name="counter">
 				</fieldset>
-				<input type="submit" name="SendQuestionnaire" id="SendQuestionnaire"
+				<input type="hidden" name="SendQuestionnaire" id="SendQuestionnaire"
 					value="Submit">
+				<p id="messageSubmit">At least one question is required</p>
 			</form>
 		</div>
 	</section>
@@ -58,7 +59,7 @@
 		var p = document.createElement("P");
 		var s = document.createElement("SPAN");
 		var b = document.createElement("BUTTON");
-		s.innerText = "Question " + counter;
+		s.innerText = "Question " + (counter+1);
 		s.setAttribute("id", "s" + counter);
 		q.setAttribute("required", "required");
 		p.setAttribute("id", "p" + counter);
@@ -76,6 +77,8 @@
 		b.onclick = function() {
 			buttonFunctionDelete(this)
 		};
+		document.getElementById("SendQuestionnaire").setAttribute("type", "submit");
+		document.getElementById("messageSubmit").innerText = "";
 	}
 	function buttonFunctionDelete(button) {
 		var buttonId = parseInt(button.id);
@@ -85,11 +88,16 @@
 			document.getElementById(j).setAttribute("id", i);
 			document.getElementById("q" + j).setAttribute("name", i);
 			document.getElementById("q" + j).setAttribute("id", "q" + i);
-			document.getElementById("s" + j).innerText = "Question " + i;
+			document.getElementById("s" + j).innerText = "Question " + (i+1);
 			document.getElementById("s" + j).setAttribute("id", "s" + i);
 			document.getElementById("p" + j).setAttribute("id", "p" + i);
 		}
 		counter--;
+		var firstQuestion = document.getElementById("q0");
+		if(firstQuestion == null){
+			document.getElementById("SendQuestionnaire").setAttribute("type", "hidden");
+			document.getElementById("messageSubmit").innerText = "At least one question is required";
+		}
 	}
 	function fileValidation() {
 		var fileName = document.getElementById("photoFile").value;
@@ -112,7 +120,7 @@
 	    var insertedMonth = parseInt(parts[1]);
 	    var insertedYear = parseInt(parts[0]);
 	    var dateValid = false;
-	    if((insertedYear = year && ((insertedMonth = month && insertedDay >= day) || (insertedMonth > month))) || insertedYear > year){
+	    if((insertedYear == year && ((insertedMonth == month && insertedDay >= day) || (insertedMonth > month))) || insertedYear > year){
 	    	dateValid = true;
 	    };
 	    if(!dateValid){

@@ -48,6 +48,20 @@ public class QuestionnaireService {
 		}
 		return questionnaire;
 	}
+	// Check if the questionnaire of the date exists
+	public boolean questionnaireExist(Date date) {
+		Questionnaire questionnaire;
+			// use of the named query of the entity Questionnaire
+		questionnaire = em.createNamedQuery("Questionnaire.findQuestionnaireByDate", Questionnaire.class)
+				.setParameter(1, date).getResultStream().findFirst().orElse(null);
+		if(questionnaire == null) {
+			return false;
+		}else {
+			return true;
+		}
+		
+		
+	}
 
 	// get questionnaire by id
 	public Questionnaire getQuestionnaireById(int idQuestionnaire) throws QuestionnaireException {

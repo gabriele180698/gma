@@ -61,12 +61,13 @@ public class InsertQuestionnaire extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-	
+	/*
 	private boolean isToday(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		Date now = new Date(System.currentTimeMillis());
 		return sdf.format(now).equals(sdf.format(date));
 	}
+	*/
 	public static byte[] readImage(InputStream imageInputStream) throws IOException {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -108,7 +109,6 @@ public class InsertQuestionnaire extends HttpServlet {
 		// Get data entered by the user
 		// Get and Check Image Data
 		try {
-			//***verificare che sia giusto***
 			Part imgFile = request.getPart("picture");
 			InputStream imgContent = imgFile.getInputStream();
 			byte[] imgByteArray = readImage(imgContent);
@@ -126,17 +126,18 @@ public class InsertQuestionnaire extends HttpServlet {
 		}
 		// Get and Check Time Data
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			date = (Date) sdf.parse(request.getParameter("date"));
-
 			// Check data
 			if (date == null) {
 				throw new Exception("Missing or empty data");
 			}
-			if (now.after(date) || isToday(date)) {
-				throw new Exception("No valid date");
+			// Check if there is an other questionnaire for the same day
+			boolean exist = qService.questionnaireExist(date);
+			if (exist) {
+				throw new Exception("Existing questionnaire for the day: " + date);
 			}
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
