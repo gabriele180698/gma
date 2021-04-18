@@ -22,18 +22,18 @@ public class QuestionnaireService {
 	public QuestionnaireService() {
 	}
 
-	// retrieves all questions associated to the given questionnaire
-	public List<Question> getQuestionsByQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
-		List<Question> questions;
+	// retrieves all answer associated to the given questionnaire
+		public List<Question> getAnswerByQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
+			List<Question> questions;
 
-		try {
-			questions = questionnaire.getQuestions();
-		} catch (PersistenceException e) {
-			e.printStackTrace();
-			throw new QuestionnaireException("No questions!");
+			try {
+				questions = questionnaire.getQuestions();
+			} catch (PersistenceException e) {
+				e.printStackTrace();
+				throw new QuestionnaireException("No questions!");
+			}
+			return questions;
 		}
-		return questions;
-	}
 
 	// search for a questionnaire with the given date
 	public Questionnaire getQuestionnaireByDate(Date date) throws QuestionnaireException {
@@ -49,15 +49,20 @@ public class QuestionnaireService {
 		return questionnaire;
 	}
 	// Check if the questionnaire of the date exists
-	public boolean questionnaireExist(Date date) {
-		Questionnaire questionnaire;
-			// use of the named query of the entity Questionnaire
-		questionnaire = em.createNamedQuery("Questionnaire.findQuestionnaireByDate", Questionnaire.class)
-				.setParameter(1, date).getResultStream().findFirst().orElse(null);
-		if(questionnaire == null) {
-			return false;
-		}else {
-			return true;
+	public boolean questionnaireExist(Date date) throws QuestionnaireException {
+		try {
+			Questionnaire questionnaire;
+				// use of the named query of the entity Questionnaire
+			questionnaire = em.createNamedQuery("Questionnaire.findQuestionnaireByDate", Questionnaire.class)
+					.setParameter(1, date).getResultStream().findFirst().orElse(null);
+			if(questionnaire == null) {
+				return false;
+			}else {
+				return true;
+			}
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new QuestionnaireException("It is not possible to check if there exist an other questionnaire of the day");
 		}
 		
 		

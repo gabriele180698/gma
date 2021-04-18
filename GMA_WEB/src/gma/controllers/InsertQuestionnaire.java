@@ -30,6 +30,7 @@ import java.util.Map;
 import gma.entities.Product;
 import gma.entities.Questionnaire;
 import gma.entities.User;
+import gma.exceptions.QuestionnaireException;
 import gma.objects.Paths;
 import gma.services.QuestionService;
 import gma.services.ProductService;
@@ -97,8 +98,7 @@ public class InsertQuestionnaire extends HttpServlet {
 	protected void SubmitQuestionnaire(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Date date;
-		Date now = new Date(System.currentTimeMillis());
-		User user;
+		// Date now = new Date(System.currentTimeMillis());
 		String pictureName;
 		Integer counterQuestions;
 		Product product = new Product();
@@ -137,7 +137,7 @@ public class InsertQuestionnaire extends HttpServlet {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Ops! Some data was lost");
 			return;
 		}
 		// Creation Questionnaire
