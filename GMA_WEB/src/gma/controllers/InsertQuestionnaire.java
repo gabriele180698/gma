@@ -35,7 +35,6 @@ import gma.services.QuestionService;
 import gma.services.ProductService;
 import gma.services.QuestionnaireService;
 
-
 @WebServlet("/Admin/InsertQuestionnaire")
 
 public class InsertQuestionnaire extends HttpServlet {
@@ -52,7 +51,6 @@ public class InsertQuestionnaire extends HttpServlet {
 		super();
 	}
 
-	
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
@@ -61,13 +59,13 @@ public class InsertQuestionnaire extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
+
 	/*
-	private boolean isToday(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		Date now = new Date(System.currentTimeMillis());
-		return sdf.format(now).equals(sdf.format(date));
-	}
-	*/
+	 * private boolean isToday(Date date) { SimpleDateFormat sdf = new
+	 * SimpleDateFormat("yyyy-MM-dd"); Date now = new
+	 * Date(System.currentTimeMillis()); return
+	 * sdf.format(now).equals(sdf.format(date)); }
+	 */
 	public static byte[] readImage(InputStream imageInputStream) throws IOException {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
@@ -92,10 +90,9 @@ public class InsertQuestionnaire extends HttpServlet {
 		String action = request.getParameter("InsertQuestionnaire");
 		// Retrieve the type of user request (i.e. submitting or cancellation)
 		if ("Submit".equals(action)) {
-		    SubmitQuestionnaire(request, response);
+			SubmitQuestionnaire(request, response);
 		}
 	}
-	
 
 	protected void SubmitQuestionnaire(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -114,10 +111,10 @@ public class InsertQuestionnaire extends HttpServlet {
 			byte[] imgByteArray = readImage(imgContent);
 			pictureName = request.getParameter("pictureName");
 			// Check data
-			if (imgByteArray.length == 0|| pictureName.isEmpty()) {
+			if (imgByteArray.length == 0 || pictureName.isEmpty()) {
 				throw new Exception("Invalid photo parameters");
 			}
-			//Creation Product	
+			// Creation Product
 			product = pService.createProduct(pictureName, imgByteArray);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -137,13 +134,13 @@ public class InsertQuestionnaire extends HttpServlet {
 			if (exist) {
 				throw new Exception("Existing questionnaire for the day: " + date);
 			}
-			
+
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
 			return;
 		}
-		//Creation Questionnaire
+		// Creation Questionnaire
 		try {
 			questionnaire = qService.createQuestionnaire(date, product);
 		} catch (Exception e) {
@@ -155,26 +152,16 @@ public class InsertQuestionnaire extends HttpServlet {
 		try {
 			counterQuestions = Integer.parseInt(request.getParameter("counter"));
 			Integer i;
-			for(i=0; i < counterQuestions; i++) {
+			for (i = 0; i < counterQuestions; i++) {
 				queService.createQuestion(StringEscapeUtils.escapeJava(request.getParameter("q" + i)), questionnaire);
 			}
+
+			response.sendRedirect(
+					getServletContext().getContextPath() + Paths.ADMIN_CREATE_QUESTIONNAIRE_PAGE.getPath());
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
-			return;
-		}
-		//CODICE CHE NON HO SCRITTO
-
-		HttpSession session = request.getSession();
-		user = (User) session.getAttribute("user");
-		try {
-			// Call the service to submit the statistics
-			// sService.submitStatistics(age, expertise, questionnaire, sex, user);
-			response.sendRedirect(getServletContext().getContextPath() + Paths.THANKS_PAGE.getPath());
-		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Ops! Something went wrong during the submission phase");
 			return;
 		}
 	}

@@ -23,12 +23,12 @@ public class BlacklistService {
 		Blacklist words;
 		Collection<String> answersSplit;
 		try {
-			//Split the input string in single words
-			answersSplit = Arrays.asList(answers.split(" "));   
-			//use of the named query of the entity Blacklist
-			words = em.createNamedQuery("Blacklist.findOffensiveWord", Blacklist.class)
-					.setParameter(1, answersSplit).getResultStream().findFirst().orElse(null);
-					
+			// Split the input string in single words
+			answersSplit = Arrays.asList(answers.split(" "));
+			// use of the named query of the entity Blacklist
+			words = em.createNamedQuery("Blacklist.findOffensiveWord", Blacklist.class).setParameter(1, answersSplit)
+					.getResultStream().findFirst().orElse(null);
+
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw new BlacklistException("No questionnaire of the day found!");

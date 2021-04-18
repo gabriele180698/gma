@@ -41,7 +41,7 @@ public class UserService {
 			throw new AccessException("Access not insert correctly!");
 		}
 	}
-	
+
 	public void banUser(User user) throws AccessException {
 		try {
 			user.setType(0);

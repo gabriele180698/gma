@@ -21,14 +21,14 @@ public class QuestionService {
 	public QuestionService() {
 	}
 
-	//retrieves all questions associated to the given questionnaire
+	// retrieves all questions associated to the given questionnaire
 	public List<Integer> getQuestionsId(List<Question> questions) throws QuestionException {
 		List<Integer> questionsId = new ArrayList<Integer>();
-		
+
 		try {
 			// get the Ids of all questions in input
 			for (int i = 0; i < questions.size(); i++) {
-			    questionsId.add(questions.get(i).getId());
+				questionsId.add(questions.get(i).getId());
 			}
 		} catch (PersistenceException e) {
 			e.printStackTrace();
@@ -36,6 +36,7 @@ public class QuestionService {
 		}
 		return questionsId;
 	}
+
 	public void createQuestion(String text, Questionnaire questionnaire) {
 		Question q = new Question();
 		q.setText(text);

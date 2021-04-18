@@ -18,21 +18,22 @@ import gma.objects.Paths;
 @WebFilter("/Admin/*")
 public class AdminLoginFilter implements Filter {
 
-    @Override
-    public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest request = (HttpServletRequest) req;
-        HttpServletResponse response = (HttpServletResponse) res;
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("user");
+	@Override
+	public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
+			throws IOException, ServletException {
+		HttpServletRequest request = (HttpServletRequest) req;
+		HttpServletResponse response = (HttpServletResponse) res;
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
 
-        if (session.isNew() || user == null || user.getType() != 2) {
-        	// No logged-in user found, so redirect to login page
-            response.sendRedirect(request.getContextPath() + Paths.INDEX_PAGE.getPath()); 
-        } else {
-        	// Logged-in user found, so just continue request.
-            chain.doFilter(req, res); 
-        }
-        
-    }
+		if (session.isNew() || user == null || user.getType() != 2) {
+			// No logged-in user found, so redirect to login page
+			response.sendRedirect(request.getContextPath() + Paths.INDEX_PAGE.getPath());
+		} else {
+			// Logged-in user found, so just continue request.
+			chain.doFilter(req, res);
+		}
+
+	}
 
 }
