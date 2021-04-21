@@ -79,6 +79,18 @@ public class QuestionnaireService {
 							}
 				
 						}
+						// retrieves users answers to a given questionnaire
+						public List<Answer> getAnswers(Questionnaire questionnaire, User user) throws QuestionnaireException {
+							List<Answer> answers = null;
+							try {
+								answers = em.createNamedQuery("Questionnaire.findAnswerByUser", Answer.class).getResultList();
+								return answers;
+							} catch (PersistenceException e) {
+								e.printStackTrace();
+								throw new QuestionnaireException("No questions!");
+							}
+				
+						}
 
 
 	// search for a questionnaire with the given date

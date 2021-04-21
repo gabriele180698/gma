@@ -6,10 +6,13 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
 import gma.entities.Access;
+import gma.entities.Answer;
+import gma.entities.Questionnaire;
 import gma.entities.User;
 import gma.exceptions.*;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 @Stateless
 public class UserService {
@@ -29,7 +32,6 @@ public class UserService {
 		}
 		return user;
 	}
-
 	public void logAccess(User user) throws AccessException {
 		try {
 			// Log the access in the database
