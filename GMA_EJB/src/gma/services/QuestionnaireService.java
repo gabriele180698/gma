@@ -2,13 +2,17 @@ package gma.services;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Stack;
 
 import javax.ejb.Stateless;
+import javax.management.j2ee.statistics.Statistic;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
 import gma.entities.Questionnaire;
+import gma.entities.Statistics;
+import gma.entities.User;
 import gma.entities.Answer;
 import gma.entities.Product;
 import gma.entities.Question;
@@ -34,6 +38,48 @@ public class QuestionnaireService {
 			}
 			return questions;
 		}
+
+		// retrieves users that have submitted the questionnaire
+			public List<User> getUsersSubmitedQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
+				List<User> users = new Stack<User>();
+				List<Statistics> statistics = null;
+				try {
+					statistics = questionnaire.getStatistics();
+					for(int i = 0; i < statistics.size(); i++) {
+						Statistics statistic = statistics.get(i);
+						if(statistic.getStatus() == 1) {
+							User u = statistic.getUser();
+							users.add(u);
+						}
+					}
+					return users;
+				} catch (PersistenceException e) {
+					e.printStackTrace();
+					throw new QuestionnaireException("No questions!");
+				}
+	
+			}
+			// retrieves users that have cancelled the questionnaire
+						public List<User> getUsersCancelledQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
+							List<User> users = new Stack<User>();
+							List<Statistics> statistics = null;
+							try {
+								statistics = questionnaire.getStatistics();
+								for(int i = 0; i < statistics.size(); i++) {
+									Statistics statistic = statistics.get(i);
+									if(statistic.getStatus() == 0) {
+										User u = statistic.getUser();
+										users.add(u);
+									}
+								}
+								return users;
+							} catch (PersistenceException e) {
+								e.printStackTrace();
+								throw new QuestionnaireException("No questions!");
+							}
+				
+						}
+
 
 	// search for a questionnaire with the given date
 	public Questionnaire getQuestionnaireByDate(Date date) throws QuestionnaireException {
