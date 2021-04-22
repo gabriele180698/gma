@@ -28,8 +28,8 @@
 		</div>
 		<div th:if="${product != null}">
 			<span th:text="'Product: ' + ${product.name}"> </span> <img
-				width="100px" alt="thumb"
-				th:src="*{'data:image/png;base64,'+ ph.getThumbData()}">
+				width="100px" alt="img"
+				th:src="*{'data:image/png;base64,'+ product.getImgData()}">
 		</div>
 	</section>
 	

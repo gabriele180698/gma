@@ -1,6 +1,7 @@
 package gma.entities;
 
 import java.io.Serializable;
+import java.util.Base64;
 import java.util.List;
 
 import javax.persistence.*;
@@ -53,6 +54,10 @@ public class Product implements Serializable {
 		return img;
 	}
 
+	public String getPhotoimageData() {
+		return Base64.getMimeEncoder().encodeToString(img);
+	}
+
 	public void setImg(byte[] img) {
 		this.img = img;
 	}
@@ -69,7 +74,7 @@ public class Product implements Serializable {
 	public void removeMission(Questionnaire questionnaire) {
 		getQuestionnaires().remove(questionnaire);
 	}
-	
+
 	public List<Review> getReviews() {
 		return this.reviews;
 	}
