@@ -6,7 +6,9 @@ public enum Paths {
 	THANKS_PAGE("/WEB-INF/thanks.html"), ADMIN_HOME("/Admin/Home"), USER_HOME("/App/Home"),
 	ADMIN_CREATE_QUESTIONNAIRE_PAGE("/WEB-INF/admin/createQuestionnaire.html"),
 	ADMIN_DELETE_QUESTIONNAIRE("/Admin/DeleteQuestionnaire"),
-	ADMIN_DELETE_QUESTIONNAIRE_PAGE("/WEB-INF/admin/deleteQuestionnaire.html");
+	ADMIN_DELETE_QUESTIONNAIRE_PAGE("/WEB-INF/admin/deleteQuestionnaire.html"),
+	ADMIN_INSPECTION_PAGE("/WEB-INF/admin/inspection.html"),
+	ADMIN_INSPECTION_QUESTIONNAIRE_PAGE("/WEB-INF/admin/inspectQuestionnaire.html");
 
 	private final String path;
 

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Inspection Page</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<body>
+	<section>
+		<div>
+			<div align="right">
+				<a th:href="@{/Admin/Home}">Home</a> <a
+					th:href="@{/Admin/CreateQuestionnaire}">Create Questionnaire</a> <a
+					th:href="@{/Admin/DeleteQuestionnaire}">Delete Questionnaire</a> <a
+					th:href="@{/Admin/Inspection}">Inspect Questionnaire</a> <a
+					th:href="@{/App/Logout}">Logout</a>
+			</div>
+			<h1>Select a questionnaire to see the data</h1>
+		</div>
+	</section>
+</body>
+<body>
+	<section>
+		<div th:if="${!questionnaires.isEmpty()}">
+		<table>
+			<thead>
+				<tr>
+				    <th>Id</th>
+					<th>Product</th>
+					<th>Date</th>
+					<th>Inspect</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="q : ${questionnaires}">
+                    <td th:text="${q.id}"> </td>
+					<td th:text="${q.product.name}"> </td>
+					<td th:text="${#dates.format(q.date, 'yyyy-MM-dd')}"> </td>
+                	<td><a th:href="@{/Admin/InspectQuestionnaire(idQuestionnaire=${q.id})}">Inspect</a></td>
+                	
+				</tr>
+			</tbody>
+		</table>
+	</div>
+	
+	<div th:if="${questionnaires.isEmpty()}">
+		<p>No questionnaires!</p>
+	</div>
+	</section>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Inspect Questionnaire Page</title>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<body>
+	<section>
+		<div>
+			<div align="right">
+				<a th:href="@{/Admin/Home}">Home</a> <a
+					th:href="@{/Admin/CreateQuestionnaire}">Create Questionnaire</a> <a
+					th:href="@{/Admin/DeleteQuestionnaire}">Delete Questionnaire</a> <a
+					th:href="@{/Admin/Inspection}">Inspect Questionnaire</a> <a
+					th:href="@{/App/Logout}">Logout</a>
+			</div>
+			<h1>Questionnaire Data</h1>
+		</div>
+	</section>
+</body>
+<body>
+	<section>
+		<div th:if="${!questionnaires.isEmpty()}">
+			<p>Questionnaire Selected</p>
+			<table>
+				<thead>
+					<tr>
+					    <th>Id</th>
+						<th>Product</th>
+						<th>Date</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:with="q : ${questionnaire}">
+	                    <td th:text="${q.id}"> </td>
+						<td th:text="${q.product.name}"> </td>
+						<td th:text="${#dates.format(q.date, 'yyyy-MM-dd')}"> </td>	
+					</tr>
+				</tbody>
+			</table>
+		<p>Users that have submitted the questionnaire</p>
+			<table>
+				<thead>
+					<tr>
+					    <th>Id</th>
+						<th>Username</th>
+						<th>Answers</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="s : ${submitters}">
+						<td th:text="${s.id}"> </td>
+	                    <td th:text="${s.username}"> </td>
+	                	<td><a th:href="@{/Admin/InspectUserAnswers(idQuestionnaire=${q.id}, idUser=${s.id})}">Answers</a></td>
+	                	
+					</tr>
+				</tbody>
+			</table>
+			<p>Users that have cancelled the questionnaire</p>
+			<table>
+				<thead>
+					<tr>
+					    <th>Id</th>
+						<th>Username</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="c : ${cancellers}">
+						<td th:text="${c.id}"> </td>
+	                    <td th:text="${c.username}"> </td>
+					</tr>
+				</tbody>
+			</table>	
+	</div>
+	
+	<div th:if="${questionnaires.isEmpty()}">
+		<p>No questionnaire Data!</p>
+	</div>
+	</section>
+</body>
+</html>

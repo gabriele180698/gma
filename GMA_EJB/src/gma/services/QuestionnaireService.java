@@ -1,3 +1,4 @@
+
 package gma.services;
 
 import java.util.Date;
@@ -22,77 +23,77 @@ import gma.exceptions.*;
 public class QuestionnaireService {
 	@PersistenceContext(unitName = "GMA")
 	private EntityManager em;
-
+	
 	public QuestionnaireService() {
 	}
-
-	// retrieves all answer associated to the given questionnaire
-		public List<Question> getAnswerByQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
-			List<Question> questions;
-
-			try {
-				questions = questionnaire.getQuestions();
-			} catch (PersistenceException e) {
-				e.printStackTrace();
-				throw new QuestionnaireException("No questions!");
-			}
-			return questions;
-		}
-
-		// retrieves users that have submitted the questionnaire
-			public List<User> getUsersSubmitedQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
-				List<User> users = new Stack<User>();
-				List<Statistics> statistics = null;
-				try {
-					statistics = questionnaire.getStatistics();
-					for(int i = 0; i < statistics.size(); i++) {
-						Statistics statistic = statistics.get(i);
-						if(statistic.getStatus() == 1) {
-							User u = statistic.getUser();
-							users.add(u);
-						}
-					}
-					return users;
-				} catch (PersistenceException e) {
-					e.printStackTrace();
-					throw new QuestionnaireException("No questions!");
-				}
 	
+	// retrieves all questions associated to the given questionnaire
+	public List<Question> getQuestionsByQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
+		List<Question> questions;
+		
+		try {
+			questions = questionnaire.getQuestions();
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new QuestionnaireException("No questions!");
+		}
+		return questions;
+	}
+	
+	// retrieves users that have submitted the questionnaire
+	public List<User> getUsersSubmitedQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
+		List<User> users = new Stack<User>();
+		List<Statistics> statistics = null;
+		try {
+			statistics = questionnaire.getStatistics();
+			for(int i = 0; i < statistics.size(); i++) {
+				Statistics statistic = statistics.get(i);
+				if(statistic.getStatus() == 1) {
+					User u = statistic.getUser();
+					users.add(u);
+				}
 			}
-			// retrieves users that have cancelled the questionnaire
-						public List<User> getUsersCancelledQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
-							List<User> users = new Stack<User>();
-							List<Statistics> statistics = null;
-							try {
-								statistics = questionnaire.getStatistics();
-								for(int i = 0; i < statistics.size(); i++) {
-									Statistics statistic = statistics.get(i);
-									if(statistic.getStatus() == 0) {
-										User u = statistic.getUser();
-										users.add(u);
-									}
-								}
-								return users;
-							} catch (PersistenceException e) {
-								e.printStackTrace();
-								throw new QuestionnaireException("No questions!");
-							}
-				
-						}
-						// retrieves users answers to a given questionnaire
-						public List<Answer> getAnswers(Questionnaire questionnaire, User user) throws QuestionnaireException {
-							List<Answer> answers = null;
-							try {
-								answers = em.createNamedQuery("Questionnaire.findAnswerByUser", Answer.class).getResultList();
-								return answers;
-							} catch (PersistenceException e) {
-								e.printStackTrace();
-								throw new QuestionnaireException("No questions!");
-							}
-				
-						}
-
-
+			return users;
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new QuestionnaireException("No questions!");
+		}
+		
+	}
+	// retrieves users that have cancelled the questionnaire
+	public List<User> getUsersCancelledQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
+		List<User> users = new Stack<User>();
+		List<Statistics> statistics = null;
+		try {
+			statistics = questionnaire.getStatistics();
+			for(int i = 0; i < statistics.size(); i++) {
+				Statistics statistic = statistics.get(i);
+				if(statistic.getStatus() == 0) {
+					User u = statistic.getUser();
+					users.add(u);
+				}
+			}
+			return users;
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new QuestionnaireException("No questions!");
+		}
+		
+	}
+	// retrieves users answers to a given questionnaire
+	public List<Answer> getAnswers(Questionnaire questionnaire, User user) throws QuestionnaireException {
+		List<Answer> answers = null;
+		try {
+			answers = em.createNamedQuery("Questionnaire.findAnswerByUser", Answer.class).getResultList();
+			return answers;
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new QuestionnaireException("No questions!");
+		}
+		
+	}
+	
+	
 	// search for a questionnaire with the given date
 	public Questionnaire getQuestionnaireByDate(Date date) throws QuestionnaireException {
 		Questionnaire questionnaire;
@@ -110,7 +111,7 @@ public class QuestionnaireService {
 	public boolean questionnaireExist(Date date) throws QuestionnaireException {
 		try {
 			Questionnaire questionnaire;
-				// use of the named query of the entity Questionnaire
+			// use of the named query of the entity Questionnaire
 			questionnaire = em.createNamedQuery("Questionnaire.findQuestionnaireByDate", Questionnaire.class)
 					.setParameter(1, date).getResultStream().findFirst().orElse(null);
 			if(questionnaire == null) {
@@ -125,7 +126,7 @@ public class QuestionnaireService {
 		
 		
 	}
-
+	
 	// get questionnaire by id
 	public Questionnaire getQuestionnaireById(int idQuestionnaire) throws QuestionnaireException {
 		Questionnaire questionnaire = null;
@@ -138,7 +139,7 @@ public class QuestionnaireService {
 		}
 		return questionnaire;
 	}
-
+	
 	// get all questionnaires
 	public List<Questionnaire> getAllQuestionnaire() throws QuestionnaireException {
 		List<Questionnaire> questionnaires = null;
@@ -150,7 +151,7 @@ public class QuestionnaireService {
 		}
 		return questionnaires;
 	}
-
+	
 	// delete questionnaire by id
 	public void removeQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
 		// delete questionnaire
@@ -174,5 +175,5 @@ public class QuestionnaireService {
 		q.setProduct(product);
 		return q;
 	}
-
+	
 }
