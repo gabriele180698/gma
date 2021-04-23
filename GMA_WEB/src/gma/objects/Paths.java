@@ -8,7 +8,8 @@ public enum Paths {
 	ADMIN_DELETE_QUESTIONNAIRE("/Admin/DeleteQuestionnaire"),
 	ADMIN_DELETE_QUESTIONNAIRE_PAGE("/WEB-INF/admin/deleteQuestionnaire.html"),
 	ADMIN_INSPECTION_PAGE("/WEB-INF/admin/inspection.html"),
-	ADMIN_INSPECTION_QUESTIONNAIRE_PAGE("/WEB-INF/admin/inspectQuestionnaire.html");
+	ADMIN_INSPECT_QUESTIONNAIRE_PAGE("/WEB-INF/admin/inspectQuestionnaire.html"),
+	ADMIN_INSPECT_USER_ANSWERS_PAGE("/WEB-INF/admin/inspectUserAnswers.html");
 
 	private final String path;
 

@@ -19,6 +19,7 @@ import gma.entities.Questionnaire;
 import gma.entities.User;
 import gma.objects.Paths;
 import gma.services.QuestionnaireService;
+import gma.services.UserService;
 
 public class GoToInspectUserAnswers {
 	@WebServlet("/Admin/InspectUserAnswers")
@@ -26,6 +27,7 @@ public class GoToInspectUserAnswers {
 		private static final long serialVersionUID = 1L;
 		private TemplateEngine templateEngine;
 		private QuestionnaireService qService;
+		private UserService uService;
 		public GoToCreateInspectUserAnswers() {
 			super();
 		}
@@ -50,8 +52,10 @@ public class GoToInspectUserAnswers {
 			try {
 				// Get id of the selected questionnaire and selected user
 				idQuestionnaire = Integer.parseInt(request.getParameter("idQuestionnaire"));
-				idQuestionnaire = Integer.parseInt(request.getParameter("idUser"));
+				idUser = Integer.parseInt(request.getParameter("idUser"));
 				q = qService.getQuestionnaireById(idQuestionnaire);
+				u = uService.getUserById(idUser);
+				// Call services that return the user that have submitted or not
 				submitters = qService.getUsersSubmitedQuestionnaire(q);
 				cancellers = qService.getUsersCancelledQuestionnaire(q);
 				request.getSession().setAttribute("questionnaire", q);
@@ -66,7 +70,7 @@ public class GoToInspectUserAnswers {
 
 			// Redirect to the Home page and add missions to the parameters
 			final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-			templateEngine.process(Paths.ADMIN_INSPECTION_PAGE.getPath(), ctx, response.getWriter());
+			templateEngine.process(Paths.ADMIN_INSPECT_USER_ANSWERS_PAGE.getPath(), ctx, response.getWriter());
 		}
 		
 		protected void doPost(HttpServletRequest request, HttpServletResponse response)

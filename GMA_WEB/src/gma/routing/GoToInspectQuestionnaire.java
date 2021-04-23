@@ -63,7 +63,7 @@ public class GoToInspectQuestionnaire {
 
 			// Redirect to the Home page and add missions to the parameters
 			final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-			templateEngine.process(Paths.ADMIN_INSPECTION_PAGE.getPath(), ctx, response.getWriter());
+			templateEngine.process(Paths.ADMIN_INSPECT_QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());
 		}
 		
 		protected void doPost(HttpServletRequest request, HttpServletResponse response)

@@ -32,6 +32,16 @@ public class UserService {
 		}
 		return user;
 	}
+	public User getUserById(int id) throws CredentialsException {
+		User user = null;
+		try {
+			user = em.createNamedQuery("User.findUserById", User.class).setParameter(1, id)
+					.getResultStream().findFirst().orElse(null);
+		} catch (PersistenceException e) {
+			throw new CredentialsException("User not found correctly");
+		}
+		return user;
+	}
 	public void logAccess(User user) throws AccessException {
 		try {
 			// Log the access in the database
