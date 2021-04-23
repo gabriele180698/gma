@@ -155,10 +155,7 @@ public class InsertQuestionnaire extends HttpServlet {
 			for (i = 0; i < counterQuestions; i++) {
 				queService.createQuestion(StringEscapeUtils.escapeJava(request.getParameter("q" + i)), questionnaire);
 			}
-
-			response.sendRedirect(
-					getServletContext().getContextPath() + Paths.ADMIN_CREATE_QUESTIONNAIRE_PAGE.getPath());
-
+			response.sendRedirect(getServletContext().getContextPath() + Paths.ADMIN_CREATE_QUESTIONNAIRE_PAGE.getPath());
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");

@@ -18,17 +18,17 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
 import gma.entities.Questionnaire;
 import gma.entities.User;
+import gma.exceptions.QuestionnaireException;
 import gma.objects.Paths;
 import gma.services.QuestionService;
 import gma.services.QuestionnaireService;
 
-public class GoToInspectionPage {
-	@WebServlet("/Admin/Inspection")
-	public class GoToCreateInspectionPage extends HttpServlet {
+@WebServlet("/Admin/Inspection")
+public class GoToInspectionPage extends HttpServlet{
 		private static final long serialVersionUID = 1L;
 		private TemplateEngine templateEngine;
 		private QuestionnaireService qService;
-		public GoToCreateInspectionPage() {
+		public GoToInspectionPage() {
 			super();
 		}
 		
@@ -47,8 +47,7 @@ public class GoToInspectionPage {
 			 try {
 				 questionnaires = qService.getAllQuestionnaire();
 				 request.getSession().setAttribute("questionnaires", questionnaires);
-				} catch (Exception e) {
-					e.printStackTrace();
+				} catch (QuestionnaireException e) {
 					response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
 							"Ops! Something went wrong during the access to the questionnaire");
 					return;
@@ -67,5 +66,4 @@ public class GoToInspectionPage {
 		public void destroy() {
 		}
 		
-	}
 }
