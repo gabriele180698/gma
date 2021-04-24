@@ -170,10 +170,12 @@ public class QuestionnaireService {
 			throw new QuestionnaireException("It is not possible to delete the questionnaire!");
 		}
 	}
+	
 	public Questionnaire createQuestionnaire(Date date, Product product) {
 		Questionnaire q = new Questionnaire();
 		q.setDate(date);
 		q.setProduct(product);
+		em.persist(q);
 		return q;
 	}
 	
