@@ -31,7 +31,7 @@ public class Questionnaire implements Serializable {
 	private Date date;
 	@OneToMany(mappedBy = "questionnaire", fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
 	private List<Question> questions;
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idProduct")
 	private Product product;
 	@OneToMany(mappedBy = "questionnaire", fetch = FetchType.EAGER)
