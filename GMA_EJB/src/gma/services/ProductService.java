@@ -36,10 +36,16 @@ public class ProductService {
 		return product.getReviews();
 	}
 
-	public Product createProduct(String pictureName, byte[] imgByteArray) {
-		Product p = new Product();
-		p.setName(pictureName);
-		p.setImg(imgByteArray);
-		return p;
+	public Product createProduct(String pictureName, byte[] imgByteArray) throws ProductException {
+		Product product = new Product();
+		try {
+			product.setName(pictureName);
+			product.setImg(imgByteArray);
+			em.persist(product);
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new ProductException("Can not create the product");
+		}
+		return product;
 	}
 }

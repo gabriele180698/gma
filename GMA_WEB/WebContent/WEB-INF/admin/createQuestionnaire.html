@@ -39,7 +39,7 @@
 						time after now)<input type="date" id="questionnaireDate"
 							name="date" onchange="return dateValidation()" required>
 					</p>
-					<p id="questions">Questions List</p>
+					<p id="questions">Questions List </p>
 					<button type="button" id="add">New Question</button>
 					<input type="hidden" id="counter" name="counter">
 				</fieldset>
@@ -60,7 +60,7 @@
 		var p = document.createElement("P");
 		var s = document.createElement("SPAN");
 		var b = document.createElement("BUTTON");
-		s.innerText = "Question " + (counter+1);
+		s.innerText = "Question " + (counter + 1);
 		s.setAttribute("id", "s" + counter);
 		q.setAttribute("required", "required");
 		p.setAttribute("id", "p" + counter);
@@ -78,7 +78,8 @@
 		b.onclick = function() {
 			buttonFunctionDelete(this)
 		};
-		document.getElementById("SendQuestionnaire").setAttribute("type", "submit");
+		document.getElementById("SendQuestionnaire").setAttribute("type",
+				"submit");
 		document.getElementById("messageSubmit").innerText = "";
 	}
 	function buttonFunctionDelete(button) {
@@ -89,14 +90,15 @@
 			document.getElementById(j).setAttribute("id", i);
 			document.getElementById("q" + j).setAttribute("name", i);
 			document.getElementById("q" + j).setAttribute("id", "q" + i);
-			document.getElementById("s" + j).innerText = "Question " + (i+1);
+			document.getElementById("s" + j).innerText = "Question " + (i + 1);
 			document.getElementById("s" + j).setAttribute("id", "s" + i);
 			document.getElementById("p" + j).setAttribute("id", "p" + i);
 		}
 		counter--;
 		var firstQuestion = document.getElementById("q0");
-		if(firstQuestion == null){
-			document.getElementById("SendQuestionnaire").setAttribute("type", "hidden");
+		if (firstQuestion == null) {
+			document.getElementById("SendQuestionnaire").setAttribute("type",
+					"hidden");
 			document.getElementById("messageSubmit").innerText = "At least one question is required";
 		}
 	}
@@ -110,24 +112,26 @@
 			document.getElementById("photoFile").value = "";
 		}
 	}
-	function dateValidation(){
+	function dateValidation() {
 		var insertedDate = document.getElementById("questionnaireDate").value;
 		var d = new Date();
-	    month = parseInt(d.getMonth()+1);
-	    day = parseInt(d.getDate());
-	    year = parseInt(d.getFullYear());
-	    var parts = insertedDate.split("-");
-	    var insertedDay = parseInt(parts[2]);
-	    var insertedMonth = parseInt(parts[1]);
-	    var insertedYear = parseInt(parts[0]);
-	    var dateValid = false;
-	    if((insertedYear == year && ((insertedMonth == month && insertedDay >= day) || (insertedMonth > month))) || insertedYear > year){
-	    	dateValid = true;
-	    };
-	    if(!dateValid){
-	    	alert("The inserted date is not valid! \nThe date must be after today");
-	    	document.getElementById("questionnaireDate").value = "";
-	    }
+		month = parseInt(d.getMonth() + 1);
+		day = parseInt(d.getDate());
+		year = parseInt(d.getFullYear());
+		var parts = insertedDate.split("-");
+		var insertedDay = parseInt(parts[2]);
+		var insertedMonth = parseInt(parts[1]);
+		var insertedYear = parseInt(parts[0]);
+		var dateValid = false;
+		if ((insertedYear == year && ((insertedMonth == month && insertedDay >= day) || (insertedMonth > month)))
+				|| insertedYear > year) {
+			dateValid = true;
+		}
+		;
+		if (!dateValid) {
+			alert("The inserted date is not valid! \nThe date must be after today");
+			document.getElementById("questionnaireDate").value = "";
+		}
 	}
 </script>
 </html>
