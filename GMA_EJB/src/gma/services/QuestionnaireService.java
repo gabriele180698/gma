@@ -80,7 +80,7 @@ public class QuestionnaireService {
 		}
 		
 	}
-	// retrieves users answers to a given questionnaire
+	/* retrieves users answers to a given questionnaire
 	public List<Answer> getAnswers(Questionnaire questionnaire, User user) throws QuestionnaireException {
 		List<Answer> answers = null;
 		try {
@@ -92,6 +92,7 @@ public class QuestionnaireService {
 		}
 		
 	}
+	*/
 	
 	
 	// search for a questionnaire with the given date

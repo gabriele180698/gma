@@ -16,7 +16,7 @@ import javax.persistence.*;
 //@NamedQuery(name = "Questionnaire.findQuestionnaireById", query = "SELECT q FROM Questionnaire q  WHERE q.id = ?1"),
 @NamedQuery(name = "Questionnaire.findQuestionnaireByDate", query = "SELECT q FROM Questionnaire q  WHERE q.date = ?1"),
 @NamedQuery(name = "Questionnaire.findAll", query = "SELECT q FROM Questionnaire q"),
-@NamedQuery(name = "Questionnaire.findAnswerByUser", query = "SELECT a FROM Questionnaire q JOIN q.questions qu JOIN qu.answers a WHERE a.user = ?1")
+//@NamedQuery(name = "Questionnaire.findAnswerByUser", query = "SELECT a FROM Questionnaire q JOIN q.questions qu JOIN qu.answers a WHERE a.user = ?1")
 //@NamedQuery(name = "Questionnaire.UserSubmitted", query = "SELECT s.user FROM Questionnaire q JOIN Statistics s WHERE s.status = 1 AND q.id = ?1"),
 //@NamedQuery(name = "Questionnaire.UserCancelled", query = "SELECT s.user FROM Questionnaire q JOIN q.Statistics s WHERE s.status = 0 AND q.id = ?1")
 //@NamedQuery(name = "Statistics.findQuestionnaireOtheUsers", query = "SELECT a,qu,u FROM Questionnaire q JOIN q.questions qu JOIN qu.answers a JOIN a.user u "
