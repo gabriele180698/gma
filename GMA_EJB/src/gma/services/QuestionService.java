@@ -43,6 +43,7 @@ public class QuestionService {
 		Question q = new Question();
 		q.setText(text);
 		q.setQuestionnaire(questionnaire);
+		em.persist(q);
 	}
 	// Return all the answer associated to a given questionnaire and user
 	public List<Answer> getAnswers(Questionnaire questionnaire, User user) throws QuestionnaireException {

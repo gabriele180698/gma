@@ -1,3 +1,4 @@
+
 package gma.controllers;
 
 import java.io.*;
@@ -47,11 +48,11 @@ public class InsertQuestionnaire extends HttpServlet {
 	private ProductService pService;
 	@EJB(name = "gma.services/QuestionService")
 	private QuestionService queService;
-
+	
 	public InsertQuestionnaire() {
 		super();
 	}
-
+	
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
@@ -60,7 +61,7 @@ public class InsertQuestionnaire extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-
+	
 	/*
 	 * private boolean isToday(Date date) { SimpleDateFormat sdf = new
 	 * SimpleDateFormat("yyyy-MM-dd"); Date now = new
@@ -68,24 +69,24 @@ public class InsertQuestionnaire extends HttpServlet {
 	 * sdf.format(now).equals(sdf.format(date)); }
 	 */
 	public static byte[] readImage(InputStream imageInputStream) throws IOException {
-
+		
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		byte[] buffer = new byte[4096];// image can be maximum of 4MB
 		int bytesRead = -1;
-
+		
 		try {
 			while ((bytesRead = imageInputStream.read(buffer)) != -1) {
 				outputStream.write(buffer, 0, bytesRead);
 			}
-
+			
 			byte[] imageBytes = outputStream.toByteArray();
 			return imageBytes;
 		} catch (IOException e) {
 			throw e;
 		}
-
+		
 	}
-
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("InsertQuestionnaire");
@@ -94,7 +95,7 @@ public class InsertQuestionnaire extends HttpServlet {
 			SubmitQuestionnaire(request, response);
 		}
 	}
-
+	
 	protected void SubmitQuestionnaire(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Date date;
@@ -134,7 +135,7 @@ public class InsertQuestionnaire extends HttpServlet {
 			if (exist) {
 				throw new Exception("Existing questionnaire for the day: " + date);
 			}
-
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Ops! Some data was lost");
@@ -162,5 +163,5 @@ public class InsertQuestionnaire extends HttpServlet {
 			return;
 		}
 	}
-
+	
 }
