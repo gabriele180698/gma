@@ -59,7 +59,7 @@ public class GoToHome extends HttpServlet {
 			//Check if there is a product, in case get all reviews
 			if(product != null) {
 				//Get all reviews of the product
-				reviews = pService.getAllReviews(product.getId());
+				reviews = pService.getAllReviews(product);
 			}
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");

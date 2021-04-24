@@ -32,16 +32,8 @@ public class ProductService {
 		return product;
 	}
 
-	public List<Review> getAllReviews(int idProduct) throws ProductException {
-		List<Review> reviews = null;
-		try {
-			reviews = em.createNamedQuery("Review.findReviewsByProduct", Review.class).setParameter(1, idProduct)
-					.getResultList();
-		} catch (PersistenceException e) {
-			e.printStackTrace();
-			throw new ProductException("Can not get review!");
-		}
-		return reviews;
+	public List<Review> getAllReviews(Product product) {
+		return product.getReviews();
 	}
 
 	public Product createProduct(String pictureName, byte[] imgByteArray) {

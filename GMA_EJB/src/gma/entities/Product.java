@@ -22,9 +22,9 @@ public class Product implements Serializable {
 	@Basic(fetch = FetchType.LAZY)
 	@Lob
 	private byte[] img;
-	@OneToMany(mappedBy = "product")
+	@OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
 	private List<Questionnaire> questionnaires;
-	@OneToMany(mappedBy = "product")
+	@OneToMany(mappedBy = "product", fetch = FetchType.EAGER)
 	private List<Review> reviews;
 
 	public Product() {

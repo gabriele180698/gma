@@ -15,7 +15,7 @@ public class Answer implements Serializable {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String text;
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idUser")
 	private User user;
 	@ManyToOne(fetch = FetchType.EAGER)
