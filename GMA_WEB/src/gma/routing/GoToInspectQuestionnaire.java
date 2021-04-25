@@ -3,6 +3,7 @@ package gma.routing;
 import java.io.IOException;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -24,6 +25,7 @@ import gma.services.QuestionnaireService;
 public class GoToInspectQuestionnaire extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
+	@EJB(name = "gma.services/QuestionnaireService.java")
 	private QuestionnaireService qService;
 
 	public GoToInspectQuestionnaire() {

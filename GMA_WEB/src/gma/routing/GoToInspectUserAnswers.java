@@ -4,6 +4,7 @@ package gma.routing;
 import java.io.IOException;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -16,17 +17,23 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import gma.entities.Answer;
 import gma.entities.Questionnaire;
 import gma.entities.User;
 import gma.objects.Paths;
+import gma.services.QuestionService;
 import gma.services.QuestionnaireService;
 import gma.services.UserService;
 @WebServlet("/Admin/InspectUserAnswers")
 public class GoToInspectUserAnswers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
+	@EJB(name = "gma.services/QuestionnaireService.java")
 	private QuestionnaireService qService;
+	@EJB(name = "gma.services/UserService.java")
 	private UserService uService;
+	@EJB(name = "gma.services/QuestionService.java")
+	private QuestionService quService;
 	public GoToInspectUserAnswers() {
 		super();
 	}
@@ -46,7 +53,7 @@ public class GoToInspectUserAnswers extends HttpServlet {
 		Integer idUser = null;
 		Questionnaire q = null;
 		User u = null;
-		List<User> submitters = null;
+		List<Answer> answers = null;
 		List<User> cancellers = null;
 		try {
 			// Get id of the selected questionnaire and selected user
@@ -54,12 +61,10 @@ public class GoToInspectUserAnswers extends HttpServlet {
 			idUser = Integer.parseInt(request.getParameter("idUser"));
 			q = qService.getQuestionnaireById(idQuestionnaire);
 			u = uService.getUserById(idUser);
-			// Call services that return the user that have submitted or not
-			submitters = qService.getUsersSubmitedQuestionnaire(q);
-			cancellers = qService.getUsersCancelledQuestionnaire(q);
+			answers = quService.getAnswers(q, u);
 			request.getSession().setAttribute("questionnaire", q);
-			request.getSession().setAttribute("submitters", submitters);
-			request.getSession().setAttribute("cancellers", cancellers);
+			request.getSession().setAttribute("user", u);
+			request.getSession().setAttribute("answers", answers);
 		} catch ( Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
