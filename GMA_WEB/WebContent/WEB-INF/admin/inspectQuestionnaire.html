@@ -26,34 +26,35 @@
 			<table>
 				<thead>
 					<tr>
-					    <th>Id</th>
+						<th>Id</th>
 						<th>Product</th>
 						<th>Date</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:with="q : ${questionnaire}">
-	                    <td th:text="${q.id}"> </td>
-						<td th:text="${q.product.name}"> </td>
-						<td th:text="${#dates.format(q.date, 'yyyy-MM-dd')}"> </td>	
+						<td th:text="${q.id}"></td>
+						<td th:text="${q.product.name}"></td>
+						<td th:text="${#dates.format(q.date, 'yyyy-MM-dd')}"></td>
 					</tr>
 				</tbody>
 			</table>
-		<p>Users that have submitted the questionnaire</p>
+			<p>Users that have submitted the questionnaire</p>
 			<table>
 				<thead>
 					<tr>
-					    <th>Id</th>
+						<th>Id</th>
 						<th>Username</th>
 						<th>Answers</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="s : ${submitters}">
-						<td th:text="${s.id}"> </td>
-	                    <td th:text="${s.username}"> </td>
-	                	<td><a th:href="@{/Admin/InspectUserAnswers(idQuestionnaire=${q.id}, idUser=${s.id})}">Answers</a></td>
-	                	
+						<td th:text="${s.id}"></td>
+						<td th:text="${s.username}"></td>
+						<td><a
+							th:href="@{/Admin/InspectUserAnswers(idQuestionnaire=${q.id}, idUser=${s.id})}">Answers</a></td>
+
 					</tr>
 				</tbody>
 			</table>
@@ -61,22 +62,22 @@
 			<table>
 				<thead>
 					<tr>
-					    <th>Id</th>
+						<th>Id</th>
 						<th>Username</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="c : ${cancellers}">
-						<td th:text="${c.id}"> </td>
-	                    <td th:text="${c.username}"> </td>
+						<td th:text="${c.id}"></td>
+						<td th:text="${c.username}"></td>
 					</tr>
 				</tbody>
-			</table>	
-	</div>
-	
-	<div th:if="${questionnaires.isEmpty()}">
-		<p>No questionnaire Data!</p>
-	</div>
+			</table>
+		</div>
+
+		<div th:if="${questionnaires.isEmpty()}">
+			<p>No questionnaire Data!</p>
+		</div>
 	</section>
 </body>
 </html>

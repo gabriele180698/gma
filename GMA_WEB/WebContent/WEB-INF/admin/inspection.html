@@ -22,30 +22,31 @@
 <body>
 	<section>
 		<div th:if="${!questionnaires.isEmpty()}">
-		<table>
-			<thead>
-				<tr>
-				    <th>Id</th>
-					<th>Product</th>
-					<th>Date</th>
-					<th>Inspect</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="q : ${questionnaires}">
-                    <td th:text="${q.id}"> </td>
-					<td th:text="${q.product.name}"> </td>
-					<td th:text="${#dates.format(q.date, 'yyyy-MM-dd')}"> </td>
-                	<td><a th:href="@{/Admin/InspectQuestionnaire(idQuestionnaire=${q.id})}">Inspect</a></td>
-                	
-				</tr>
-			</tbody>
-		</table>
-	</div>
-	
-	<div th:if="${questionnaires.isEmpty()}">
-		<p>No questionnaires!</p>
-	</div>
+			<table>
+				<thead>
+					<tr>
+						<th>Id</th>
+						<th>Product</th>
+						<th>Date</th>
+						<th>Inspect</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="q : ${questionnaires}">
+						<td th:text="${q.id}"></td>
+						<td th:text="${q.product.name}"></td>
+						<td th:text="${#dates.format(q.date, 'yyyy-MM-dd')}"></td>
+						<td><a
+							th:href="@{/Admin/InspectQuestionnaire(idQuestionnaire=${q.id})}">Inspect</a></td>
+
+					</tr>
+				</tbody>
+			</table>
+		</div>
+
+		<div th:if="${questionnaires.isEmpty()}">
+			<p>No questionnaires!</p>
+		</div>
 	</section>
 </body>
 </html>

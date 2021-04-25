@@ -25,10 +25,11 @@ public class GoToInspectQuestionnaire extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
 	private QuestionnaireService qService;
+
 	public GoToInspectQuestionnaire() {
 		super();
 	}
-	
+
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
@@ -37,7 +38,7 @@ public class GoToInspectQuestionnaire extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Integer idQuestionnaire = null;
@@ -53,24 +54,24 @@ public class GoToInspectQuestionnaire extends HttpServlet {
 			request.getSession().setAttribute("questionnaire", q);
 			request.getSession().setAttribute("submitters", submitters);
 			request.getSession().setAttribute("cancellers", cancellers);
-		} catch ( Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Ops! Something went wrong during the access to the questionnaire data");
 			return;
 		}
-		
+
 		// Redirect to the Home page and add missions to the parameters
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		templateEngine.process(Paths.ADMIN_INSPECT_QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());
 	}
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
-	
+
 	public void destroy() {
 	}
-	
+
 }

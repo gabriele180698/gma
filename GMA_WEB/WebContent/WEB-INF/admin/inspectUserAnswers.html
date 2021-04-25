@@ -21,22 +21,25 @@
 </body>
 <body>
 	<section>
-		<p><a th:href="@{/Admin/InspectQuestionnaire(idQuestionnaire=${q.id})}">Go Back</a></p>
+		<p>
+			<a th:href="@{/Admin/InspectQuestionnaire(idQuestionnaire=${q.id})}">Go
+				Back</a>
+		</p>
 		<div th:if="${!questionnaires.isEmpty()}">
 			<p>Questionnaire Selected</p>
 			<table>
 				<thead>
 					<tr>
-					    <th>Id</th>
+						<th>Id</th>
 						<th>Product</th>
 						<th>Date</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:with="q : ${questionnaire}">
-	                    <td th:text="${q.id}"> </td>
-						<td th:text="${q.product.name}"> </td>
-						<td th:text="${#dates.format(q.date, 'yyyy-MM-dd')}"> </td>	                	
+						<td th:text="${q.id}"></td>
+						<td th:text="${q.product.name}"></td>
+						<td th:text="${#dates.format(q.date, 'yyyy-MM-dd')}"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -44,18 +47,18 @@
 			<table>
 				<thead>
 					<tr>
-					    <th>Id</th>
+						<th>Id</th>
 						<th>Username</th>
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:with="u : ${user}">
-	                    <td th:text="${u.id}"> </td>
-						<td th:text="${u.username}"> </td>
+						<td th:text="${u.id}"></td>
+						<td th:text="${u.username}"></td>
 					</tr>
 				</tbody>
 			</table>
-		<p>Answers</p>
+			<p>Answers</p>
 			<table>
 				<thead>
 					<tr>
@@ -65,16 +68,16 @@
 				</thead>
 				<tbody>
 					<tr th:each="a : ${answers}">
-						<td th:text="${a.question.text}"> </td>
-	                    <td th:text="${a.text}"> </td>
+						<td th:text="${a.question.text}"></td>
+						<td th:text="${a.text}"></td>
 					</tr>
 				</tbody>
 			</table>
-	</div>
-	
-	<div th:if="${questionnaires.isEmpty()}">
-		<p>No questionnaire Data!</p>
-	</div>
+		</div>
+
+		<div th:if="${questionnaires.isEmpty()}">
+			<p>No questionnaire Data!</p>
+		</div>
 	</section>
 </body>
 </html>

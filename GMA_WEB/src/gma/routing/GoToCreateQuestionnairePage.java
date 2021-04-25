@@ -21,41 +21,41 @@ import gma.services.*;
 import gma.entities.*;
 import gma.objects.Paths;
 
-	@WebServlet("/Admin/CreateQuestionnaire")
-	public class GoToCreateQuestionnairePage extends HttpServlet {
-		private static final long serialVersionUID = 1L;
-		private TemplateEngine templateEngine;
+@WebServlet("/Admin/CreateQuestionnaire")
+public class GoToCreateQuestionnairePage extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+	private TemplateEngine templateEngine;
 
-		public GoToCreateQuestionnairePage() {
-			super();
-		}
-
-		public void init() throws ServletException {
-			ServletContext servletContext = getServletContext();
-			ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
-			templateResolver.setTemplateMode(TemplateMode.HTML);
-			this.templateEngine = new TemplateEngine();
-			this.templateEngine.setTemplateResolver(templateResolver);
-			templateResolver.setSuffix(".html");
-		}
-
-		protected void doGet(HttpServletRequest request, HttpServletResponse response)
-				throws ServletException, IOException {
-			
-			HttpSession session = request.getSession();
-			User user = (User) session.getAttribute("user");
-
-			// Redirect to the Home page and add missions to the parameters
-			final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-			templateEngine.process(Paths.ADMIN_CREATE_QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());
-		}
-
-		protected void doPost(HttpServletRequest request, HttpServletResponse response)
-				throws ServletException, IOException {
-			doGet(request, response);
-		}
-
-		public void destroy() {
-		}
-
+	public GoToCreateQuestionnairePage() {
+		super();
 	}
+
+	public void init() throws ServletException {
+		ServletContext servletContext = getServletContext();
+		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
+		templateResolver.setTemplateMode(TemplateMode.HTML);
+		this.templateEngine = new TemplateEngine();
+		this.templateEngine.setTemplateResolver(templateResolver);
+		templateResolver.setSuffix(".html");
+	}
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		HttpSession session = request.getSession();
+		User user = (User) session.getAttribute("user");
+
+		// Redirect to the Home page and add missions to the parameters
+		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
+		templateEngine.process(Paths.ADMIN_CREATE_QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doGet(request, response);
+	}
+
+	public void destroy() {
+	}
+
+}
