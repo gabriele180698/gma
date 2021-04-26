@@ -21,25 +21,25 @@
 </body>
 <body>
 	<section>
-		<div th:if="${!questionnaires.isEmpty()}">
-			<p>Questionnaire Selected</p>
-			<table>
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Product</th>
-						<th>Date</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:with="q : ${questionnaire}">
-						<td th:text="${q.id}"></td>
-						<td th:text="${q.product.name}"></td>
-						<td th:text="${#dates.format(q.date, 'yyyy-MM-dd')}"></td>
-					</tr>
-				</tbody>
-			</table>
-			<p>Users that have submitted the questionnaire</p>
+		<p>Questionnaire Selected</p>
+		<table>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Product</th>
+					<th>Date</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:with="q : ${questionnaire}">
+					<td th:text="${q.id}"></td>
+					<td th:text="${q.product.name}"></td>
+					<td th:text="${#dates.format(q.date, 'yyyy-MM-dd')}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<p>Users that have submitted the questionnaire</p>
+		<div th:if="${!submitters.isEmpty()}">
 			<table>
 				<thead>
 					<tr>
@@ -58,7 +58,12 @@
 					</tr>
 				</tbody>
 			</table>
-			<p>Users that have cancelled the questionnaire</p>
+		</div>
+		<div th:if="${submitter.isEmpty()}">
+			<p>No user have submitted the questionnaire!</p>
+		</div>
+		<p>Users that have cancelled the questionnaire</p>
+		<div th:if="${!cancellers.isEmpty()}">
 			<table>
 				<thead>
 					<tr>
@@ -75,8 +80,8 @@
 			</table>
 		</div>
 
-		<div th:if="${questionnaires.isEmpty()}">
-			<p>No questionnaire Data!</p>
+		<div th:if="${cancellers.isEmpty()}">
+			<p>No user have delated the questionnaire!</p>
 		</div>
 	</section>
 </body>

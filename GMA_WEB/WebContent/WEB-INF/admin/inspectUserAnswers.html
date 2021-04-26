@@ -25,40 +25,40 @@
 			<a th:href="@{/Admin/InspectQuestionnaire(idQuestionnaire=${q.id})}">Go
 				Back</a>
 		</p>
-		<div th:if="${!questionnaires.isEmpty()}">
-			<p>Questionnaire Selected</p>
-			<table>
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Product</th>
-						<th>Date</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:with="q : ${questionnaire}">
-						<td th:text="${q.id}"></td>
-						<td th:text="${q.product.name}"></td>
-						<td th:text="${#dates.format(q.date, 'yyyy-MM-dd')}"></td>
-					</tr>
-				</tbody>
-			</table>
-			<p>User Selected</p>
-			<table>
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Username</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:with="u : ${user}">
-						<td th:text="${u.id}"></td>
-						<td th:text="${u.username}"></td>
-					</tr>
-				</tbody>
-			</table>
-			<p>Answers</p>
+		<p>Questionnaire Selected</p>
+		<table>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Product</th>
+					<th>Date</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:with="q : ${questionnaire}">
+					<td th:text="${q.id}"></td>
+					<td th:text="${q.product.name}"></td>
+					<td th:text="${#dates.format(q.date, 'yyyy-MM-dd')}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<p>User Selected</p>
+		<table>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Username</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:with="u : ${user}">
+					<td th:text="${u.id}"></td>
+					<td th:text="${u.username}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<p>Answers</p>
+		<div th:if="${!answers.isEmpty()}">
 			<table>
 				<thead>
 					<tr>
@@ -76,7 +76,7 @@
 		</div>
 
 		<div th:if="${questionnaires.isEmpty()}">
-			<p>No questionnaire Data!</p>
+			<p>There are no answers</p>
 		</div>
 	</section>
 </body>

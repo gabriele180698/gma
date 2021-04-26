@@ -24,6 +24,7 @@ import gma.objects.Paths;
 import gma.services.QuestionService;
 import gma.services.QuestionnaireService;
 import gma.services.UserService;
+
 @WebServlet("/Admin/InspectUserAnswers")
 public class GoToInspectUserAnswers extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -34,10 +35,11 @@ public class GoToInspectUserAnswers extends HttpServlet {
 	private UserService uService;
 	@EJB(name = "gma.services/QuestionService.java")
 	private QuestionService quService;
+
 	public GoToInspectUserAnswers() {
 		super();
 	}
-	
+
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
 		ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver(servletContext);
@@ -46,7 +48,7 @@ public class GoToInspectUserAnswers extends HttpServlet {
 		this.templateEngine.setTemplateResolver(templateResolver);
 		templateResolver.setSuffix(".html");
 	}
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Integer idQuestionnaire = null;
@@ -62,28 +64,27 @@ public class GoToInspectUserAnswers extends HttpServlet {
 			q = qService.getQuestionnaireById(idQuestionnaire);
 			u = uService.getUserById(idUser);
 			answers = quService.getAnswers(q, u);
-			request.getSession().setAttribute("questionnaire", q);
-			request.getSession().setAttribute("user", u);
-			request.getSession().setAttribute("answers", answers);
-		} catch ( Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Ops! Something went wrong during the access to the questionnaire data");
 			return;
 		}
-		
-		// Redirect to the Home page and add missions to the parameters
+
+		// Set parameters and redirect to the next inspection page
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-		templateEngine.process(Paths.ADMIN_INSPECT_USER_ANSWERS_PAGE.getPath(), ctx, response.getWriter());
+		ctx.setVariable("questionnaires", q);
+		ctx.setVariable("users", u);
+		ctx.setVariable("answers", answers);
+		templateEngine.process(Paths.ADMIN_INSPECT_QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());
 	}
-	
+
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doGet(request, response);
 	}
-	
+
 	public void destroy() {
 	}
-	
-}
 
+}

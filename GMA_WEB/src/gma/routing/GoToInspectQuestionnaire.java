@@ -1,6 +1,7 @@
 package gma.routing;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -16,6 +17,7 @@ import org.thymeleaf.context.WebContext;
 import org.thymeleaf.templatemode.TemplateMode;
 import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 
+import gma.entities.Product;
 import gma.entities.Questionnaire;
 import gma.entities.User;
 import gma.objects.Paths;
@@ -53,18 +55,17 @@ public class GoToInspectQuestionnaire extends HttpServlet {
 			q = qService.getQuestionnaireById(idQuestionnaire);
 			submitters = qService.getUsersSubmitedQuestionnaire(q);
 			cancellers = qService.getUsersCancelledQuestionnaire(q);
-			request.getSession().setAttribute("questionnaire", q);
-			request.getSession().setAttribute("submitters", submitters);
-			request.getSession().setAttribute("cancellers", cancellers);
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Ops! Something went wrong during the access to the questionnaire data");
 			return;
 		}
-
-		// Redirect to the Home page and add missions to the parameters
+		// Set parameters and redirect to the next inspection page
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
+		ctx.setVariable("questionnaires", q);
+		ctx.setVariable("submitters", submitters);
+		ctx.setVariable("cancellers", cancellers);
 		templateEngine.process(Paths.ADMIN_INSPECT_QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());
 	}
 
