@@ -4,12 +4,15 @@ package gma.controllers;
 import java.io.*;
 
 import javax.ejb.EJB;
+import javax.persistence.Lob;
+
 import java.util.Date;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -39,7 +42,7 @@ import gma.services.ProductService;
 import gma.services.QuestionnaireService;
 
 @WebServlet("/Admin/InsertQuestionnaire")
-
+@MultipartConfig
 public class InsertQuestionnaire extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
@@ -87,7 +90,6 @@ public class InsertQuestionnaire extends HttpServlet {
 		}
 
 	}
-
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = request.getParameter("SendQuestionnaire");
@@ -105,10 +107,12 @@ public class InsertQuestionnaire extends HttpServlet {
 		Integer counterQuestions = null;
 		Product product = new Product();
 		List<String> questions = new Stack<String>();
+		InputStream imgContent = null;
+		
 		try {
 			// Get and Check Image Data
 			Part imgFile = (Part) request.getPart("picture");
-			InputStream imgContent = imgFile.getInputStream();
+			imgContent = imgFile.getInputStream();
 			byte[] imgByteArray = readImage(imgContent);
 			pictureName = (String) request.getParameter("pictureName");
 			// Check data

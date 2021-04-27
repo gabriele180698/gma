@@ -5,6 +5,7 @@ import java.util.Base64;
 import java.util.List;
 
 import javax.persistence.*;
+import javax.servlet.annotation.MultipartConfig;
 
 /**
  * Entity implementation class for Entity: Product
