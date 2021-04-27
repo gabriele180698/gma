@@ -173,9 +173,9 @@ public class QuestionnaireService {
 	// create Questionnaire and Questions
 	public void createQuestionnaireAndQuestions(Date date, Product product, List<String> questions)
 			throws QuestionnaireException {
+		Questionnaire questionnaire = new Questionnaire();
+		List<Question> qus = new Stack<Question>();
 		try {
-			Questionnaire questionnaire = new Questionnaire();
-			List<Question> qus = new Stack<Question>();
 			questionnaire.setDate(date);
 			questionnaire.setProduct(product);
 			for (int i = 0; i < questions.size(); i++) {

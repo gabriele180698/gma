@@ -138,7 +138,7 @@ public class InsertQuestionnaire extends HttpServlet {
 			Integer i;
 
 			for (i = 0; i < counterQuestions; i++) {
-				questions.add(i, StringEscapeUtils.escapeJava(request.getParameter("q" + i)));
+				questions.add(i, request.getParameter("q" + i));
 			}
 			// Creation Questionnaire and Questions
 			qService.createQuestionnaireAndQuestions(date, product, questions);
