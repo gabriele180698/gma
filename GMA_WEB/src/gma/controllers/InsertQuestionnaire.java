@@ -99,17 +99,18 @@ public class InsertQuestionnaire extends HttpServlet {
 
 	protected void SubmitQuestionnaire(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		Date date;
+		Date date = null;
 		// Date now = new Date(System.currentTimeMillis());
-		String pictureName;
-		Integer counterQuestions;
+		String pictureName = null;
+		Integer counterQuestions = null;
 		Product product = new Product();
+		List<String> questions = new Stack<String>();
 		try {
 			// Get and Check Image Data
-			Part imgFile = request.getPart("picture");
+			Part imgFile = (Part) request.getPart("picture");
 			InputStream imgContent = imgFile.getInputStream();
 			byte[] imgByteArray = readImage(imgContent);
-			pictureName = request.getParameter("pictureName");
+			pictureName = (String) request.getParameter("pictureName");
 			// Check data
 			if (imgByteArray.length == 0 || pictureName.isEmpty()) {
 				throw new Exception("Invalid photo parameters");
@@ -129,9 +130,9 @@ public class InsertQuestionnaire extends HttpServlet {
 				throw new Exception("Existing questionnaire for the day: " + date);
 			}
 			// Get Questions and Creation
-			counterQuestions = Integer.parseInt(request.getParameter("counter"));
+			counterQuestions = (Integer) Integer.parseInt(request.getParameter("counter"));
 			Integer i;
-			List<String> questions = new Stack<String>();
+
 			for (i = 0; i < counterQuestions; i++) {
 				questions.add(i, StringEscapeUtils.escapeJava(request.getParameter("q" + i)));
 			}
@@ -142,7 +143,7 @@ public class InsertQuestionnaire extends HttpServlet {
 					getServletContext().getContextPath() + Paths.ADMIN_CREATE_QUESTIONNAIRE_PAGE.getPath());
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! fangul Some data was lost");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
 			return;
 		}
 	}
