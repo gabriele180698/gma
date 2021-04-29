@@ -55,7 +55,6 @@
 	var add = document.getElementById('add');
 	var newQuestion = document.getElementById('newQuestion');
 	add.onclick = function() {
-		document.getElementById("counter").value = counter;
 		var q = document.createElement("INPUT");
 		var p = document.createElement("P");
 		var s = document.createElement("SPAN");
@@ -75,6 +74,7 @@
 		p.appendChild(b);
 		document.getElementById("questions").appendChild(p);
 		counter++;
+		document.getElementById("counter").value = counter;
 		b.onclick = function() {
 			buttonFunctionDelete(this)
 		};
@@ -95,6 +95,7 @@
 			document.getElementById("p" + j).setAttribute("id", "p" + i);
 		}
 		counter--;
+		document.getElementById("counter").value = counter;
 		var firstQuestion = document.getElementById("q0");
 		if (firstQuestion == null) {
 			document.getElementById("SendQuestionnaire").setAttribute("type",

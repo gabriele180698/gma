@@ -136,11 +136,16 @@ public class InsertQuestionnaire extends HttpServlet {
 			// Get Questions and Creation
 			counterQuestions = (Integer) Integer.parseInt(request.getParameter("counter"));
 			Integer i;
-
+			System.out.print(counterQuestions);
+			if (counterQuestions == 0) {
+				throw new Exception("No question submitted");
+			}
 			for (i = 0; i < counterQuestions; i++) {
 				questions.add(i, request.getParameter("q" + i));
+				System.out.print("ciaoo");
 			}
 			// Creation Questionnaire and Questions
+			
 			qService.createQuestionnaireAndQuestions(date, product, questions);
 
 			response.sendRedirect(
