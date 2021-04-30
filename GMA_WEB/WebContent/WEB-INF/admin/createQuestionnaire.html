@@ -64,7 +64,7 @@
 		q.setAttribute("required", "required");
 		p.setAttribute("id", "p" + counter);
 		q.setAttribute("type", "text");
-		q.setAttribute("name", counter);
+		q.setAttribute("name", "q" + counter);
 		q.setAttribute("id", "q" + counter);
 		b.setAttribute("type", "button");
 		b.setAttribute("id", counter);
@@ -88,7 +88,7 @@
 		document.getElementById("p" + button.id).remove();
 		for (i = buttonId, j = buttonId + 1; j < counter; j++, i++) {
 			document.getElementById(j).setAttribute("id", i);
-			document.getElementById("q" + j).setAttribute("name", i);
+			document.getElementById("q" + j).setAttribute("name", "q" + i);
 			document.getElementById("q" + j).setAttribute("id", "q" + i);
 			document.getElementById("s" + j).innerText = "Question " + (i + 1);
 			document.getElementById("s" + j).setAttribute("id", "s" + i);

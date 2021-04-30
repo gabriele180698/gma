@@ -136,23 +136,23 @@ public class InsertQuestionnaire extends HttpServlet {
 			// Get Questions and Creation
 			counterQuestions = (Integer) Integer.parseInt(request.getParameter("counter"));
 			Integer i;
-			System.out.print(counterQuestions);
+			System.out.println(counterQuestions);
 			if (counterQuestions == 0) {
 				throw new Exception("No question submitted");
 			}
 			for (i = 0; i < counterQuestions; i++) {
-				questions.add(i, request.getParameter("q" + i));
-				System.out.print("ciaoo");
+				questions.add(i, StringEscapeUtils.escapeJava(request.getParameter("q" + i)));
+				System.out.println(request.getParameter("q" + i));
 			}
 			// Creation Questionnaire and Questions
 			
 			qService.createQuestionnaireAndQuestions(date, product, questions);
-
-			response.sendRedirect(
-					getServletContext().getContextPath() + Paths.ADMIN_CREATE_QUESTIONNAIRE_PAGE.getPath());
+			// da sistemare
+			final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
+			templateEngine.process(Paths.ADMIN_HOME_PAGE.getPath(), ctx, response.getWriter());
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
 			return;
 		}
 	}

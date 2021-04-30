@@ -1,6 +1,7 @@
 
 package gma.services;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Stack;
@@ -174,7 +175,7 @@ public class QuestionnaireService {
 	public void createQuestionnaireAndQuestions(Date date, Product product, List<String> questions)
 			throws QuestionnaireException {
 		Questionnaire questionnaire = new Questionnaire();
-		List<Question> qus = new Stack<Question>();
+		List<Question> qus = new ArrayList<Question>();
 		try {
 			questionnaire.setDate(date);
 			questionnaire.setProduct(product);
