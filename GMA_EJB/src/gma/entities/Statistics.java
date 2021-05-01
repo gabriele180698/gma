@@ -2,6 +2,7 @@ package gma.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -21,7 +22,7 @@ import javax.persistence.NamedQuery;
 @NamedQuery(name = "Statistics.findQuestionnaireByUser", query = "SELECT q FROM Statistics s JOIN s.user u JOIN s.questionnaire q WHERE u.id = ?1"),
 @NamedQuery(name = "Statistics.findExistingStatistics", query = "SELECT s FROM Statistics s JOIN s.user u JOIN s.questionnaire q "
 				+ "	WHERE u.id = ?1 AND q.id = ?2 AND s.status = 1"),
-@NamedQuery(name = "Statistics.findByQuestionnaire", query = "SELECT s FROM Statistics s JOIN s.questionnaire q WHERE q.id = ?1"),
+@NamedQuery(name = "Statistics.findByQuestionnaireId", query = "SELECT s FROM Statistics s JOIN s.questionnaire q WHERE q.id = ?1"),
 })
 public class Statistics implements Serializable {
 	private static final long serialVersionUID = 1L;

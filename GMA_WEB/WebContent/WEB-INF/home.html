@@ -3,47 +3,52 @@
 <head>
 <meta charset="ISO-8859-1">
 <title>Home</title>
-<link rel="stylesheet" type="text/css" media="all"
-	href="../CSS/style.css" th:href="@{/css/style.css}" />
+<link rel="stylesheet" type="text/css" media="all" th:href="@{/css/style.css}" />
 </head>
 <body>
 	<section>
 		<div>
 			<div align="right">
-			    <a th:href="@{/App/Home}">Home</a> 
-				<a th:href="@{/App/Questionnaire}">Questionnaire</a> 
-				<a th:href="@{/App/Leaderboard}">Leaderboard</a> 
-				<a th:href="@{/App/Logout}">Logout</a>
+				<a th:href="@{/App/Home}">Home</a> <a
+					th:href="@{/App/Questionnaire}">Questionnaire</a> <a
+					th:href="@{/App/Leaderboard}">Leaderboard</a> <a
+					th:href="@{/App/Logout}">Logout</a>
 			</div>
-			<h1>Welcome to the Paolo Home Page</h1>
-			<p th:if="${session.user.type != 0}" th:text="${'Nice to see you again ' + session.user.username} + ' !'"></p>
-			<p th:if="${session.user.type == 0}" th:text="${'Hi ' + session.user.username} + ' your account is banned!'"></p>
+			<h1>Welcome to the GMA</h1>
+			<p th:if="${session.user.type != 0}"
+				th:text="${'Nice to see you again ' + session.user.username} + ' !'"></p>
+			<p th:if="${session.user.type == 0}"
+				th:text="${'Hi ' + session.user.username} + ' your account is banned!'"></p>
 		</div>
 	</section>
 
 
 	<section>
-		<div th:if="${product == null}">
-			<span>No product of the day!</span>
-		</div>
+		<h4>Product of the day</h4>
+
 		<div th:if="${product != null}">
-			<span th:text="'Product: ' + ${product.name}"> </span> <img
-				width="100px" alt="img"
-				th:src="*{'data:image/png;base64,'+ product.getImgData()}">
+			<div>
+				<span th:text="${product.name}"> </span>
+			</div>
+			<div>
+				<img width="200px" alt="img"
+					th:src="*{'data:image/png;base64,'+ product.getPhotoImageData()}">
+			</div>
 		</div>
 	</section>
-	
-	
+
+
 	<section>
-		<div th:if="${reviews == null}">
+		<div th:if="${reviews.size() == 0}">
 			<span>No reviews of the product!</span>
 		</div>
-		<div th:if="${reviews != null}">
-			<div th:each="r : ${reviews}">
-				<span>Reviews of the product</span>
+		<div th:if="${reviews.size() != 0}">
+		<h4>Reviews of the product</h4>
+			<div th:each="r : ${reviews}" class="review-card">
+			<h4 th:text="'Review: ' + ${r.id}"> </h4>
 				<p th:text="'Username: ' + ${r.user.username}"></p>
-				<p th:text="'${r.text}"> </p>
-			</div>	
+				<p th:text="'Text: ' +  ${r.text}"></p>
+			</div>
 		</div>
 	</section>
 

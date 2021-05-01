@@ -21,33 +21,19 @@ public class StatisticsService {
 	public StatisticsService() {
 	}
 
-	public void submitStatistics(int age, int expertise, Questionnaire questionnaire, int sex, User user, int score)
+	public void submitStatistics(int age, int expertise, Questionnaire questionnaire, int sex, User user)
 			throws StatisticsException {
 		Statistics stat = new Statistics();
 
 		try {
 			// If age is not given, the points are not assigned
-			if (age != 0) {
-				score += 2;
-			}
 			stat.setAge(age);
-
 			// Expertise level: 0 = no info; 1 = low; 2 = medium; 3 = high;
-			if (expertise != 0) {
-				score += 2;
-				stat.setExpertise(expertise);
-			}
-
+			stat.setExpertise(expertise);
 			// Status = 0 = cancelled; 1 = submitted
 			stat.setStatus(1);
-
 			// Sex: 0 = no info; 1 = female; 2 = male; 3 = other;
-			if (sex != 0) {
-				score += 2;
-				stat.setSex(sex);
-			}
-
-			stat.setScore(score);
+			stat.setSex(sex);
 			stat.setQuestionnaire(questionnaire);
 			stat.setUser(user);
 			em.persist(stat);
@@ -59,7 +45,6 @@ public class StatisticsService {
 
 	public void cancelStatistics(Questionnaire questionnaire, User user) throws StatisticsException {
 		Statistics stat = new Statistics();
-
 		try {
 			// Status = 0 = cancelled; 1 = submitted
 			stat.setStatus(0);
@@ -80,6 +65,24 @@ public class StatisticsService {
 			statistics = em.createNamedQuery("Statistics.findExistingStatistics", Statistics.class)
 					.setParameter(1, idUser).setParameter(2, idQuestionnaire).getResultStream().findFirst()
 					.orElse(null);
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new StatisticsException("Something went wrong during the cancellation of the statistics");
+		}
+		return statistics;
+	}
+
+	public List<Statistics> getStatistics(Questionnaire questinnaire) throws StatisticsException {
+		List<Statistics> statistics;
+
+		try {
+			// Check if a submitted statistic exists
+			statistics = em.createNamedQuery("Statistics.findByQuestionnaireId", Statistics.class)
+					.setParameter(1, questinnaire.getId()).getResultList();
+			//check sto fatto
+			for(int i = 0; i < statistics.size(); i++){
+				em.refresh(statistics.get(i));
+			}
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw new StatisticsException("Something went wrong during the cancellation of the statistics");

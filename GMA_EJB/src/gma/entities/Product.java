@@ -55,7 +55,7 @@ public class Product implements Serializable {
 		return img;
 	}
 
-	public String getPhotoimageData() {
+	public String getPhotoImageData() {
 		return Base64.getMimeEncoder().encodeToString(img);
 	}
 

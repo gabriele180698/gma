@@ -51,22 +51,22 @@ public class GoToLeaderboardPage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Questionnaire questionnaire;
+		List<Statistics> statistics;
 
 		// Get the current date
 		Date date = new Date(System.currentTimeMillis());
 
 		try {
 			questionnaire = qService.getQuestionnaireByDate(date);
+			statistics = sService.getStatistics(questionnaire);
+			Collections.sort(statistics, new ScoreComparator().reversed());
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Ops! Something went wrong during the access to the questionnaire");
 			return;
 		}
-		
-		List<Statistics> statistics = questionnaire.getStatistics();
-		Collections.sort(statistics, new ScoreComparator().reversed());
-		
+
 		// Redirect to the Home page and add missions to the parameters
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		ctx.setVariable("statistics", statistics);
