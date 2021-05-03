@@ -31,8 +31,8 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr th:with="q : ${questionnaire}">
-					<td th:text="${q.id}"></td>
+				<tr th:with="q = ${questionnaire}">
+					<td th:text="${questionnaire.id}"></td>
 					<td th:text="${q.product.name}"></td>
 					<td th:text="${#dates.format(q.date, 'yyyy-MM-dd')}"></td>
 				</tr>
