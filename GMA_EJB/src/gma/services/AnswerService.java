@@ -11,8 +11,10 @@ import javax.persistence.PersistenceException;
 
 import gma.entities.User;
 import gma.exceptions.AnswerException;
+import gma.exceptions.QuestionnaireException;
 import gma.entities.Answer;
 import gma.entities.Question;
+import gma.entities.Questionnaire;
 
 @Stateless
 public class AnswerService {
@@ -63,5 +65,19 @@ public class AnswerService {
 		}
 		em.flush();
 		em.clear();
+	}
+
+	// Return all the answer associated to a given questionnaire and user
+	public List<Answer> getAnswers(Questionnaire questionnaire, User user) throws QuestionnaireException {
+		List<Answer> answers = null;
+		try {
+			answers = em.createNamedQuery("Answer.findAnswersByQuestionnaireAndUser", Answer.class)
+					.setParameter(1, questionnaire.getId()).setParameter(2, user.getId()).getResultList();
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new QuestionnaireException("No questions!");
+		}
+		return answers;
+
 	}
 }

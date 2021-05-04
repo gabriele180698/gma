@@ -53,13 +53,13 @@
 						<td th:text="${s.id}"></td>
 						<td th:text="${s.username}"></td>
 						<td><a
-							th:href="@{/Admin/InspectUserAnswers(idQuestionnaire=${q.id}, idUser=${s.id})}">Answers</a></td>
+							th:href="@{/Admin/InspectUserAnswers(idQuestionnaire=${questionnaire.id}, idUser=${s.id})}">Answers</a></td>
 
 					</tr>
 				</tbody>
 			</table>
 		</div>
-		<div th:if="${submitter.isEmpty()}">
+		<div th:if="${submitters.isEmpty()}">
 			<p>No user have submitted the questionnaire!</p>
 		</div>
 		<p>Users that have cancelled the questionnaire</p>

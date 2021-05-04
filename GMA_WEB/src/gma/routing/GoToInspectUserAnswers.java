@@ -21,7 +21,7 @@ import gma.entities.Answer;
 import gma.entities.Questionnaire;
 import gma.entities.User;
 import gma.objects.Paths;
-import gma.services.QuestionService;
+import gma.services.AnswerService;
 import gma.services.QuestionnaireService;
 import gma.services.UserService;
 
@@ -33,8 +33,8 @@ public class GoToInspectUserAnswers extends HttpServlet {
 	private QuestionnaireService qService;
 	@EJB(name = "gma.services/UserService.java")
 	private UserService uService;
-	@EJB(name = "gma.services/QuestionService.java")
-	private QuestionService quService;
+	@EJB(name = "gma.services/AnswerService.java")
+	private AnswerService aService;
 
 	public GoToInspectUserAnswers() {
 		super();
@@ -56,14 +56,13 @@ public class GoToInspectUserAnswers extends HttpServlet {
 		Questionnaire q = null;
 		User u = null;
 		List<Answer> answers = null;
-		List<User> cancellers = null;
 		try {
 			// Get id of the selected questionnaire and selected user
 			idQuestionnaire = Integer.parseInt(request.getParameter("idQuestionnaire"));
 			idUser = Integer.parseInt(request.getParameter("idUser"));
 			q = qService.getQuestionnaireById(idQuestionnaire);
 			u = uService.getUserById(idUser);
-			answers = quService.getAnswers(q, u);
+			answers = aService.getAnswers(q, u);
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
@@ -73,10 +72,10 @@ public class GoToInspectUserAnswers extends HttpServlet {
 
 		// Set parameters and redirect to the next inspection page
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-		ctx.setVariable("questionnaires", q);
-		ctx.setVariable("users", u);
+		ctx.setVariable("questionnaire", q);
+		ctx.setVariable("user", u);
 		ctx.setVariable("answers", answers);
-		templateEngine.process(Paths.ADMIN_INSPECT_QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());
+		templateEngine.process(Paths.ADMIN_INSPECT_USER_ANSWERS_PAGE.getPath(), ctx, response.getWriter());
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)

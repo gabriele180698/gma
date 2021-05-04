@@ -64,7 +64,7 @@ public class GoToInspectQuestionnaire extends HttpServlet {
 		}
 		// Set parameters and redirect to the next inspection page
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-		ctx.setVariable("questionnaires", q);
+		ctx.setVariable("questionnaire", q);
 		ctx.setVariable("submitters", submitters);
 		ctx.setVariable("cancellers", cancellers);
 		templateEngine.process(Paths.ADMIN_INSPECT_QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());

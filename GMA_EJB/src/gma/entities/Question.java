@@ -11,7 +11,6 @@ import javax.persistence.*;
  */
 @NamedQueries({
 @NamedQuery(name = "Question.findQuestionById", query = "SELECT qu FROM Question qu  WHERE qu.id = ?1"),
-@NamedQuery(name = "Question.findUserAnswersByIds", query = "SELECT a FROM Question qu JOIN qu.answers a WHERE qu.questionnaire.id = ?1 AND a.user.id = ?2")
 })
 @Entity
 public class Question implements Serializable {

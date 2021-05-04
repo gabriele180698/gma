@@ -45,16 +45,6 @@ public class QuestionService {
 		q.setQuestionnaire(questionnaire);
 		em.persist(q);
 	}
-	// Return all the answer associated to a given questionnaire and user
-	public List<Answer> getAnswers(Questionnaire questionnaire, User user) throws QuestionnaireException {
-		List<Answer> answers = null;
-		try {
-			answers = em.createNamedQuery("Question.findUserAnswersByIds", Answer.class).getResultList();
-		} catch (PersistenceException e) {
-			e.printStackTrace();
-			throw new QuestionnaireException("No questions!");
-		}
-		return answers;
-		
-	}
+
+	
 }

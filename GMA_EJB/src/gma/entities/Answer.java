@@ -8,11 +8,12 @@ import javax.persistence.*;
  *
  */
 @Entity
-@NamedQuery(name = "Answer.findAnswerByIdAndUser", query = "SELECT a FROM Answer a JOIN a.user u JOIN a.question qu"
-		+ " WHERE qu.id = ?1 AND u.id = ?2")
+@NamedQuery(name = "Answer.findAnswersByQuestionnaireAndUser", query = "SELECT a FROM Answer a JOIN a.question q WHERE q.questionnaire.id = ?1 AND a.user.id = ?2")
+
 public class Answer implements Serializable {
 	private static final long serialVersionUID = 1L;
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String text;
 	@ManyToOne(fetch = FetchType.LAZY)
