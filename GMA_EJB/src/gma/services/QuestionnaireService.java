@@ -52,8 +52,6 @@ public class QuestionnaireService {
 				if (statistic.getStatus() == 1) {
 					User u = statistic.getUser();
 					users.add(u);
-					System.out.println("Ciao");
-					System.out.println(u.getId());
 				}
 			}
 		} catch (PersistenceException e) {
