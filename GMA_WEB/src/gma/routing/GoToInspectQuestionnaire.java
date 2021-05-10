@@ -51,7 +51,6 @@ public class GoToInspectQuestionnaire extends HttpServlet {
 		List<User> cancellers = null;
 		// Get id of the selected questionnaire
 		idQuestionnaire = Integer.parseInt(request.getParameter("idQuestionnaire"));
-		System.out.println(idQuestionnaire);
 		try {
 			q = qService.getQuestionnaireById(idQuestionnaire);
 			submitters = qService.getUsersSubmitedQuestionnaire(q);

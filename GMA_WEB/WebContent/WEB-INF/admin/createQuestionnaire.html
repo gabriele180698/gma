@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" media="all"
+	href="../CSS/style.css" th:href="@{/css/style.css}" />
 <title>Creation Questionnaire Page</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -30,13 +32,12 @@
 							required>
 					</p>
 					<p>
-						Full Image: <input type="file" id="photoFile" name="picture"
+						Image: <input type="file" id="photoFile" name="picture"
 							onchange="return fileValidation()" required>
 					</p>
 
 					<p>
-						Insert Data(Questionnaires will be accepted only for today at a
-						time after now)<input type="date" id="questionnaireDate"
+						Date of the questionnaire (It is not possible to select a date before today)<input type="date" id="questionnaireDate"
 							name="date" onchange="return dateValidation()" required>
 					</p>
 					<p id="questions">Questions List</p>
@@ -59,7 +60,7 @@
 		var p = document.createElement("P");
 		var s = document.createElement("SPAN");
 		var b = document.createElement("BUTTON");
-		s.innerText = "Question " + (counter + 1);
+		s.innerText = "Question " + (counter + 1) + " ";
 		s.setAttribute("id", "s" + counter);
 		q.setAttribute("required", "required");
 		p.setAttribute("id", "p" + counter);

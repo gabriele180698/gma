@@ -56,10 +56,10 @@ public class GoToInspectUserAnswers extends HttpServlet {
 		Questionnaire q = null;
 		User u = null;
 		List<Answer> answers = null;
+		// Get id of the selected questionnaire and selected user
+		idQuestionnaire = Integer.parseInt(request.getParameter("idQuestionnaire"));
+		idUser = Integer.parseInt(request.getParameter("idUser"));
 		try {
-			// Get id of the selected questionnaire and selected user
-			idQuestionnaire = Integer.parseInt(request.getParameter("idQuestionnaire"));
-			idUser = Integer.parseInt(request.getParameter("idUser"));
 			q = qService.getQuestionnaireById(idQuestionnaire);
 			u = uService.getUserById(idUser);
 			answers = aService.getAnswers(q, u);

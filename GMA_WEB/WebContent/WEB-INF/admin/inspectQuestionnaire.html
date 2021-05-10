@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="ISO-8859-1">
+<link rel="stylesheet" type="text/css" media="all"
+	href="../CSS/style.css" th:href="@{/css/style.css}" />
 <title>Inspect Questionnaire Page</title>
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -38,8 +40,8 @@
 				</tr>
 			</tbody>
 		</table>
-		<p>Users that have submitted the questionnaire</p>
 		<div th:if="${!submitters.isEmpty()}">
+		<p>Users that have submitted the questionnaire</p>
 			<table>
 				<thead>
 					<tr>
@@ -62,8 +64,8 @@
 		<div th:if="${submitters.isEmpty()}">
 			<p>No user have submitted the questionnaire!</p>
 		</div>
-		<p>Users that have cancelled the questionnaire</p>
 		<div th:if="${!cancellers.isEmpty()}">
+		<p>Users that have cancelled the questionnaire</p>
 			<table>
 				<thead>
 					<tr>

@@ -1,10 +1,21 @@
-table, th, tr {
-  border: 1px solid black;
-}
-
 .review-card{
 	border: 1px solid #ccc !important;
     padding: 0.01em 16px;
     border-radius: 16px;
     margin-bottom: 8px;
+}
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+table {
+  width: 90%;
+  border-collapse: collapse;
+}
+input[type=text], input[type=date], select {
+  border: 1px solid #dddddd;
+}
+input[type=submit], button{
+  cursor: pointer;
 }
