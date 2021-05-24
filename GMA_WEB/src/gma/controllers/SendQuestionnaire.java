@@ -200,9 +200,7 @@ public class SendQuestionnaire extends HttpServlet {
 					"Ops! CALL DECARO PORCO DIO. Mo' Proprrrrjjjj. Ah, right: now you are banned, bitch");
 			return;
 		}
-		System.out.print(offensive);
-		System.out.print(answersConcatenation);
-
+		
 		// Call the service to submit the statistics and the answers
 		try {
 			sService.submitStatistics(age, expertise, questionnaire, sex, user); // Submit the statistics

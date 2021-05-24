@@ -19,7 +19,7 @@ public class Question implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String text;
-	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "question", fetch = FetchType.LAZY)
 	private List<Answer> answers;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idQuestionnaire")

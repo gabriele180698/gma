@@ -46,7 +46,9 @@ public class QuestionnaireService {
 		List<User> users = new Stack<User>();
 		List<Statistics> statistics = null;
 		try {
-			statistics = questionnaire.getStatistics();
+			// Check if a submitted statistic exists
+			statistics = em.createNamedQuery("Statistics.findByQuestionnaireId", Statistics.class)
+							.setParameter(1, questionnaire.getId()).getResultList();
 			for (int i = 0; i < statistics.size(); i++) {
 				Statistics statistic = statistics.get(i);
 				if (statistic.getStatus() == 1) {

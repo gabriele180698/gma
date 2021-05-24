@@ -72,13 +72,13 @@ public class StatisticsService {
 		return statistics;
 	}
 
-	public List<Statistics> getStatistics(Questionnaire questinnaire) throws StatisticsException {
+	public List<Statistics> getStatistics(Questionnaire questionnaire) throws StatisticsException {
 		List<Statistics> statistics;
 
 		try {
 			// Check if a submitted statistic exists
 			statistics = em.createNamedQuery("Statistics.findByQuestionnaireId", Statistics.class)
-					.setParameter(1, questinnaire.getId()).getResultList();
+					.setParameter(1, questionnaire.getId()).getResultList();
 			//check sto fatto
 			for(int i = 0; i < statistics.size(); i++){
 				em.refresh(statistics.get(i));
