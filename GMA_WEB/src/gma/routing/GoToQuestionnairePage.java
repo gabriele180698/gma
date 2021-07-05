@@ -55,15 +55,14 @@ public class GoToQuestionnairePage extends HttpServlet {
 		List<Integer> questionsId;
 		HttpSession session = request.getSession();
 		
-		//Get the user
 		User user = (User) session.getAttribute("user");
-		
+
 		// Get the current date
 	    date = new Date(System.currentTimeMillis());
 		
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		
-		// Access to the list of questions related to the Product Of The Day
+		// Access to the list of questions related tp the questionnaire
 	    try {
 	    	System.out.println(quService);
 	    	questionnaire = qService.getQuestionnaireByDate(date);
@@ -74,11 +73,11 @@ public class GoToQuestionnairePage extends HttpServlet {
 	    	ctx.setVariable("questions", questions);
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, 
-					"Ops! Something went wrong during the access to the questions");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Ops! Something went wrong during the access to the questions");
 			return;
 		}
-				
+	    
+	    // render the Admin Inspection page		
 		templateEngine.process(Paths.QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());
 	}
 

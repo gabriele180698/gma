@@ -62,14 +62,14 @@ public class GoToLeaderboardPage extends HttpServlet {
 			Collections.sort(statistics, new ScoreComparator().reversed());
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Ops! Something went wrong during the access to the questionnaire");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR," Ops! Something went wrong during the access to the leaderboard");
 			return;
 		}
 
-		// Redirect to the Home page and add missions to the parameters
+		
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		ctx.setVariable("statistics", statistics);
+		// Render the Leaderboard page
 		templateEngine.process(Paths.LEADERBOARD_PAGE.getPath(), ctx, response.getWriter());
 	}
 
