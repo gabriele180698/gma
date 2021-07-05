@@ -30,7 +30,7 @@ public class Questionnaire implements Serializable {
 	private int id;
 	@Temporal(TemporalType.DATE)
 	private Date date;
-	@OneToMany(mappedBy = "questionnaire", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "questionnaire", fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	private List<Question> questions;
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idProduct")

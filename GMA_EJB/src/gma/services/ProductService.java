@@ -27,7 +27,7 @@ public class ProductService {
 					.getResultStream().findFirst().orElse(null);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new ProductException("Can not get the product of the day!");
+			throw new ProductException("Something went wrong during searching the product of the day!");
 		}
 		return product;
 	}
@@ -35,7 +35,9 @@ public class ProductService {
 	public List<Review> getAllReviews(Product product) {
 		return product.getReviews();
 	}
-
+	
+	
+	// store in the database create product
 	public Product createProduct(String pictureName, byte[] imgByteArray) throws ProductException {
 		Product product = new Product();
 		try {
@@ -44,7 +46,7 @@ public class ProductService {
 			em.persist(product);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new ProductException("Can not create the product");
+			throw new ProductException("Something went wrong during creation of the product!");
 		}
 		return product;
 	}

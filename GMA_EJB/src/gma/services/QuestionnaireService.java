@@ -31,12 +31,11 @@ public class QuestionnaireService {
 	// retrieves all questions associated to the given questionnaire
 	public List<Question> getQuestionsByQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
 		List<Question> questions;
-
 		try {
 			questions = questionnaire.getQuestions();
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new QuestionnaireException("No questions!");
+			throw new QuestionnaireException("Something went wrong during the retrieving of the questions!");
 		}
 		return questions;
 	}
@@ -46,19 +45,19 @@ public class QuestionnaireService {
 		List<User> users = new Stack<User>();
 		List<Statistics> statistics = null;
 		try {
-			// Check if a submitted statistic exists
+			// check if a submitted statistic exists
 			statistics = em.createNamedQuery("Statistics.findByQuestionnaireId", Statistics.class)
 							.setParameter(1, questionnaire.getId()).getResultList();
 			for (int i = 0; i < statistics.size(); i++) {
 				Statistics statistic = statistics.get(i);
 				if (statistic.getStatus() == 1) {
-					User u = statistic.getUser();
-					users.add(u);
+					User user = statistic.getUser();
+					users.add(user);
 				}
 			}
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new QuestionnaireException("No questions!");
+			throw new QuestionnaireException("Something went wrong during the retrieving of the users that have submitted the questionnaire!");
 		}
 		return users;
 
@@ -80,21 +79,10 @@ public class QuestionnaireService {
 
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new QuestionnaireException("No questions!");
+			throw new QuestionnaireException("Something went wrong during the retrieving of the users that have cancelled the questionnaire!");
 		}
 		return users;
 	}
-	/*
-	 * retrieves users answers to a given questionnaire public List<Answer>
-	 * getAnswers(Questionnaire questionnaire, User user) throws
-	 * QuestionnaireException { List<Answer> answers = null; try { answers =
-	 * em.createNamedQuery("Questionnaire.findAnswerByUser",
-	 * Answer.class).getResultList(); return answers; } catch (PersistenceException
-	 * e) { e.printStackTrace(); throw new QuestionnaireException("No questions!");
-	 * }
-	 * 
-	 * }
-	 */
 
 	// search for a questionnaire with the given date
 	public Questionnaire getQuestionnaireByDate(Date date) throws QuestionnaireException {
@@ -105,12 +93,12 @@ public class QuestionnaireService {
 					.setParameter(1, date).getResultStream().findFirst().orElse(null);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new QuestionnaireException("No questionnaire of the day found!");
+			throw new QuestionnaireException("Something went wrong during the retrieving of the questionnaire of the day!");
 		}
 		return questionnaire;
 	}
 
-	// Check if the questionnaire of the date exists
+	// check if the questionnaire of the date exist
 	public boolean questionnaireExist(Date date) throws QuestionnaireException {
 		try {
 			Questionnaire questionnaire;
@@ -124,13 +112,11 @@ public class QuestionnaireService {
 			}
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new QuestionnaireException(
-					"It is not possible to check if there exist an other questionnaire of the day");
+			throw new QuestionnaireException("Something went wrong during the check of the existance of the questionnaire!");
 		}
 
 	}
 
-	// get questionnaire by id
 	public Questionnaire getQuestionnaireById(int idQuestionnaire) throws QuestionnaireException {
 		Questionnaire questionnaire = null;
 		// find questionnaire
@@ -138,24 +124,23 @@ public class QuestionnaireService {
 			questionnaire = em.find(Questionnaire.class, idQuestionnaire);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new QuestionnaireException("No questionnaire found!!");
+			throw new QuestionnaireException("Something went wrong during the retrieving of the questionnaire by id!");
 		}
 		return questionnaire;
 	}
 
-	// get all questionnaires
+
 	public List<Questionnaire> getAllQuestionnaire() throws QuestionnaireException {
 		List<Questionnaire> questionnaires = null;
 		try {
 			questionnaires = em.createNamedQuery("Questionnaire.findAll", Questionnaire.class).getResultList();
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new QuestionnaireException("No questionnaires found!");
+			throw new QuestionnaireException("Something went wrong during the retrieving of the questionnaires!");
 		}
 		return questionnaires;
 	}
 
-	// delete questionnaire by id
 	public void removeQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
 		// delete questionnaire
 		try {
@@ -164,16 +149,16 @@ public class QuestionnaireService {
 				questionnaire = em.merge(questionnaire);
 			}
 			em.remove(questionnaire);
-			// refresh persistence context
+			// update the persistence context for coherence 
 			em.flush();
 			em.clear();
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new QuestionnaireException("It is not possible to delete the questionnaire!");
+			throw new QuestionnaireException("Something went wrong during the delection of the questionnaire!");
 		}
 	}
 
-	// create Questionnaire and Questions
+	// store in the database questionnaire and questions
 	public void createQuestionnaireAndQuestions(Date date, Product product, List<String> questions)
 			throws QuestionnaireException {
 		Questionnaire questionnaire = new Questionnaire();
@@ -191,7 +176,7 @@ public class QuestionnaireService {
 			em.persist(questionnaire);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new QuestionnaireException("It is not possible to create the questionnaire and the answers");
+			throw new QuestionnaireException("Something went wrong during the creation of the questionnaire!");
 		}
 
 	}

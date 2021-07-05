@@ -68,7 +68,6 @@ public class GoToQuestionnairePage extends HttpServlet {
 	    	System.out.println(quService);
 	    	questionnaire = qService.getQuestionnaireByDate(date);
 	    	questions =  qService.getQuestionsByQuestionnaire(questionnaire);
-	  
 	    	questionsId = quService.getQuestionsId(questions);
 	    	request.getSession().setAttribute("questionnaire", questionnaire);
 	    	request.getSession().setAttribute("questionsId", questionsId);

@@ -26,7 +26,7 @@ public class Review implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String text;
-	@ManyToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "idUser")
 	private User user;
 	@ManyToOne(fetch = FetchType.LAZY)

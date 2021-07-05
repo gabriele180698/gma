@@ -18,12 +18,12 @@ public class BlacklistService {
 
 	public BlacklistService() {
 	}
-
+	
 	public Blacklist searchOffensiveWord(String answers) throws BlacklistException {
 		Blacklist words;
 		Collection<String> answersSplit;
 		try {
-			// Split the input string in single words
+			// split the input string in single words
 			answersSplit = Arrays.asList(answers.split(" "));
 			// use of the named query of the entity Blacklist
 			words = em.createNamedQuery("Blacklist.findOffensiveWord", Blacklist.class).setParameter(1, answersSplit)
@@ -31,7 +31,7 @@ public class BlacklistService {
 
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new BlacklistException("No questionnaire of the day found!");
+			throw new BlacklistException("Something went wrong during the searching of the offensive words!");
 		}
 		return words;
 	}

@@ -26,7 +26,6 @@ public class QuestionService {
 	// retrieves all questions associated to the given questionnaire
 	public List<Integer> getQuestionsId(List<Question> questions) throws QuestionException {
 		List<Integer> questionsId = new ArrayList<Integer>();
-
 		try {
 			// get the Ids of all questions in input
 			for (int i = 0; i < questions.size(); i++) {
@@ -34,16 +33,22 @@ public class QuestionService {
 			}
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new QuestionException("No questions!");
+			throw new QuestionException("Something went wrong during the retriving of the questions!");
 		}
 		return questionsId;
 	}
-
-	public void createQuestion(String text, Questionnaire questionnaire) {
-		Question q = new Question();
-		q.setText(text);
-		q.setQuestionnaire(questionnaire);
-		em.persist(q);
+	
+	// store in the database the questions of the questionnaire
+	public void createQuestion(String text, Questionnaire questionnaire) throws QuestionException {
+		try {
+			Question q = new Question();
+			q.setText(text);
+			q.setQuestionnaire(questionnaire);
+			em.persist(q);
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new QuestionException("Something went wrong during the creation of the questions!");
+		}
 	}
 
 	

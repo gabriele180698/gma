@@ -39,7 +39,7 @@ public class StatisticsService {
 			em.persist(stat);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new StatisticsException("Something went wrong during the cancellation of the statistics");
+			throw new StatisticsException("Something went wrong during the submissions of the statistics!");
 		}
 	}
 
@@ -53,7 +53,7 @@ public class StatisticsService {
 			em.persist(stat);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new StatisticsException("Something went wrong during the cancellation of the statistics");
+			throw new StatisticsException("Something went wrong during the cancellation of the statistics!");
 		}
 	}
 
@@ -67,7 +67,7 @@ public class StatisticsService {
 					.orElse(null);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new StatisticsException("Something went wrong during the cancellation of the statistics");
+			throw new StatisticsException("Something went wrong during the check of the existence of the statistics!");
 		}
 		return statistics;
 	}
@@ -79,13 +79,14 @@ public class StatisticsService {
 			// Check if a submitted statistic exists
 			statistics = em.createNamedQuery("Statistics.findByQuestionnaireId", Statistics.class)
 					.setParameter(1, questionnaire.getId()).getResultList();
-			//check sto fatto
+			
 			for(int i = 0; i < statistics.size(); i++){
 				em.refresh(statistics.get(i));
 			}
+			
 		} catch (PersistenceException e) {
 			e.printStackTrace();
-			throw new StatisticsException("Something went wrong during the cancellation of the statistics");
+			throw new StatisticsException("Something went wrong during the retriving statistics!");
 		}
 		return statistics;
 	}

@@ -28,20 +28,22 @@ public class UserService {
 			user = em.createNamedQuery("User.checkCredentials", User.class).setParameter(1, usrn).setParameter(2, pwd)
 					.getResultStream().findFirst().orElse(null);
 		} catch (PersistenceException e) {
-			throw new CredentialsException("Could not verify credentials");
+			throw new CredentialsException("Something went wrong during the check of the credentials!");
 		}
 		return user;
 	}
+	
 	public User getUserById(int id) throws CredentialsException {
 		User user = null;
 		try {
 			user = em.createNamedQuery("User.findUserById", User.class).setParameter(1, id)
 					.getResultStream().findFirst().orElse(null);
 		} catch (PersistenceException e) {
-			throw new CredentialsException("User not found correctly");
+			throw new CredentialsException("Something went wrong during the retriving the user!");
 		}
 		return user;
 	}
+	
 	public void logAccess(User user) throws AccessException {
 		try {
 			// Log the access in the database
@@ -50,7 +52,7 @@ public class UserService {
 			access.setTimestamp(new Timestamp(System.currentTimeMillis()));
 			em.persist(access);
 		} catch (PersistenceException e) {
-			throw new AccessException("Access not insert correctly!");
+			throw new AccessException("Something went wrong during the insert of the access of the user!");
 		}
 	}
 
@@ -59,7 +61,7 @@ public class UserService {
 			user.setType(0);
 			em.merge(user);
 		} catch (PersistenceException e) {
-			throw new AccessException("Error during the ban phase!");
+			throw new AccessException("Something went wrong during the ban of the user!");
 		}
 	}
 }

@@ -26,6 +26,7 @@ import gma.entities.Blacklist;
 import gma.entities.Questionnaire;
 import gma.entities.Statistics;
 import gma.entities.User;
+import gma.exceptions.AnswerException;
 import gma.objects.Paths;
 import gma.services.StatisticsService;
 import gma.services.UserService;
@@ -254,7 +255,9 @@ public class SendQuestionnaire extends HttpServlet {
 					"Ops! Something went wrong during the cancellation phase");
 			return;
 		}
-		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-		templateEngine.process(Paths.USER_HOME_PAGE.getPath(), ctx, response.getWriter());
+		
+		
+		// Return view
+		response.sendRedirect(getServletContext().getContextPath() + Paths.USER_HOME.getPath());
 	}
 }
