@@ -43,25 +43,22 @@ public class GoToDeleteQuestionnairePage extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Get the user
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		// Redirect to the Home page and add missions to the parameters
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 
 		List<Questionnaire> questionnaires = null;
-
-		// Get the needed data
 		try {
-			// Get the product of the day
+			// get all questionnaires
 			questionnaires = qService.getAllQuestionnaire();
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Something went wrong during the retrieving of all the questionnaires!");
 			return;
 		}
 
-		// Pass data to the page
+		// set the context variable to pass data to the page
 		ctx.setVariable("questionnaires", questionnaires);
+		// redirect to the Delete Questionnaire page
 		templateEngine.process(Paths.ADMIN_DELETE_QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());
 	}
 

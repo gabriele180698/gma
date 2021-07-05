@@ -25,10 +25,6 @@ import gma.objects.Paths;
 public class GoToAdminPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private TemplateEngine templateEngine;
-	/*@EJB(name = "it.polimi.db2.mission.services/MissionService")
-	private MissionService mService;
-	@EJB(name = "it.polimi.db2.mission.services/ProjectService")
-	private ProjectService pService;*/
 
 	public GoToAdminPage() {
 		super();
@@ -49,7 +45,7 @@ public class GoToAdminPage extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 
-		// Redirect to the Home page and add missions to the parameters
+		// redirect to the Admin Home page
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		templateEngine.process(Paths.ADMIN_HOME_PAGE.getPath(), ctx, response.getWriter());
 	}

@@ -51,12 +51,12 @@ public class GoToInspectionPage extends HttpServlet {
 			questionnaires = qService.getAllQuestionnaire();
 		} catch (QuestionnaireException e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Ops! Something went wrong during the access to the questionnaire");
+					"Something went wrong during the retrieving of all the questionnaires!");
 			return;
 		}
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		ctx.setVariable("questionnaires", questionnaires);
-		// Redirect to the Home page and add missions to the parameters
+		// redirect to the Admin Inspection page
 		templateEngine.process(Paths.ADMIN_INSPECTION_PAGE.getPath(), ctx, response.getWriter());
 	}
 

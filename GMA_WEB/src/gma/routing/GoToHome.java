@@ -43,32 +43,30 @@ public class GoToHome extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//Get the user
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		// Redirect to the Home page and add missions to the parameters
+		
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		
 		Product product = null;
 		List<Review> reviews = null;
 	
-		//Get the needed data
 		try {
-			//Get the product of the day
+			// get the product of the day
 			product = pService.getProductOfDay();
-			//Check if there is a product, in case get all reviews
+			// if there is the product of the day, get all the reviews
 			if(product != null) {
-				//Get all reviews of the product
 				reviews = pService.getAllReviews(product);
 			}
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Not possible to get data");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "NSomething went wrong during the retrieving of the reviews!");
 			return;
 		}
 		
-		//Pass data to the page
+		// set the context variable to pass data to the page
 		ctx.setVariable("product", product);
 		ctx.setVariable("reviews", reviews);
+		// redirect to the Home page
 		templateEngine.process(Paths.USER_HOME_PAGE.getPath(), ctx, response.getWriter());
 	}
 

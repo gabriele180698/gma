@@ -49,7 +49,7 @@ public class GoToInspectQuestionnaire extends HttpServlet {
 		Questionnaire q = null;
 		List<User> submitters = null;
 		List<User> cancellers = null;
-		// Get id of the selected questionnaire
+		// get id of the selected questionnaire
 		idQuestionnaire = Integer.parseInt(request.getParameter("idQuestionnaire"));
 		try {
 			q = qService.getQuestionnaireById(idQuestionnaire);
@@ -58,7 +58,7 @@ public class GoToInspectQuestionnaire extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Ops! Something went wrong during the access to the questionnaire data");
+					"Something went wrong during the access to the questionnaire data");
 			return;
 		}
 		// Set parameters and redirect to the next inspection page

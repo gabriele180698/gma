@@ -45,7 +45,7 @@ public class GoToCreateQuestionnairePage extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 
-		// Redirect to the Home page and add missions to the parameters
+		// redirect to the Create Questionnaire page
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		templateEngine.process(Paths.ADMIN_CREATE_QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());
 	}
