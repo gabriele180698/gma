@@ -59,14 +59,14 @@ public class GoToHome extends HttpServlet {
 				reviews = pService.getAllReviews(product);
 			}
 		} catch (Exception e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "NSomething went wrong during the retrieving of the reviews!");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Something went wrong during the retrieving of the reviews!");
 			return;
 		}
 		
 		// set the context variable to pass data to the page
 		ctx.setVariable("product", product);
 		ctx.setVariable("reviews", reviews);
-		// redirect to the Home page
+		// render to the Home page
 		templateEngine.process(Paths.USER_HOME_PAGE.getPath(), ctx, response.getWriter());
 	}
 

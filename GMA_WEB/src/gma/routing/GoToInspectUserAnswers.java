@@ -56,7 +56,7 @@ public class GoToInspectUserAnswers extends HttpServlet {
 		Questionnaire q = null;
 		User u = null;
 		List<Answer> answers = null;
-		// Get id of the selected questionnaire and selected user
+		// get the id of the selected questionnaire and of the selected user
 		idQuestionnaire = Integer.parseInt(request.getParameter("idQuestionnaire"));
 		idUser = Integer.parseInt(request.getParameter("idUser"));
 		try {
@@ -66,15 +66,15 @@ public class GoToInspectUserAnswers extends HttpServlet {
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Ops! Something went wrong during the access to the questionnaire data");
+					"Something went wrong during the retrieving of the answers!");
 			return;
 		}
 
-		// Set parameters and redirect to the next inspection page
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		ctx.setVariable("questionnaire", q);
 		ctx.setVariable("user", u);
 		ctx.setVariable("answers", answers);
+		// render to the Admin Inspect User Answer page
 		templateEngine.process(Paths.ADMIN_INSPECT_USER_ANSWERS_PAGE.getPath(), ctx, response.getWriter());
 	}
 

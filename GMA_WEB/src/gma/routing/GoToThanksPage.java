@@ -18,8 +18,6 @@ import org.thymeleaf.templateresolver.ServletContextTemplateResolver;
 import gma.entities.User;
 import gma.objects.Paths;
 
-//DA FINIRE - NON MODIFICATE SENZA AVVISARE PLEASE - DA DECIDERE ALCUNE COSE INSIEME
-
 @WebServlet("/App/Thanks")
 public class GoToThanksPage extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -40,11 +38,10 @@ public class GoToThanksPage extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// Get the user
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 
-		// Redirect to the Home page and add missions to the parameters
+		// render the Thanks page
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		templateEngine.process(Paths.THANKS_PAGE.getPath(), ctx, response.getWriter());
 	}
