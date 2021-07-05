@@ -53,6 +53,7 @@ public class GoToInspectQuestionnaire extends HttpServlet {
 		idQuestionnaire = Integer.parseInt(request.getParameter("idQuestionnaire"));
 		try {
 			q = qService.getQuestionnaireById(idQuestionnaire);
+			// get users that have submitted and cancelled the questionnaire
 			submitters = qService.getUsersSubmitedQuestionnaire(q);
 			cancellers = qService.getUsersCancelledQuestionnaire(q);
 		} catch (Exception e) {
@@ -61,11 +62,12 @@ public class GoToInspectQuestionnaire extends HttpServlet {
 					"Something went wrong during the access to the questionnaire data");
 			return;
 		}
-		// Set parameters and redirect to the next inspection page
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
+		// set the context variable to pass data to the page
 		ctx.setVariable("questionnaire", q);
 		ctx.setVariable("submitters", submitters);
 		ctx.setVariable("cancellers", cancellers);
+		// render Admin Inspect Questionnaire Page
 		templateEngine.process(Paths.ADMIN_INSPECT_QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());
 	}
 

@@ -45,8 +45,9 @@ public class GoToAdminPage extends HttpServlet {
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
 
-		// redirect to the Admin Home page
+		
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
+		// render to the Admin Home Page
 		templateEngine.process(Paths.ADMIN_HOME_PAGE.getPath(), ctx, response.getWriter());
 	}
 

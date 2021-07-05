@@ -56,7 +56,7 @@ public class GoToInspectionPage extends HttpServlet {
 		}
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		ctx.setVariable("questionnaires", questionnaires);
-		// redirect to the Admin Inspection page
+		// render to the Admin Inspection Page
 		templateEngine.process(Paths.ADMIN_INSPECTION_PAGE.getPath(), ctx, response.getWriter());
 	}
 

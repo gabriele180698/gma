@@ -58,7 +58,7 @@ public class GoToDeleteQuestionnairePage extends HttpServlet {
 
 		// set the context variable to pass data to the page
 		ctx.setVariable("questionnaires", questionnaires);
-		// redirect to the Delete Questionnaire page
+		// redirect to the Delete Questionnaire Page
 		templateEngine.process(Paths.ADMIN_DELETE_QUESTIONNAIRE_PAGE.getPath(), ctx, response.getWriter());
 	}
 
