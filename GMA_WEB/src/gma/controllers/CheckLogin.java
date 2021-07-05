@@ -42,7 +42,7 @@ public class CheckLogin extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// obtain and escape params
+		// obtain and escape parameters
 		String usrn = null;
 		String pwd = null;
 		try {
@@ -53,7 +53,7 @@ public class CheckLogin extends HttpServlet {
 			}
 
 		} catch (Exception e) {
-			// for debugging only e.printStackTrace();
+			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
 			return;
 		}
@@ -68,8 +68,8 @@ public class CheckLogin extends HttpServlet {
 			return;
 		}
 
-		// If the user exists, add info to the session and go to home page, otherwise if
-		// is the admin go to administration panel
+		// if the user exists, add info to the session and go to home page, else if
+		// is the admin go to administration panel, otherwise
 		// show login page with error message
 
 		String path;
@@ -81,9 +81,9 @@ public class CheckLogin extends HttpServlet {
 			request.getSession().setAttribute("user", user);
 			response.sendRedirect(getServletContext().getContextPath() + Paths.ADMIN_HOME.getPath());
 		} else {
-			// Log in the db the current access
+			// log in the db the current access
 			try {
-				// Insert the access
+				// insert the access
 				usrService.logAccess(user);
 				request.getSession().setAttribute("user", user);
 				response.sendRedirect(getServletContext().getContextPath() + Paths.USER_HOME.getPath());

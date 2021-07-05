@@ -92,15 +92,6 @@ public class InsertQuestionnaire extends HttpServlet {
 	}
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String action = request.getParameter("SendQuestionnaire");
-		// Retrieve the type of user request (i.e. submitting or cancellation)
-		if ("Submit".equals(action)) {
-			SubmitQuestionnaire(request, response);
-		}
-	}
-
-	protected void SubmitQuestionnaire(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
 		Date date = null;
 		// Date now = new Date(System.currentTimeMillis());
 		String pictureName = null;
@@ -110,30 +101,29 @@ public class InsertQuestionnaire extends HttpServlet {
 		InputStream imgContent = null;
 		
 		try {
-			// Get and Check Image Data
+			// get and check Image Data
 			Part imgFile = (Part) request.getPart("picture");
 			imgContent = imgFile.getInputStream();
 			byte[] imgByteArray = readImage(imgContent);
 			pictureName = (String) request.getParameter("pictureName");
-			// Check data
 			if (imgByteArray.length == 0 || pictureName.isEmpty()) {
 				throw new Exception("Invalid photo parameters");
 			}
-			// Creation Product
+			// creation of the product
 			product = pService.createProduct(pictureName, imgByteArray);
-			// Get Date
+			// get Date
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			date = (Date) sdf.parse(request.getParameter("date"));
-			// Check data
+			// check data
 			if (date == null) {
 				throw new Exception("Missing or empty data");
 			}
-			// Check if there is an other questionnaire for the same day
+			// check if there is another questionnaire for the same day
 			boolean exist = qService.questionnaireExist(date);
 			if (exist) {
 				throw new Exception("Existing questionnaire for the day: " + date);
 			}
-			// Get Questions and Creation
+			// get Questions
 			counterQuestions = (Integer) Integer.parseInt(request.getParameter("counter"));
 			Integer i;
 			System.out.println(counterQuestions);
@@ -144,12 +134,12 @@ public class InsertQuestionnaire extends HttpServlet {
 				questions.add(i, StringEscapeUtils.escapeJava(request.getParameter("q" + i)));
 				System.out.println(request.getParameter("q" + i));
 			}
-			// Creation Questionnaire and Questions
 			
+			// creation Questionnaire and Questions
 			qService.createQuestionnaireAndQuestions(date, product, questions);
-			// da sistemare
-			final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-			templateEngine.process(Paths.ADMIN_HOME_PAGE.getPath(), ctx, response.getWriter());
+			
+			// redirect to Admin Home page
+			response.sendRedirect(getServletContext().getContextPath() + Paths.ADMIN_HOME_PAGE.getPath());
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());

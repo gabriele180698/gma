@@ -67,7 +67,7 @@ public class SendQuestionnaire extends HttpServlet {
 			throws ServletException, IOException {
 		String action = request.getParameter("SendQuestionnaire");
 
-		// Retrieve the type of user request (i.e. submitting or cancellation)
+		// retrieve the type of user request (i.e. submission or cancellation)
 		if ("Submit".equals(action)) {
 			SubmitQuestionnaire(request, response);
 		} else if ("Cancel".equals(action)) {
@@ -96,74 +96,73 @@ public class SendQuestionnaire extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-		// Get the user
 		user = (User) session.getAttribute("user");
 
-		// Get the list of questions Id
+		// get the list of questions Id
 		questionsIdList = (List<Integer>) session.getAttribute("questionsId");
 
-		// Get the previously saved questionnaire
+		// get the previously saved questionnaire
 		questionnaire = (Questionnaire) session.getAttribute("questionnaire");
 
-		// Get the current date and compare the saved questionnaire with the
+		// get the current date and compare the saved questionnaire with the
 		// questionnaire of the day
 		// (not mandatory, it is a coherence check)
 		date = new Date(System.currentTimeMillis());
 		try {
 			if (questionnaire.getId() != qService.getQuestionnaireByDate(date).getId()) {
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-						"Ops! There appears that the questionnaire is not the right one");
+						"Ops! There appears that the questionnaire is not the right one!");
 				return;
 			}
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Ops! Something went wrong during the check of the questionnaire");
+					"Something went wrong during the check of the questionnaire!");
 			return;
 		}
 
-		// Check if the user has already submitted a questionnaire for the given product
+		// check if the user has already submitted a questionnaire for the given product
 		try {
 			statistics = sService.existingStatistics(user.getId(), questionnaire.getId());
 			if (statistics != null) {
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-						"Ops! There appears that you have already submitted a questionnaire for this product");
+						"Ops! There appears that you have already submitted a questionnaire for this product!");
 				return;
 			}
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Ops! Something went wrong during the check of the old statistics");
+					"Something went wrong during the check of the old statistics!");
 			return;
 		}
 
-		// Get the mandatory answers
+		// get the mandatory answers
 		try {
 			for (int i = 0; i < questionsIdList.size(); i++) {
 				idQuestion = questionsIdList.get(i);
-				// Take the answer correspondent to the specific question Id
+				// take the answer correspondent to the specific question Id
 				answer = StringEscapeUtils.escapeJava(request.getParameter(idQuestion.toString()));
-				// Put all pairs (idQuestion,Answer) in an map table
+				// put all pairs (idQuestion,Answer) in an map table
 				map.put(idQuestion, answer);
 				sb.append(answer);
 				sb.append(" ");
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Something went wrong during the retrieving of the mandatory answers!");
 			return;
 		}
 		answersConcatenation = sb.toString();
 
-		// Get personal data entered by the user
+		// get personal data entered by the user
 		try {
 			expertise = Integer.parseInt(request.getParameter("expertise"));
 			sex = Integer.parseInt(request.getParameter("sex"));
 		} catch (Exception e) {
 			e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Something went wrong during the retrieving of the user personal data!");
 			return;
 		}
 
-		// If the user has not inserted the information about her/his age, set the
+		// if the user has not inserted the information about her/his age, set the
 		// default value
 		if (request.getParameter("age") == null || request.getParameter("age").isEmpty()) {
 			age = 0; // default value
@@ -172,7 +171,7 @@ public class SendQuestionnaire extends HttpServlet {
 				age = Integer.parseInt(request.getParameter("age"));
 			} catch (Exception e) {
 				e.printStackTrace();
-				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Ops! Some data was lost");
+				response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Something went wrong during the retrieving of the age!");
 				return;
 			}
 		}
@@ -184,7 +183,7 @@ public class SendQuestionnaire extends HttpServlet {
 			aService.deleteAnswers(questionsIdList, user.getId());
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Ops! Something went wrong during the checking of the presence of offensive words");
+					"Something went wrong during the checking of the presence of offensive words!");
 			return;
 		}
 		if (offensive != null) {
@@ -194,18 +193,18 @@ public class SendQuestionnaire extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-						"Ops! Something went wrong during the ban operation");
+						"Something went wrong during the ban operation!");
 				return;
 			}
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Ops! CALL DECARO PORCO DIO. Mo' Proprrrrjjjj. Ah, right: now you are banned, bitch");
+					"¯\\_(ツ)_/¯You have inserted a bad word. Now you are banned!¯\\_(ツ)_/¯");
 			return;
 		}
 		
-		// Call the service to submit the statistics and the answers
+		// call the service to submit the statistics and the answers
 		try {
-			sService.submitStatistics(age, expertise, questionnaire, sex, user); // Submit the statistics
-			aService.submitAnswers(map, user); // Submit the answers
+			sService.submitStatistics(age, expertise, questionnaire, sex, user); // submit the statistics
+			aService.submitAnswers(map, user); // submit the answers
 			final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 			templateEngine.process(Paths.THANKS_PAGE.getPath(), ctx, response.getWriter());
 
@@ -213,7 +212,7 @@ public class SendQuestionnaire extends HttpServlet {
 			aService.deleteAnswers(questionsIdList, user.getId());
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Ops! Something went wrong during the submission of the personal data phase");
+					"Something went wrong during the submission of the personal data phase!");
 			return;
 		}
 	}
@@ -226,10 +225,10 @@ public class SendQuestionnaire extends HttpServlet {
 
 		HttpSession session = request.getSession();
 
-		// Get the previously saved questionnaire
+		// get the previously saved questionnaire
 		questionnaire = (Questionnaire) session.getAttribute("questionnaire");
 
-		// Get the current date and compare the saved questionnaire with the
+		// get the current date and compare the saved questionnaire with the
 		// questionnaire of the day
 		// (not mandatory, it is a coherence check)
 		date = new Date(System.currentTimeMillis());
@@ -241,23 +240,22 @@ public class SendQuestionnaire extends HttpServlet {
 			}
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Ops! Something went wrong during the check of the questionnaire");
+					"Something went wrong during the check of the questionnaire");
 			return;
 		}
 
-		// Get the user
 		user = (User) session.getAttribute("user");
 		try {
-			// Call the service to submit the statistics
+			// call the service to submit the statistics
 			sService.cancelStatistics(questionnaire, user);
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Ops! Something went wrong during the cancellation phase");
+					"Something went wrong during the cancellation phase");
 			return;
 		}
 		
 		
-		// Return view
+		// redirect to User Home Page
 		response.sendRedirect(getServletContext().getContextPath() + Paths.USER_HOME.getPath());
 	}
 }

@@ -45,13 +45,13 @@ public class RemoveQuestionnaire extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// get and check params
+		// get and check parameters
 		Integer idQuestionnaire = null;
 		try {
 			idQuestionnaire = Integer.parseInt(request.getParameter("idQuestionnaire"));
 		} catch (NumberFormatException | NullPointerException e) {
-			// for debugging only e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Incorrect param values");
+			e.printStackTrace();
+			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Something went wrong during the retrieving of the questionnaire's id!");
 			return;
 		}
 
@@ -59,13 +59,13 @@ public class RemoveQuestionnaire extends HttpServlet {
 		try {
 			questionnaire = qService.getQuestionnaireById(idQuestionnaire);
 		} catch (QuestionnaireException e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Questionnaire not found!");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Something went wrong during the retrieving of the questionnaire!");
 			return;
 		}
 
-		// check if the date is different from today
+		// deletion should be possible only for a date preceding the current date
 		if (isToday(questionnaire.getDate())) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "This questionnare can not be deleted!");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "This questionnare can not be deleted because its date precedes the current one!");
 			return;
 		}
 
@@ -73,11 +73,11 @@ public class RemoveQuestionnaire extends HttpServlet {
 		try {
 			qService.removeQuestionnaire(questionnaire);
 		} catch (QuestionnaireException e) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "It can not be deleted!");
+			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Something went wrong during the deletion phase!");
 			return;
 		}
 
-		// Return view
+		// redirect to Admin Delete Questionnaire
 		response.sendRedirect(getServletContext().getContextPath() + Paths.ADMIN_DELETE_QUESTIONNAIRE.getPath());
 
 	}
