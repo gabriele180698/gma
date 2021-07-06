@@ -180,7 +180,14 @@ public class SendQuestionnaire extends HttpServlet {
 		try {
 			offensive = bService.searchOffensiveWord(answersConcatenation); // Check the answers
 		} catch (Exception e) {
-			aService.deleteAnswers(questionsIdList, user.getId());
+			try {
+				aService.deleteAnswers(questionsIdList, user.getId());
+			} catch (AnswerException e1) {
+				e1.printStackTrace();
+				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+						"Something went wrong during the submission!");
+				return;
+			}
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Something went wrong during the checking of the presence of offensive words!");
@@ -209,7 +216,14 @@ public class SendQuestionnaire extends HttpServlet {
 			templateEngine.process(Paths.THANKS_PAGE.getPath(), ctx, response.getWriter());
 
 		} catch (Exception e) {
-			aService.deleteAnswers(questionsIdList, user.getId());
+			try {
+				aService.deleteAnswers(questionsIdList, user.getId());
+			} catch (AnswerException e1) {
+				e1.printStackTrace();
+				response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+						"Something went wrong during the submission!");
+				return;
+			}
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Something went wrong during the submission of the personal data phase!");
