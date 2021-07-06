@@ -139,7 +139,7 @@ public class InsertQuestionnaire extends HttpServlet {
 			qService.createQuestionnaireAndQuestions(date, product, questions);
 			
 			// redirect to Admin Home page
-			response.sendRedirect(getServletContext().getContextPath() + Paths.ADMIN_HOME_PAGE.getPath());
+			response.sendRedirect(getServletContext().getContextPath() + Paths.ADMIN_INSPECTION.getPath());
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_BAD_REQUEST, e.getMessage());
