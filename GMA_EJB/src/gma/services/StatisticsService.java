@@ -1,7 +1,9 @@
 package gma.services;
 
 import java.util.List;
+import java.util.Map;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -17,12 +19,14 @@ import gma.entities.Statistics;
 public class StatisticsService {
 	@PersistenceContext(unitName = "GMA")
 	private EntityManager em;
+	@EJB(name = "gma.services/AnswerService")
+	private AnswerService aService;
 
 	public StatisticsService() {
 	}
 
-	public void submitStatistics(int age, int expertise, Questionnaire questionnaire, int sex, User user)
-			throws StatisticsException {
+	public void submitStatistics(int age, int expertise, Questionnaire questionnaire, 
+			int sex, User user, Map<Integer, String> map) throws StatisticsException, AnswerException {
 		Statistics stat = new Statistics();
 
 		try {
@@ -36,6 +40,7 @@ public class StatisticsService {
 			stat.setSex(sex);
 			stat.setQuestionnaire(questionnaire);
 			stat.setUser(user);
+			aService.submitAnswers(map, user); // submit the answers
 			em.persist(stat);
 		} catch (PersistenceException e) {
 			e.printStackTrace();

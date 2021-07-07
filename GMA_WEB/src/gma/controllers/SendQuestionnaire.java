@@ -210,8 +210,8 @@ public class SendQuestionnaire extends HttpServlet {
 		
 		// call the service to submit the statistics and the answers
 		try {
-			sService.submitStatistics(age, expertise, questionnaire, sex, user); // submit the statistics
-			aService.submitAnswers(map, user); // submit the answers
+			sService.submitStatistics(age, expertise, questionnaire, sex, user, map); // submit the statistics and the answers
+			//aService.submitAnswers(map, user); // submit the answers
 			final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 			templateEngine.process(Paths.THANKS_PAGE.getPath(), ctx, response.getWriter());
 
