@@ -150,8 +150,8 @@ public class QuestionnaireService {
 			}
 			em.remove(questionnaire);
 			// update the persistence context for coherence 
-			em.flush();
-			em.clear();
+			/*em.flush();
+			em.clear();*/
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw new QuestionnaireException("Something went wrong during the delection of the questionnaire!");
