@@ -8,6 +8,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
+import gma.controllers.EJB;
 import gma.entities.Product;
 import gma.entities.Review;
 import gma.exceptions.*;
@@ -16,6 +17,8 @@ import gma.exceptions.*;
 public class ProductService {
 	@PersistenceContext(unitName = "GMA")
 	private EntityManager em;
+	@EJB(name = "gma.services/QuestionnaireService.java")
+	private QuestionnaireService qService;
 
 	public ProductService() {
 	}
@@ -38,12 +41,13 @@ public class ProductService {
 	
 	
 	// store in the database create product
-	public Product createProduct(String pictureName, byte[] imgByteArray) throws ProductException {
+	public Product createProductQuestionnaireAndQuestions(String pictureName, byte[] imgByteArray, Date date, List<String> questions) throws ProductException {
 		Product product = new Product();
 		try {
 			product.setName(pictureName);
 			product.setImg(imgByteArray);
 			em.persist(product);
+			qService.createQuestionnaireAndQuestions(date, product, questions);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw new ProductException("Something went wrong during creation of the product!");

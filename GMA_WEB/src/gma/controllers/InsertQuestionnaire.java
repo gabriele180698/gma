@@ -56,6 +56,12 @@ public class InsertQuestionnaire extends HttpServlet {
 	public InsertQuestionnaire() {
 		super();
 	}
+	//return true if the date is today or later
+	private boolean isValidDate(Date date) {
+		Date today = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return (!date.before(today));
+	}
 
 	public void init() throws ServletException {
 		ServletContext servletContext = getServletContext();
@@ -109,13 +115,12 @@ public class InsertQuestionnaire extends HttpServlet {
 			if (imgByteArray.length == 0 || pictureName.isEmpty()) {
 				throw new Exception("Invalid photo parameters");
 			}
-			// creation of the product
-			product = pService.createProduct(pictureName, imgByteArray);
+			
 			// get Date
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			date = (Date) sdf.parse(request.getParameter("date"));
 			// check data
-			if (date == null) {
+			if (date == null && isValidDate(date)) {
 				throw new Exception("Missing or empty data");
 			}
 			// check if there is another questionnaire for the same day
@@ -134,9 +139,11 @@ public class InsertQuestionnaire extends HttpServlet {
 				questions.add(i, StringEscapeUtils.escapeJava(request.getParameter("q" + i)));
 				System.out.println(request.getParameter("q" + i));
 			}
+			// creation of the product, Questionnaire and Questions
+			product = pService.createProductQuestionnaireAndQuestions(pictureName, imgByteArray, date, questions);
 			
 			// creation Questionnaire and Questions
-			qService.createQuestionnaireAndQuestions(date, product, questions);
+			//qService.createQuestionnaireAndQuestions(date, product, questions);
 			
 			// redirect to Admin Home page
 			response.sendRedirect(getServletContext().getContextPath() + Paths.ADMIN_INSPECTION.getPath());
