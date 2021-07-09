@@ -1,6 +1,7 @@
 package gma.routing;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -51,15 +52,17 @@ public class GoToLeaderboardPage extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Questionnaire questionnaire;
-		List<Statistics> statistics;
+		List<Statistics> statistics=new ArrayList<Statistics>();
 
 		// Get the current date
 		Date date = new Date(System.currentTimeMillis());
 
 		try {
 			questionnaire = qService.getQuestionnaireByDate(date);
-			statistics = sService.getStatistics(questionnaire);
-			Collections.sort(statistics, new ScoreComparator().reversed());
+			if(questionnaire!=null) {
+				statistics = sService.getStatistics(questionnaire);
+				Collections.sort(statistics, new ScoreComparator().reversed());
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR," Ops! Something went wrong during the access to the leaderboard");

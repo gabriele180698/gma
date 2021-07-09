@@ -3,12 +3,12 @@ package gma.services;
 import java.util.Date;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 
-import gma.controllers.EJB;
 import gma.entities.Product;
 import gma.entities.Review;
 import gma.exceptions.*;
@@ -41,7 +41,8 @@ public class ProductService {
 	
 	
 	// store in the database create product
-	public Product createProductQuestionnaireAndQuestions(String pictureName, byte[] imgByteArray, Date date, List<String> questions) throws ProductException {
+	public Product createProductQuestionnaireAndQuestions(String pictureName, byte[] imgByteArray, Date date, List<String> questions) 
+			throws ProductException, QuestionnaireException {
 		Product product = new Product();
 		try {
 			product.setName(pictureName);

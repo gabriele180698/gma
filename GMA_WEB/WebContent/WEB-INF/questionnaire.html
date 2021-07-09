@@ -23,9 +23,10 @@
 	
 	<section>
 		<div th:if="${session.user.type != 0} and ${#lists.isEmpty(questions)}">
-			<p>This is embarassing. There appears to be no questions associated with this questionnaire</p>
+			<p>This is embarassing. There appears to be nothing to show</p>
 		</div>
 	</section>
+	
 	
 	<section th:if="${session.user.type != 0} and ${not #lists.isEmpty(questions)}">
 		<div>

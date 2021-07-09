@@ -1,6 +1,7 @@
 package gma.routing;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -52,7 +53,7 @@ public class GoToQuestionnairePage extends HttpServlet {
 		Date date;
 		Questionnaire questionnaire;
 		List<Question> questions;
-		List<Integer> questionsId;
+		List<Integer> questionsId = new ArrayList<Integer>();
 		HttpSession session = request.getSession();
 		
 		User user = (User) session.getAttribute("user");
@@ -62,15 +63,18 @@ public class GoToQuestionnairePage extends HttpServlet {
 		
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		
-		// Access to the list of questions related tp the questionnaire
+		// Access to the list of questions related to the questionnaire
 	    try {
-	    	System.out.println(quService);
 	    	questionnaire = qService.getQuestionnaireByDate(date);
-	    	questions =  qService.getQuestionsByQuestionnaire(questionnaire);
-	    	questionsId = quService.getQuestionsId(questions);
-	    	request.getSession().setAttribute("questionnaire", questionnaire);
-	    	request.getSession().setAttribute("questionsId", questionsId);
-	    	ctx.setVariable("questions", questions);
+	    	if(questionnaire!=null) {
+	    		questions =  qService.getQuestionsByQuestionnaire(questionnaire);
+	    		if(questions!=null) {
+	    			questionsId = quService.getQuestionsId(questions);
+	    		}
+		    	request.getSession().setAttribute("questionnaire", questionnaire);
+		    	request.getSession().setAttribute("questionsId", questionsId);
+		    	ctx.setVariable("questions", questions);
+	    	}
 		} catch (Exception e) {
 			e.printStackTrace();
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Ops! Something went wrong during the access to the questions");
