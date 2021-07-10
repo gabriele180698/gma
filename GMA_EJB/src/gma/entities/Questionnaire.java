@@ -15,7 +15,7 @@ import javax.persistence.*;
 @NamedQueries({
 		@NamedQuery(name = "Questionnaire.findQuestionnaireByDate", query = "SELECT q FROM Questionnaire q  WHERE q.date = ?1"),
 		@NamedQuery(name = "Questionnaire.findAll", query = "SELECT q FROM Questionnaire q"),
-		@NamedQuery(name = "Questionnaire.findAllBeforeToday", query = "SELECT q FROM Questionnaire q WHERE date < CURRENT_DATE")
+		@NamedQuery(name = "Questionnaire.findAllBeforeToday", query = "SELECT q FROM Questionnaire q WHERE q.date < CURRENT_DATE")
 })
 public class Questionnaire implements Serializable {
 	private static final long serialVersionUID = 1L;
