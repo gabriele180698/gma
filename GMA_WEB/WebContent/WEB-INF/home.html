@@ -24,9 +24,11 @@
 
 
 	<section>
-		<h4>Product of the day</h4>
+		
+		<h4 th:if="${product == null}">No product of the day!</h4>
 
 		<div th:if="${product != null}">
+		<h4>Product of the day</h4>
 			<div>
 				<span th:text="${product.name}"> </span>
 			</div>

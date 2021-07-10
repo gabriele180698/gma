@@ -34,8 +34,6 @@ public class AnswerService {
 			for (Map.Entry<Integer, String> entry : map.entrySet()) {
 				Answer answer = new Answer();
 				// get the question associated to the Id
-				/*question = em.createNamedQuery("Question.findQuestionById", Question.class)
-						.setParameter(1, entry.getKey()).getResultStream().findFirst().orElse(null);*/
 				question = em.find(Question.class, entry.getKey());
 				answer.setQuestion(question);
 				answer.setUser(user);

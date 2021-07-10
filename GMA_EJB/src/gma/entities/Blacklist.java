@@ -9,7 +9,6 @@ import javax.persistence.*;
  */
 @Entity
 @NamedQueries({
-//@NamedQuery(name = "Blacklist.search", query = "SELECT b FROM Blacklist b WHERE b.word = ?1")
 @NamedQuery(name = "Blacklist.findOffensiveWord", query = "SELECT b FROM Blacklist b WHERE b.word IN ?1")
 })
 

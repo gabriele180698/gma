@@ -36,8 +36,7 @@ public class UserService {
 	public User getUserById(int id) throws CredentialsException {
 		User user = null;
 		try {
-			user = em.createNamedQuery("User.findUserById", User.class).setParameter(1, id)
-					.getResultStream().findFirst().orElse(null);
+			user = em.find(User.class, id);
 		} catch (PersistenceException e) {
 			throw new CredentialsException("Something went wrong during the retriving the user!");
 		}

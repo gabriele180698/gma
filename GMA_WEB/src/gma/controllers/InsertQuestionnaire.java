@@ -93,7 +93,6 @@ public class InsertQuestionnaire extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		Date date = null;
-		// Date now = new Date(System.currentTimeMillis());
 		String pictureName = null;
 		Integer counterQuestions = null;
 		Product product = new Product();
@@ -135,9 +134,6 @@ public class InsertQuestionnaire extends HttpServlet {
 			}
 			// creation of the product, Questionnaire and Questions
 			product = pService.createProductQuestionnaireAndQuestions(pictureName, imgByteArray, date, questions);
-			
-			// creation Questionnaire and Questions
-			//qService.createQuestionnaireAndQuestions(date, product, questions);
 			
 			// redirect to Admin Home page
 			response.sendRedirect(getServletContext().getContextPath() + Paths.ADMIN_INSPECTION.getPath());

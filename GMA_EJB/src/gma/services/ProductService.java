@@ -47,8 +47,8 @@ public class ProductService {
 		try {
 			product.setName(pictureName);
 			product.setImg(imgByteArray);
-			em.persist(product);
 			qService.createQuestionnaireAndQuestions(date, product, questions);
+			em.persist(product);
 		} catch (PersistenceException e) {
 			e.printStackTrace();
 			throw new ProductException("Something went wrong during creation of the product!");

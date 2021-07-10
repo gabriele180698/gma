@@ -18,7 +18,7 @@ BEGIN
     END IF;
 END $$
 
-CREATE TRIGGER insert_answer_score_10
+CREATE TRIGGER insert_answer_score
   BEFORE INSERT ON statistics
   FOR EACH ROW
 BEGIN
