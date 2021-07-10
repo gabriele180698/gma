@@ -1,6 +1,8 @@
 package gma.routing;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -48,7 +50,7 @@ public class GoToInspectionPage extends HttpServlet {
 			throws ServletException, IOException {
 		List<Questionnaire> questionnaires = null;
 		try {
-			questionnaires = qService.getAllQuestionnaire();
+			questionnaires = qService.getAllQuestionnairesBeforeToday();
 		} catch (QuestionnaireException e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 					"Something went wrong during the retrieving of all the questionnaires!");

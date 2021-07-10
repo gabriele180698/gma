@@ -140,6 +140,16 @@ public class QuestionnaireService {
 		}
 		return questionnaires;
 	}
+	public List<Questionnaire> getAllQuestionnairesBeforeToday() throws QuestionnaireException {
+		List<Questionnaire> questionnaires = null;
+		try {
+			questionnaires = em.createNamedQuery("Questionnaire.findAllBeforeToday", Questionnaire.class).getResultList();
+		} catch (PersistenceException e) {
+			e.printStackTrace();
+			throw new QuestionnaireException("Something went wrong during the retrieving of the questionnaires!");
+		}
+		return questionnaires;
+	}
 
 	public void removeQuestionnaire(Questionnaire questionnaire) throws QuestionnaireException {
 		// delete questionnaire
