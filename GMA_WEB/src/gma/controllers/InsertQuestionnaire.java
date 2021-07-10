@@ -72,12 +72,6 @@ public class InsertQuestionnaire extends HttpServlet {
 		templateResolver.setSuffix(".html");
 	}
 
-	/*
-	 * private boolean isToday(Date date) { SimpleDateFormat sdf = new
-	 * SimpleDateFormat("yyyy-MM-dd"); Date now = new
-	 * Date(System.currentTimeMillis()); return
-	 * sdf.format(now).equals(sdf.format(date)); }
-	 */
 	public static byte[] readImage(InputStream imageInputStream) throws IOException {
 
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
