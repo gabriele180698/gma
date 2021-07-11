@@ -50,7 +50,7 @@ public class GoToDeleteQuestionnairePage extends HttpServlet {
 		List<Questionnaire> questionnaires = null;
 		try {
 			// get all questionnaires
-			questionnaires = qService.getAllQuestionnaire();
+			questionnaires = qService.getAllQuestionnairesBeforeToday();
 		} catch (Exception e) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Something went wrong during the retrieving of all the questionnaires!");
 			return;

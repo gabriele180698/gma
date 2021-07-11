@@ -64,10 +64,10 @@ public class RemoveQuestionnaire extends HttpServlet {
 		}
 
 		// deletion should be possible only for a date preceding the current date
-		if (!isValidDate(questionnaire.getDate())) {
+		/*if (!isValidDate(questionnaire.getDate())) {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "This questionnare can not be deleted because its date precedes the current one!");
 			return;
-		}
+		}*/
 
 		// delete the questionnaire
 		try {
