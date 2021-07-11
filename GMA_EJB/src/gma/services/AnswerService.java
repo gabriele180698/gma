@@ -49,7 +49,7 @@ public class AnswerService {
 		}
 	}
 
-	// delete the answers (critical failure case during the store phase of the answers, e.g. exceptions)
+	// delete the answers 
 	public void deleteAnswers(List<Integer> idQuestion, int idUser) throws AnswerException{
 		Answer answer;
 		try {

@@ -34,7 +34,7 @@ public class StatisticsService {
 			stat.setAge(age);
 			// Expertise level: 0 = no info; 1 = low; 2 = medium; 3 = high;
 			stat.setExpertise(expertise);
-			// Status = 0 = cancelled; 1 = submitted
+			// Status: 0 = cancelled; 1 = submitted;
 			stat.setStatus(1);
 			// Sex: 0 = no info; 1 = female; 2 = male; 3 = other;
 			stat.setSex(sex);
@@ -51,7 +51,7 @@ public class StatisticsService {
 	public void cancelStatistics(Questionnaire questionnaire, User user) throws StatisticsException {
 		Statistics stat = new Statistics();
 		try {
-			// Status = 0 = cancelled; 1 = submitted
+			// Status: 0 = cancelled; 1 = submitted
 			stat.setStatus(0);
 			stat.setQuestionnaire(questionnaire);
 			stat.setUser(user);

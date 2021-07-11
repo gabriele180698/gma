@@ -38,7 +38,7 @@ public class UserService {
 		try {
 			user = em.find(User.class, id);
 		} catch (PersistenceException e) {
-			throw new CredentialsException("Something went wrong during the retriving the user!");
+			throw new CredentialsException("Something went wrong during the retrieving the user!");
 		}
 		return user;
 	}
