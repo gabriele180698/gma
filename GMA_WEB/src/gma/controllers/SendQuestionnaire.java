@@ -204,7 +204,7 @@ public class SendQuestionnaire extends HttpServlet {
 				return;
 			}
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"¯\\_(ツ)_/¯You have inserted a bad word. Now you are banned!¯\\_(ツ)_/¯");
+					"): You have inserted a bad word. Now you are banned! :(");
 			return;
 		}
 		

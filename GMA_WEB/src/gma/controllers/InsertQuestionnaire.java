@@ -115,7 +115,7 @@ public class InsertQuestionnaire extends HttpServlet {
 			date = (Date) sdf.parse(request.getParameter("date"));
 			// check data
 			if (date == null && isValidDate(date)) {
-				throw new Exception("Missing or empty data");
+				throw new Exception("Missing or invalid data");
 			}
 			// check if there is another questionnaire for the same day
 			boolean exist = qService.questionnaireExist(date);
@@ -125,13 +125,13 @@ public class InsertQuestionnaire extends HttpServlet {
 			// get Questions
 			counterQuestions = (Integer) Integer.parseInt(request.getParameter("counter"));
 			Integer i;
-			System.out.println(counterQuestions);
+			//System.out.println(counterQuestions);
 			if (counterQuestions == 0) {
 				throw new Exception("No question submitted");
 			}
 			for (i = 0; i < counterQuestions; i++) {
 				questions.add(i, StringEscapeUtils.escapeJava(request.getParameter("q" + i)));
-				System.out.println(request.getParameter("q" + i));
+				//System.out.println(request.getParameter("q" + i));
 			}
 			// creation of the product, Questionnaire and Questions
 			product = pService.createProductQuestionnaireAndQuestions(pictureName, imgByteArray, date, questions);

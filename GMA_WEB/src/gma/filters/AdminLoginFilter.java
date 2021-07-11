@@ -27,10 +27,10 @@ public class AdminLoginFilter implements Filter {
 		User user = (User) session.getAttribute("user");
 
 		if (session.isNew() || user == null || user.getType() != 2) {
-			// No logged-in user found, so redirect to login page
+			// No logged-in admin found, so redirect to login page
 			response.sendRedirect(request.getContextPath() + Paths.INDEX_PAGE.getPath());
 		} else {
-			// Logged-in user found, so just continue request.
+			// Logged-in admin found, so just continue request.
 			chain.doFilter(req, res);
 		}
 
