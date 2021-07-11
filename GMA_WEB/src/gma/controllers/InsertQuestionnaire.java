@@ -56,6 +56,7 @@ public class InsertQuestionnaire extends HttpServlet {
 	public InsertQuestionnaire() {
 		super();
 	}
+	
 	//return true if the date is today or later
 	private boolean isValidDate(Date date) {
 		Date today = new Date();

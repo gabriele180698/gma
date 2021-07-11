@@ -36,11 +36,6 @@ public class RemoveQuestionnaire extends HttpServlet {
 		super();
 	}
 
-	private boolean isValidDate(Date date) {
-		Date today = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return (date.before(today) && (!sdf.format(date).equals(sdf.format(today))));
-	}
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -62,12 +57,6 @@ public class RemoveQuestionnaire extends HttpServlet {
 			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Something went wrong during the retrieving of the questionnaire!");
 			return;
 		}
-
-		// deletion should be possible only for a date preceding the current date
-		/*if (!isValidDate(questionnaire.getDate())) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "This questionnare can not be deleted because its date precedes the current one!");
-			return;
-		}*/
 
 		// delete the questionnaire
 		try {

@@ -40,7 +40,7 @@ public class Statistics implements Serializable {
 	@JoinColumn(name = "idQuestionnaire")
 	private Questionnaire questionnaire;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "idUser")
 	private User user;
 	

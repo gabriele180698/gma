@@ -56,8 +56,10 @@ public class GoToInspectionPage extends HttpServlet {
 					"Something went wrong during the retrieving of all the questionnaires!");
 			return;
 		}
+		
 		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
 		ctx.setVariable("questionnaires", questionnaires);
+		
 		// render to the Admin Inspection Page
 		templateEngine.process(Paths.ADMIN_INSPECTION_PAGE.getPath(), ctx, response.getWriter());
 	}

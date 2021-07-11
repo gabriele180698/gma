@@ -46,8 +46,7 @@ public class QuestionnaireService {
 		List<Statistics> statistics = null;
 		try {
 			// check if a submitted statistic exists
-			statistics = em.createNamedQuery("Statistics.findByQuestionnaireId", Statistics.class)
-							.setParameter(1, questionnaire.getId()).getResultList();
+			statistics = questionnaire.getStatistics();
 			for (int i = 0; i < statistics.size(); i++) {
 				Statistics statistic = statistics.get(i);
 				if (statistic.getStatus() == 1) {
@@ -68,12 +67,13 @@ public class QuestionnaireService {
 		List<User> users = new Stack<User>();
 		List<Statistics> statistics = null;
 		try {
+			// check if a cancelled statistic exists
 			statistics = questionnaire.getStatistics();
 			for (int i = 0; i < statistics.size(); i++) {
 				Statistics statistic = statistics.get(i);
 				if (statistic.getStatus() == 0) {
-					User u = statistic.getUser();
-					users.add(u);
+					User user = statistic.getUser();
+					users.add(user);
 				}
 			}
 
@@ -140,6 +140,7 @@ public class QuestionnaireService {
 		}
 		return questionnaires;
 	}
+	
 	public List<Questionnaire> getAllQuestionnairesBeforeToday() throws QuestionnaireException {
 		List<Questionnaire> questionnaires = null;
 		try {
