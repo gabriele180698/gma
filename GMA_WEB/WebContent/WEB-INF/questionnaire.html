@@ -68,7 +68,7 @@
 	$(document).ready(function(){
 		  // When click on next button, the page is updated
 		  $("#next").on("click", function(){
-			  //Check if soe fields are empty
+			  //Check if some fields are empty
 			  var formInvalid = false;
 			  $('#mand').children(':text').each(function() {
 			    if ($(this).val() === '') {
@@ -76,14 +76,14 @@
 			    }
 			  });
 			  if (formInvalid){
-			    alert('One or Two fields are empty. Please fill up all fields');
+			    alert('Some fields are empty. Please fill up all fields');
 			    return;
 			  }
 			// hide the mandatory questions and show the optional ones
 		    $('#mandatory').fadeOut(1000).promise().done(function(){
 		    	$('#optional').fadeIn(1000); 
 		    });
-		    // hide the next button and show the SendQuesttionaire, CancelQuestionnaire and previous button
+		    // hide the next button and show the SendQuestionaire, CancelQuestionnaire and previous button
 		    $('#next').fadeOut(1000).promise().done(function(){
 		    	$('#CancelQuestionnaire').fadeIn(1000);
 		    	$('#SendQuestionnaire').fadeIn(1000);
