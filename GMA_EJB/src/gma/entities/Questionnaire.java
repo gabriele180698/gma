@@ -29,7 +29,7 @@ public class Questionnaire implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
 	@JoinColumn(name = "idProduct")
 	private Product product;
-	@OneToMany(mappedBy = "questionnaire", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "questionnaire", fetch = FetchType.LAZY)
 	private List<Statistics> statistics;
 
 	public Questionnaire() {
